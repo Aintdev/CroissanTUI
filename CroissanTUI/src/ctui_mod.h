@@ -14,7 +14,7 @@ namespace ctui {
 
 		const std::string getCode() const;
 
-		operator const std::string& () const;
+		operator const std::string () const;
 	private:
 		std::string code;
 		Mod(int x, int y);

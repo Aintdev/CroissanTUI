@@ -12,7 +12,7 @@
 namespace ctui {
     bool rawMode = false;
 
-    static void enableRawMode() {
+    void enableRawMode() {
 #ifdef _WIN32
         HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
         DWORD mode;
@@ -30,7 +30,7 @@ namespace ctui {
         rawMode = true;
     }
 
-    static void disableRawMode() {
+    void disableRawMode() {
 #ifdef _WIN32
         HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
         DWORD mode;
