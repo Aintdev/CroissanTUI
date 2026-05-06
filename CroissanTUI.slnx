@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="CroissanTUI/CroissanTUI.vcxproj" Id="2c52860f-1354-455e-971b-102028e514c1" />
+  <Project Path="Sandbox/Sandbox.vcxproj" Id="663b3539-4ba8-4054-beb3-2d74222ce4b3" />
+</Solution>
