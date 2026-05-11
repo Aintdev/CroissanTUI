@@ -12,9 +12,7 @@ namespace ctui {
 		static Mod mvCur(int x, int y);
 		static Mod clearPath(int x1, int line, int x2);
 
-		const std::string getCode() const;
-
-		operator const std::string () const;
+		operator const std::string() const;
 	private:
 		std::string code;
 		Mod(int x, int y);

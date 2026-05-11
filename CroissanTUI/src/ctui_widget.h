@@ -3,7 +3,7 @@
 #include "ctui_key.h"
 
 namespace ctui {
-	class Widget {
+	struct Widget {
 		Container* parent;
 		Rect bounds;
 

@@ -1,6 +1,7 @@
 #include "ctui.h"
 #include <chrono>
 #include <thread>
+#include <cstdio>
 
 using namespace std::this_thread;
 using namespace std::chrono_literals;
@@ -9,14 +10,10 @@ using namespace ctui;
 
 int main() {
 	enableRawMode();
-	
 	while (true) {
-		std::pair<int, int> size = getWindowSize();
-		int xd = size.first;
-		int yd = size.second;
-		print << xd << ", " << yd << "\n";
+		print << getCursorPos().col << " " << getCursorPos().row << "\n-> ";
 		Key a = readKey();
-		print << a.ch << " " << (int)a.type << "\n";
+		//print << a.ch << " " << (int)a.type << "\n";
 	}
 	
 

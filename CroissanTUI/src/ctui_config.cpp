@@ -62,4 +62,13 @@ namespace ctui {
         return std::make_pair(w.ws_col, w.ws_row);
 #endif
     }
+
+    CursorPos getCursorPos() {
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+        return {
+            csbi.dwCursorPosition.Y + 1,  // row
+            csbi.dwCursorPosition.X + 1   // col
+        };
+    }
 }
