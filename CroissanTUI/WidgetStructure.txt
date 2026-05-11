@@ -1,0 +1,11 @@
+Widget                          // Basisklasse, hat bounds, render(), input()
+├── Label                       // nur Text anzeigen
+├── Button                      // klickbar
+├── TextInput                   // Texteingabe
+├── Checkbox                    // an/aus
+│
+└── Container                   // hält andere Widgets, hat children[]
+    ├── Box                     // Rahmen drum rum
+    ├── HStack                  // Kinder nebeneinander
+    ├── VStack                  // Kinder untereinander
+    └── Grid                    // Kinder in Raster

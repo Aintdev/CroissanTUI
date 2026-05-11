@@ -7,10 +7,13 @@
 #else
 #include <termios.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
+#include <stdio.h>
 #endif
 
 namespace ctui {
     bool rawMode = false;
+
 
     void enableRawMode() {
 #ifdef _WIN32
@@ -24,7 +27,7 @@ namespace ctui {
 #else
         termios t;
         tcgetattr(STDIN_FILENO, &t);
-        t.c_lflag &= ~(ICANON | ECHO);
+        t.c_lflag &= ~(ICANON | ECHO | IXON);
         tcsetattr(STDIN_FILENO, TCSANOW, &t);
 #endif
         rawMode = true;
@@ -43,5 +46,20 @@ namespace ctui {
         tcsetattr(STDIN_FILENO, TCSANOW, &t);
 #endif
         rawMode = false;
+    }
+
+    std::pair<int, int> getWindowSize() {
+#ifdef _WIN32
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        int columns, rows;
+        GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+        columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+        rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+        return std::make_pair(columns, rows);
+#else
+        struct winsize w;
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+        return std::make_pair(w.ws_col, w.ws_row);
+#endif
     }
 }
