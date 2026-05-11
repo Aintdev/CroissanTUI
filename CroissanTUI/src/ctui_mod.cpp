@@ -8,8 +8,6 @@ namespace ctui {
 	Mod::Mod(int x, int y) : code("\033[" + std::to_string(y) + ";" + std::to_string(x) + "f") {}
 	Mod::Mod(std::string x) : code(std::move(x)) {}
 
-	const std::string Mod::getCode() const { return code; }
-
 	Mod Mod::mvCur(int x, int y) { return Mod(x, y); }
 	Mod Mod::clearPath(int x1, int line, int x2) {
 		std::string result = std::string("\x1b""7") + std::string("\033[") + std::to_string(line) + std::string(";") + std::to_string(x1 < x2 ? x1 : x2) + std::string("H");

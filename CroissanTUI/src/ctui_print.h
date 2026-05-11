@@ -7,7 +7,7 @@ namespace ctui {
         template<typename T>
         Stream& operator<<(const T& val) {
             if constexpr (std::is_constructible_v<Mod, T>) {
-                std::cout << Mod(val).getCode();
+                std::cout << static_cast<std::string>(Mod(val));
             }
             else {
                 std::cout << val;

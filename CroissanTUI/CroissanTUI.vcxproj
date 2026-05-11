@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ctui_pct.h" />
     <ClInclude Include="src\ctui_key.h" />
     <ClInclude Include="src\ctui_container.h" />
     <ClInclude Include="src\ctui_widget.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ctui_pct.cpp" />
     <ClCompile Include="src\ctui_key.cpp" />
     <ClCompile Include="src\ctui_rect.cpp" />
     <ClCompile Include="src\ctui_config.cpp" />
