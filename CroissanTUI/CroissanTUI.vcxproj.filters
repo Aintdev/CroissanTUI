@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Widgets">
       <UniqueIdentifier>{2e81ba1d-aea4-4fd2-80fe-d8e4180f6819}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Widgets\Sub">
+      <UniqueIdentifier>{32a7c932-d109-47bc-b0cf-2340257a9851}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ctui.h">
@@ -57,6 +60,9 @@
     <ClInclude Include="src\ctui_pct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ctui_kwargs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ctui_config.cpp">
@@ -76,6 +82,12 @@
     </ClCompile>
     <ClCompile Include="src\ctui_pct.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ctui_widget.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ctui_container.cpp">
+      <Filter>Source Files\Widgets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
