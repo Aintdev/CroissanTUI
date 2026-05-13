@@ -5,25 +5,21 @@
 
 using namespace std::this_thread;
 using namespace std::chrono_literals;
-using std::chrono::system_clock;
 using namespace ctui;
-
-static void foo(const KWARG_T(width, int) arg) {
-	std::cout << arg.value;
-}
 
 KWARG(width_percent);
 
 static void bar(const KWARG_T(width_percent, Percent) arg) {
 	std::cout << arg.value.toPixels(200);
 }
-
 int main() {
-	foo(width=25);
-	bar(width_percent = 20_pct);
+	int defPad = 10;
+	auto x = Rect(10, 10, 10, 10);
+
+	VStack main = VStack(nullptr, pady=3, box=x, width_percent=10);
 
 	enableRawMode();
-	while (true) {
+	while (false) {
 		print << getCursorPos().col << " " << getCursorPos().row << "\n-> ";
 		Key a = readKey();
 		//print << a.ch << " " << (int)a.type << "\n";

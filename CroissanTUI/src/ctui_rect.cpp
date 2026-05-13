@@ -3,7 +3,7 @@
 #include <utility>
 
 namespace ctui {
-	Rect::Rect(int startX, int startY)
+	Rect::Rect(std::optional<int> startX, std::optional<int> startY)
 		: x(startX), y(startY), width(std::nullopt), height(std::nullopt) {
 	}
 	Rect::Rect(int startX, int startY, int boxWidth, int boxHeight)

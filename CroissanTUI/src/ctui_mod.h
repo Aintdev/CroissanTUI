@@ -10,7 +10,7 @@ namespace ctui {
 		Mod(color::BG c);
 
 		static Mod mvCur(int x, int y);
-		static Mod clearPath(int x1, int line, int x2);
+		static Mod clearPath(int x_begin, int line, int x_end);
 
 		operator const std::string() const;
 	private:

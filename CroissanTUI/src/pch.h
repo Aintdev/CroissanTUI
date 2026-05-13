@@ -10,5 +10,6 @@
 // add headers that you want to pre-compile here
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #endif //PCH_H
