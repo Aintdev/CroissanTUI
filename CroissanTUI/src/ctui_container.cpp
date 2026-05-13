@@ -1,13 +1,11 @@
 #include "pch.h"
 #include "ctui_container.h"
 
-#include <windows.h>
-
 namespace ctui
 {
 	void Container::render()
 	{
-		for (Widget* child : children)
+		for (Widget* child : _children)
 		{
 			child->render();
 		}
@@ -15,25 +13,25 @@ namespace ctui
 
 	void Container::remove(Widget* child)
 	{
-		if (const auto it = std::ranges::find(children, child);
-			it != children.end())
+		if (const auto it = std::ranges::find(_children, child);
+			it != _children.end())
 		{
-			children.erase(it);
+			_children.erase(it);
 		}
 	}
 
-	void Container::makeChild(Widget* child)
+	void Container::make_child(Widget* child)
 	{
-		child->parent = this;
-		children.emplace_back(child);
+		child->_parent = this;
+		_children.emplace_back(child);
 	}
 
 	Container::~Container()
 	{
-		while (!children.empty())
-			delete children.back();
+		while (!_children.empty())
+			delete _children.back();
 
-		if (parent)
-			parent->remove(this);
+		if (_parent)
+			_parent->remove(this);
 	}
 }

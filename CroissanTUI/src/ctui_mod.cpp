@@ -9,10 +9,10 @@ namespace ctui {
 	Mod::Mod(std::string x) : code(std::move(x)) {}
 
 	Mod Mod::mvCur(int x, int y) { return Mod(x, y); }
-	Mod Mod::clearPath(int x1, int line, int x2) {
-		std::string result = std::string("\x1b""7") + std::string("\033[") + std::to_string(line) + std::string(";") + std::to_string(x1 < x2 ? x1 : x2) + std::string("H");
-		if (x2 < x1) std::swap(x1, x2);
-		int len = x2 - x1;
+	Mod Mod::clearPath(int x_begin, int line, int x_end) {
+		std::string result = std::string("\x1b""7") + std::string("\033[") + std::to_string(line) + std::string(";") + std::to_string(x_begin < x_end ? x_begin : x_end) + std::string("H");
+		if (x_end < x_begin) std::swap(x_begin, x_end);
+		int len = x_end - x_begin;
 		result += std::string(len, ' ') + std::string("\x1b""8");
 		return Mod(result);
 	}

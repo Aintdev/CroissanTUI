@@ -7,5 +7,4 @@ namespace ctui {
     void enableRawMode();
     void disableRawMode();
     std::pair<int, int> getWindowSize();
-    CursorPos getCursorPos();
 }

@@ -19,16 +19,17 @@ namespace ctui {
 					return _Kwarg<TagName, std::string> { std::string(v) };
 				}
 				else {
-					return _Kwarg<TagName, T> { v };
+					return _Kwarg<TagName, std::decay_t<T>> { std::forward<T>(v) };
 				}
 			}
 		};
 	}
 }
 
-// KWARG DEFINITIONS
+// Kwarg Defs
 
 KWARG(text);
-KWARG(pos)
-KWARG(width)
-KWARG(height)
+KWARG(box)
+KWARG(pady)
+KWARG(padx)
+KWARG(focus_index)
