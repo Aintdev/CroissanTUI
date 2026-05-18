@@ -1,11 +1,33 @@
 #include "pch.h"
 #include "ctui_container_vstack.h"
 
+#include <algorithm>
+
 namespace ctui
 {
-	void VStack::input(Key key)
+	void VStack::arrow_handler(Key key)
 	{
-		return;
+		assert(key.type == Key::Type::ArrowDown || key.type == Key::Type::ArrowUp, "Key must be valid _focus_index changer like ArrowUp oder ArrowDown");
+		assert(!_children.empty(), "Stack must have children to change _focus_index. Please check before calling arrow_handler()");
+
+		_focus_index += key.type == Key::Type::ArrowDown ? 1 : -1;
+		_focus_index = std::clamp(_focus_index, 0, static_cast<int>(_children.size()) - 1);
+	}
+
+	void VStack::input(const Key key)
+	{
+		if (key.type == Key::Type::ArrowUp || key.type == Key::Type::ArrowDown)
+		{
+			if (_children.empty()) return;
+			if (auto* container = dynamic_cast<Container*>(_children[_focus_index]))
+			{
+				container->input(key);
+			} else
+			{
+				arrow_handler(key);
+			}
+			return;
+		}
 	}
 
 	void VStack::layout()
