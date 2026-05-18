@@ -18,7 +18,7 @@ namespace ctui
 		{
 			assert(parent && _CTUIMSG_VSTACK_NO_PARENT);
 			if (!parent) throw std::invalid_argument(_CTUIMSG_VSTACK_NO_PARENT);
-			_parent = parent;
+			parent->make_child(this);
 			(apply(std::forward<Args>(args)), ...);
 		}
 
@@ -33,6 +33,7 @@ namespace ctui
 		}
 		
 		void input(Key key) override;
+		void arrow_handler(Key key);
 		void layout() override;
 	};
 }
