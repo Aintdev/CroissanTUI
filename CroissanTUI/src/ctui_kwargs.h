@@ -28,8 +28,10 @@ namespace ctui {
 
 // Kwarg Defs
 
-KWARG(text);
+KWARG(text)
 KWARG(box)
 KWARG(pady)
 KWARG(padx)
 KWARG(focus_index)
+KWARG(fg)
+KWARG(bg)
