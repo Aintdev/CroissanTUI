@@ -1,0 +1,12 @@
+
+[*]
+
+# ReSharper inspection severities
+resharper_cpp_enforce_cv_qualifiers_order_highlighting = suggestion
+resharper_cpp_enforce_cv_qualifiers_placement_highlighting = suggestion
+resharper_cpp_enforce_do_statement_braces_highlighting = warning
+resharper_cpp_enforce_for_statement_braces_highlighting = warning
+resharper_cpp_enforce_function_declaration_style_highlighting = warning
+resharper_cpp_enforce_if_statement_braces_highlighting = warning
+resharper_cpp_enforce_type_alias_code_style_highlighting = suggestion
+resharper_cpp_enforce_while_statement_braces_highlighting = warning

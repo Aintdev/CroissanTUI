@@ -7,23 +7,11 @@ using namespace std::this_thread;
 using namespace std::chrono_literals;
 using namespace ctui;
 
-KWARG(width_percent);
 
-static void bar(const KWARG_T(width_percent, Percent) arg) {
-	std::cout << arg.value.toPixels(200);
-}
 int main() {
-	int defPad = 10;
-	auto x = Rect(10, 10, 10, 10);
-
-	VStack main = VStack(nullptr, pady=3, box=x, width_percent=10);
-
+	VStack main = VStack(&screen, pady=3);
+	screen.config(pady = 5);
 	enableRawMode();
-	while (false) {
-		print << getCursorPos().col << " " << getCursorPos().row << "\n-> ";
-		Key a = readKey();
-		//print << a.ch << " " << (int)a.type << "\n";
-	}
 	
 
 	//print << Mod::mvCur(20, 12) << GRAPHIC_MOD::ITALIC << color::FG::BLUE << color::BG::WHITE << "Test" << GRAPHIC_MOD::RESET_ALL << Mod::mvCur(0, 30);

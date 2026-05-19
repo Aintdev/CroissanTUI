@@ -72,6 +72,12 @@
     <ClInclude Include="src\ctui_msg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ctui_container_screen.h">
+      <Filter>Header Files\Widgets\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ctui_widget_label.h">
+      <Filter>Header Files\Widgets\Sub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ctui_config.cpp">

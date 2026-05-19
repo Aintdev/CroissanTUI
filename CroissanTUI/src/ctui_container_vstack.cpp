@@ -1,33 +1,32 @@
 #include "pch.h"
 #include "ctui_container_vstack.h"
-
 #include <algorithm>
 
 namespace ctui
 {
-	void VStack::arrow_handler(Key key)
+	bool VStack::arrow_handler(const Key key)
 	{
-		assert(key.type == Key::Type::ArrowDown || key.type == Key::Type::ArrowUp, "Key must be valid _focus_index changer like ArrowUp oder ArrowDown");
-		assert(!_children.empty(), "Stack must have children to change _focus_index. Please check before calling arrow_handler()");
+		assert((key.type == Key::Type::ArrowDown || key.type == Key::Type::ArrowUp) && "Key must be valid _focus_index changer like ArrowUp oder ArrowDown");
+		assert(!_children.empty() && "Stack must have children to change _focus_index. Please check before calling arrow_handler()");
 
-		_focus_index += key.type == Key::Type::ArrowDown ? 1 : -1;
-		_focus_index = std::clamp(_focus_index, 0, static_cast<int>(_children.size()) - 1);
+		const int tmp = _focus_index + (key.type == Key::Type::ArrowDown ? 1 : -1);
+		_focus_index = std::clamp(tmp, 0, static_cast<int>(_children.size()) - 1);
+		return tmp == _focus_index;
 	}
 
-	void VStack::input(const Key key)
+	bool VStack::input(const Key key)
 	{
+		if (_children.empty()) return false;
+		if (auto* container = dynamic_cast<Container*>(_children[_focus_index]))
+		{
+			if (container->input(key)) return true;
+		}
 		if (key.type == Key::Type::ArrowUp || key.type == Key::Type::ArrowDown)
 		{
-			if (_children.empty()) return;
-			if (auto* container = dynamic_cast<Container*>(_children[_focus_index]))
-			{
-				container->input(key);
-			} else
-			{
-				arrow_handler(key);
-			}
-			return;
+			
+			return arrow_handler(key);
 		}
+		return false;
 	}
 
 	void VStack::layout()

@@ -2,9 +2,8 @@
 #include "ctui_mod.h"
 
 namespace ctui {
-	Mod::Mod(GRAPHIC_MOD m) : code("\033[" + std::to_string((int)m) + "m") {};
-	Mod::Mod(color::FG c) : code("\033[" + std::to_string((int)c) + "m") {};
-	Mod::Mod(color::BG c) : code("\033[" + std::to_string((int)c) + "m") {};
+	Mod::Mod(GraphicMod m) : code("\033[" + std::to_string(static_cast<int>(m)) + "m") {};
+	Mod::Mod(const char(&s)[3], Color c) : code("\033[" + std::to_string(static_cast<int>(c) + (s == "bg" ? 10 : 0)) + "m") {};
 	Mod::Mod(int x, int y) : code("\033[" + std::to_string(y) + ";" + std::to_string(x) + "f") {}
 	Mod::Mod(std::string x) : code(std::move(x)) {}
 

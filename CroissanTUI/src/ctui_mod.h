@@ -5,9 +5,8 @@
 namespace ctui {
 	struct Mod {
 		
-		Mod(const GRAPHIC_MOD m);
-		Mod(color::FG c);
-		Mod(color::BG c);
+		Mod(GraphicMod m);
+		Mod(const char(&s)[3], Color c);
 
 		static Mod mvCur(int x, int y);
 		static Mod clearPath(int x_begin, int line, int x_end);

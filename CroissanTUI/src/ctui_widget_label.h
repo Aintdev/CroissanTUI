@@ -1,24 +1,19 @@
 #pragma once
-#include <complex>
 #include <cassert>
 
-#include "ctui_container.h"
 #include "ctui_kwargs.h"
-#include "ctui_rect.h"
 #include "ctui_msg.h"
+#include "ctui_widget.h"
+#include "ctui_container.h"
 
 namespace ctui
 {
-	struct VStack : Container
+	struct Label : Widget
 	{
-		int _pady = 0;
-
-	protected:
-		VStack() = default;
-	public:
+		std::string _text = "";
 
 		template<typename... Args>
-		VStack(Container* parent, Args&&... args)
+		Label(Container* parent, Args&&... args)
 		{
 			assert(parent && _CTUIMSG_VSTACK_NO_PARENT);
 			if (!parent) throw std::invalid_argument(_CTUIMSG_VSTACK_NO_PARENT);
@@ -28,15 +23,12 @@ namespace ctui
 
 		bool input(Key key) override;
 	private:
-		void apply(KWARG_T(box,			Rect)	arg) { _desired_bounds		=	arg.value; }
-		void apply(KWARG_T(pady,		int)	arg) { _pady				=	arg.value; }
-		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index			=	arg.value; }
+		void apply(KWARG_T(box, Rect)	arg) { _desired_bounds = arg.value; }
+		void apply(KWARG_T(text, Rect)	arg) { _desired_bounds = arg.value; }
 	protected:
 		template<typename T>
 		void apply(T&&) {
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
-		bool arrow_handler(Key key);
-		void layout() override;
 	};
 }

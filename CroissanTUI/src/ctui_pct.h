@@ -6,7 +6,7 @@ namespace ctui {
 
 		Percent(long double val);
 
-		int toPixels(int maxWidth) const;
+		int to_pixels(int max_width) const;
 	};
 	Percent operator""_pct(unsigned long long val);
 }
