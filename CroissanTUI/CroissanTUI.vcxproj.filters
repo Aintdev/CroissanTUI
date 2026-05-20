@@ -107,10 +107,16 @@
     <ClCompile Include="src\ctui_container_vstack.cpp">
       <Filter>Source Files\Widgets\Sub</Filter>
     </ClCompile>
+    <ClCompile Include="src\ctui_container_screen.cpp">
+      <Filter>Source Files\Widgets\Sub</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="WidgetStructure.txt">
       <Filter>Brainstorm</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="generate_header.py" />
   </ItemGroup>
 </Project>
