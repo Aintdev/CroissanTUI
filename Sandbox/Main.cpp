@@ -11,7 +11,7 @@ using namespace ctui;
 int main() {
 	VStack main = VStack(&screen, pady=3);
 	screen.config(pady = 5);
-	enableRawMode();
+	enable_raw_mode();
 	
 
 	//print << Mod::mvCur(20, 12) << GRAPHIC_MOD::ITALIC << color::FG::BLUE << color::BG::WHITE << "Test" << GRAPHIC_MOD::RESET_ALL << Mod::mvCur(0, 30);
@@ -19,5 +19,5 @@ int main() {
 	//print << Mod::mvCur(20, 12) << GRAPHIC_MOD::ITALIC << color::FG::RED << color::BG::WHITE << "Im Blue dabidi dabidai" << GRAPHIC_MOD::RESET_ALL << Mod::mvCur(0, 30);
 	//sleep_for(2s);
 	//print << Mod::clearPath(20, 12, 60);
-	disableRawMode();
+	disable_raw_mode();
 }

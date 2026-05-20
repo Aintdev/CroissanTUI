@@ -3,8 +3,8 @@
 
 namespace ctui {
     struct CursorPos { int row, col; };
-    extern bool rawMode;
-    void enableRawMode();
-    void disableRawMode();
-    std::pair<int, int> getWindowSize();
+    extern bool raw_mode;
+    void enable_raw_mode();
+    void disable_raw_mode();
+    std::pair<int, int> get_win_size();
 }

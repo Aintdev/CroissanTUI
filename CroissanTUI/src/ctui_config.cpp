@@ -12,10 +12,10 @@
 #endif
 
 namespace ctui {
-    bool rawMode = false;
+    bool raw_mode = false;
 
 
-    void enableRawMode() {
+    void enable_raw_mode() {
 #ifdef _WIN32
         HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
         DWORD mode;
@@ -30,10 +30,10 @@ namespace ctui {
         t.c_lflag &= ~(ICANON | ECHO | IXON);
         tcsetattr(STDIN_FILENO, TCSANOW, &t);
 #endif
-        rawMode = true;
+        raw_mode = true;
     }
 
-    void disableRawMode() {
+    void disable_raw_mode() {
 #ifdef _WIN32
         HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
         DWORD mode;
@@ -45,16 +45,15 @@ namespace ctui {
         t.c_lflag |= (ICANON | ECHO);
         tcsetattr(STDIN_FILENO, TCSANOW, &t);
 #endif
-        rawMode = false;
+        raw_mode = false;
     }
 
-    std::pair<int, int> getWindowSize() {
+    std::pair<int, int> get_win_size() {
 #ifdef _WIN32
         CONSOLE_SCREEN_BUFFER_INFO csbi;
-        int columns, rows;
         GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-        columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-        rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+        const int columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+        const int rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
         return std::make_pair(columns, rows);
 #else
         struct winsize w;

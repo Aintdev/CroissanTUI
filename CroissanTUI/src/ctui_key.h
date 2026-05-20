@@ -33,11 +33,11 @@ namespace ctui {
 			F9, F10, F11, F12
 		};
 #ifndef _WIN32
-        static const std::unordered_map<std::string, Type> sequences;
+        static const std::unordered_map<std::string, Type> _sequences;
 #endif
         Type type;
         char ch;
     };
 
-    Key readKey();  // liest einen Tastendruck und gibt Key zurück
+    Key read_key();
 }

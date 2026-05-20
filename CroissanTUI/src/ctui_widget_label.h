@@ -10,7 +10,7 @@ namespace ctui
 {
 	struct Label : Widget
 	{
-		std::string _text = "";
+		std::string text = "";
 
 		template<typename... Args>
 		Label(Container* parent, Args&&... args)
@@ -23,8 +23,8 @@ namespace ctui
 
 		bool input(Key key) override;
 	private:
-		void apply(KWARG_T(box, Rect)	arg) { _desired_bounds = arg.value; }
-		void apply(KWARG_T(text, Rect)	arg) { _desired_bounds = arg.value; }
+		void apply(KWARG_T(box, Rect)			arg) { _desired_bounds = arg.value; }
+		void apply(KWARG_T(text, std::string)	arg) { text = arg.value; }
 	protected:
 		template<typename T>
 		void apply(T&&) {

@@ -43,7 +43,7 @@ namespace ctui {
     };
 #endif
 
-	Key readKey() {
+	Key read_key() {
 		
 #ifdef _WIN32
 		int first = _getch();
