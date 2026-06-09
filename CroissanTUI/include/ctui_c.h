@@ -40,7 +40,7 @@ namespace ctui {
 
 		operator const std::string() const;
 	private:
-		std::string code_;
+		std::string _code;
 		Mod(int x, int y);
 		Mod(std::string x);
 	};
@@ -96,13 +96,13 @@ namespace ctui {
 			F9, F10, F11, F12
 		};
 #ifndef _WIN32
-        static const std::unordered_map<std::string, Type> _sequences;
+        static const std::unordered_map<std::string, Type> sequences;
 #endif
         Type type;
         char ch;
     };
 
-    Key read_key();  // liest einen Tastendruck und gibt Key zurück
+    Key read_key();
 }
 
 namespace ctui {
@@ -140,17 +140,25 @@ namespace ctui {
 			}
 		};
 	}
+	enum class Align
+	{
+		Start,
+		Center,
+		End
+	};
+
+	KWARG(text)
+	KWARG(box)
+	KWARG(pady)
+	KWARG(padx)
+	KWARG(focus_index)
+	KWARG(fg)
+	KWARG(bg)
+	KWARG(halign)
+	KWARG(valign)
+	KWARG(fill)
 }
 
-// Kwarg Defs
-
-KWARG(text)
-KWARG(box)
-KWARG(pady)
-KWARG(padx)
-KWARG(focus_index)
-KWARG(fg)
-KWARG(bg)
 #include <cassert>
 
 #define _CTUIMSG_VSTACK_WRONG_KWARG "Unknown Keyword Argument for VStack!\n\nCheck the error message below and search for:\n\t\t'T=ctui::detail::_Kwarg<_tag_(YOUR_INVALID_ARG)'.\n\n"
@@ -180,7 +188,7 @@ namespace ctui {
 
 		virtual void render() = 0;
 		virtual bool input(Key key) = 0;
-		virtual void layout() = 0;
+		virtual void layout(int x, int y) = 0;
 		virtual ~Widget();
 	};
 }
@@ -204,6 +212,9 @@ namespace ctui
 	struct Label : Widget
 	{
 		std::string _text = "";
+		Color _bg_color = Color::BLACK;
+		Color _fg_color = Color::WHITE;
+		bool _fill = false;
 
 		template<typename... Args>
 		Label(Container* parent, Args&&... args)
@@ -215,9 +226,19 @@ namespace ctui
 		}
 
 		bool input(Key key) override;
+		void render() override;
 	private:
-		void apply(KWARG_T(box, Rect)			arg) { _desired_bounds = arg.value; }
-		void apply(KWARG_T(text, std::string)	arg) { _text = arg.value; }
+		void apply(KWARG_T(text, std::string)	arg)
+		{
+			_text = arg.value;
+			_desired_bounds.width = static_cast<int>(_text.length());
+			_desired_bounds.height = 1;
+			_desired_bounds.x = _desired_bounds.x.value_or(0);
+			_desired_bounds.y = 0; //TODO: ggf. + pady
+		}
+		void apply(KWARG_T(fill, bool) arg) { _fill = arg.value;  }
+
+		void layout(int x, int y) override;
 	protected:
 		template<typename T>
 		void apply(T&&) {
@@ -233,10 +254,18 @@ namespace ctui
 	struct VStack : Container
 	{
 		int _pady = 0;
+		Align _align = Align::Start;
 
 	protected:
 		VStack() = default;
 	public:
+
+		template<typename... Args>
+		VStack& config(Args&&... args)
+		{
+			(apply(std::forward<Args>(args)), ...);
+			return *this;
+		}
 
 		template<typename... Args>
 		VStack(Container* parent, Args&&... args)
@@ -244,21 +273,27 @@ namespace ctui
 			assert(parent && _CTUIMSG_VSTACK_NO_PARENT);
 			if (!parent) throw std::invalid_argument(_CTUIMSG_VSTACK_NO_PARENT);
 			parent->make_child(this);
-			(apply(std::forward<Args>(args)), ...);
+			config(args...);
 		}
 
 		bool input(Key key) override;
+
+		// getters
+
+		// TODO: Getters :)
+
 	private:
 		void apply(KWARG_T(box,			Rect)	arg) { _desired_bounds		=	arg.value; }
 		void apply(KWARG_T(pady,		int)	arg) { _pady				=	arg.value; }
 		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index			=	arg.value; }
+		void apply(KWARG_T(halign,		Align)	arg) { _align				=	arg.value; }
 	protected:
 		template<typename T>
 		void apply(T&&) {
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 		bool arrow_handler(Key key);
-		void layout() override;
+		void layout(int x, int y) override;
 	};
 }
 
@@ -277,15 +312,17 @@ namespace ctui
         Screen& config(Args&&... args)
         {
             (apply(std::forward<Args>(args)), ...);
+            auto scr_sz = get_win_size();
+            _desired_bounds = Rect(0, 0, scr_sz.first, scr_sz.second);
+            _actual_bounds = _desired_bounds;
             return *this;
         }
 
         Screen(const Screen&) = delete;
         Screen& operator=(const Screen&) = delete;
 
-        // getters
-        ctui::Color get_color_bg() const { return _background; }
-        ctui::Color get_color_fg() const { return _foreground; }
+        [[deprecated("Do not use screen.render(); Use root_container.render() instead.")]]
+        void render() override { VStack::render(); }
 
     private:
         ctui::Color _background = ctui::Color::BLACK;

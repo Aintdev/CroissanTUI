@@ -15,7 +15,7 @@ namespace ctui {
 
 		virtual void render() = 0;
 		virtual bool input(Key key) = 0;
-		virtual void layout() = 0;
+		virtual void layout(int x, int y) = 0;
 		virtual ~Widget();
 	};
 }

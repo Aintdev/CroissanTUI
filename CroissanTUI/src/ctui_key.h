@@ -33,7 +33,7 @@ namespace ctui {
 			F9, F10, F11, F12
 		};
 #ifndef _WIN32
-        static const std::unordered_map<std::string, Type> _sequences;
+        static const std::unordered_map<std::string, Type> sequences;
 #endif
         Type type;
         char ch;

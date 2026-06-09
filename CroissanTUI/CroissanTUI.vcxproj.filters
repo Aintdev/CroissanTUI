@@ -110,6 +110,9 @@
     <ClCompile Include="src\ctui_container_screen.cpp">
       <Filter>Source Files\Widgets\Sub</Filter>
     </ClCompile>
+    <ClCompile Include="src\ctui_widget_label.cpp">
+      <Filter>Source Files\Widgets\Sub</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="WidgetStructure.txt">

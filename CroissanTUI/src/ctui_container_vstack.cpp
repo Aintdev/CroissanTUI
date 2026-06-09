@@ -23,37 +23,30 @@ namespace ctui
 		}
 		if (key.type == Key::Type::ArrowUp || key.type == Key::Type::ArrowDown)
 		{
-			
 			return arrow_handler(key);
 		}
 		return false;
 	}
 
-	void VStack::layout()
+	void VStack::layout(int x, int y)
 	{
-		int curY = 0;
-
-		for (Widget* child : _children)
+		if (!_parent) return; // if VSTACK is Screen
+		_actual_bounds = Rect(
+			_parent->_actual_bounds.x.value(),
+			_parent->_actual_bounds.y.value(),
+			_parent->_actual_bounds.width.value(),
+			_parent->_actual_bounds.height.value()
+		);
+		for (auto* child : _children)
 		{
-			child->_actual_bounds.x = 0;
-			child->_actual_bounds.y = curY;
-
-			child->_actual_bounds.width = _actual_bounds.width;
-
-			int desiredHeight = child->_desired_bounds.height.value_or(0);
-
-			int remainingHeight =
-				_actual_bounds.height.value_or(0) - curY;
-
-			int actualHeight = std::min(desiredHeight, remainingHeight);
-
-			if (actualHeight <= 0)
-				continue;
-
-			child->_actual_bounds.height = actualHeight;
-			child->layout();
-
-			curY += actualHeight;
+			int x_extra = 0;
+			if (_align == Align::Center)
+				x_extra += (_actual_bounds.width.value() / 2) - (child->_desired_bounds.width.value() / 2);
+			else if (_align == Align::End)
+				x_extra += _actual_bounds.width.value() - child->_desired_bounds.width.value() + 1;
+			child->layout(x + x_extra, y);
+			y += child->_actual_bounds.height.value();
+			y += _pady;
 		}
 	}
 }

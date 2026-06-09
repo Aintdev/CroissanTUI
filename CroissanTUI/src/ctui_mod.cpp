@@ -7,7 +7,7 @@ namespace ctui {
 	Mod::Mod(int x, int y) : _code("\033[" + std::to_string(y) + ";" + std::to_string(x) + "f") {}
 	Mod::Mod(std::string x) : _code(std::move(x)) {}
 
-	Mod Mod::mv_cur(int x, int y) { return Mod(x, y); }
+	Mod Mod::mv_cur(int x, int y) { return Mod(x, y+1); }
 	Mod Mod::clear_path(int x_begin, int line, int x_end) {
 		std::string result = std::string("\x1b""7") + std::string("\033[") + std::to_string(line) + std::string(";") + std::to_string(x_begin < x_end ? x_begin : x_end) + std::string("H");
 		if (x_end < x_begin) std::swap(x_begin, x_end);

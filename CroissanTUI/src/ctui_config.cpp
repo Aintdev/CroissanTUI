@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "ctui_config.h"
 
+#include "ctui_mod.h"
+#include "ctui_print.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
@@ -31,6 +34,7 @@ namespace ctui {
         tcsetattr(STDIN_FILENO, TCSANOW, &t);
 #endif
         raw_mode = true;
+        print << "\033[2J\033[H";
     }
 
     void disable_raw_mode() {
