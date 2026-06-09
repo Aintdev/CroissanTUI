@@ -40,4 +40,4 @@ process_file("include/ctui.h")
 with open("include/ctui_c.h", "w") as f:
     f.write("\n".join(output_lines))
 
-print("ctui_c.h generated!")
+print("ctui_c.h generated!", len(output_lines), "lines generated.")

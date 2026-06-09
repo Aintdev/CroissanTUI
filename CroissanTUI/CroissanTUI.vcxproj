@@ -169,6 +169,7 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ctui_widget_label.cpp" />
     <ClCompile Include="src\ctui_container_screen.cpp" />
     <ClCompile Include="src\ctui_container_vstack.cpp" />
     <ClCompile Include="src\ctui_container.cpp" />

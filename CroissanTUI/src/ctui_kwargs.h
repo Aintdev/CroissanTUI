@@ -24,14 +24,22 @@ namespace ctui {
 			}
 		};
 	}
+	enum class Align
+	{
+		Start,
+		Center,
+		End
+	};
+
+	KWARG(text)
+	KWARG(box)
+	KWARG(pady)
+	KWARG(padx)
+	KWARG(focus_index)
+	KWARG(fg)
+	KWARG(bg)
+	KWARG(halign)
+	KWARG(valign)
+	KWARG(fill)
 }
 
-// Kwarg Defs
-
-KWARG(text)
-KWARG(box)
-KWARG(pady)
-KWARG(padx)
-KWARG(focus_index)
-KWARG(fg)
-KWARG(bg)

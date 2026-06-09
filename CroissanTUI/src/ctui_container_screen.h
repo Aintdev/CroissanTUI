@@ -3,6 +3,7 @@
 
 #include "ctui_container_vstack.h"
 #include "ctui_mod_enum.h"
+#include "ctui_config.h"
 
 namespace ctui
 {
@@ -18,15 +19,17 @@ namespace ctui
         Screen& config(Args&&... args)
         {
             (apply(std::forward<Args>(args)), ...);
+            auto scr_sz = get_win_size();
+            _desired_bounds = Rect(0, 0, scr_sz.first, scr_sz.second);
+            _actual_bounds = _desired_bounds;
             return *this;
         }
 
         Screen(const Screen&) = delete;
         Screen& operator=(const Screen&) = delete;
 
-        // getters
-        ctui::Color get_color_bg() const { return _background; }
-        ctui::Color get_color_fg() const { return _foreground; }
+        [[deprecated("Do not use screen.render(); Use root_container.render() instead.")]]
+        void render() override { VStack::render(); }
 
     private:
         ctui::Color _background = ctui::Color::BLACK;
