@@ -7,6 +7,8 @@ namespace ctui {
 		std::optional<int> width, height;
 		
 		Rect(int startX, int startY, int boxWidth, int boxHeight);
+
 		Rect(std::optional<int> startX, std::optional<int> startY);
+		Rect();
 	};
 }

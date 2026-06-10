@@ -40,17 +40,16 @@ namespace ctui
 
 		// TODO: Getters :)
 
-	private:
-		void apply(KWARG_T(box,			Rect)	arg) { _desired_bounds		=	arg.value; }
-		void apply(KWARG_T(pady,		int)	arg) { _pady				=	arg.value; }
-		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index			=	arg.value; }
-		void apply(KWARG_T(halign,		Align)	arg) { _align				=	arg.value; }
 	protected:
+		void apply(KWARG_T(pady,		int)	arg) { _pady		=	arg.value; }
+		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index	=	arg.value; }
+		void apply(KWARG_T(halign,		Align)	arg) { _align		=	arg.value; }
 		template<typename T>
 		void apply(T&&) {
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 		bool arrow_handler(Key key);
-		void layout(int x, int y) override;
+		void resolve_bounds(int startx, int starty) override;
+		void measure() override;
 	};
 }

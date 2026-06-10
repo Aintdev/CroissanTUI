@@ -27,18 +27,20 @@ namespace ctui
 
 		bool input(Key key) override;
 		void render() override;
+		void resolve_bounds(int startx, int starty) override;
+		void measure() override; // TODO: Implement this and resolve_bounds fix
 	private:
 		void apply(KWARG_T(text, std::string)	arg)
 		{
 			_text = arg.value;
-			_desired_bounds.width = static_cast<int>(_text.length());
-			_desired_bounds.height = 1;
-			_desired_bounds.x = _desired_bounds.x.value_or(0);
-			_desired_bounds.y = 0; //TODO: ggf. + pady
+			_relative_bounds.width = static_cast<int>(_text.length());
+			_relative_bounds.height = 1;
+			_relative_bounds.x = _relative_bounds.x.value_or(0);
+			_relative_bounds.y = 0;
 		}
 		void apply(KWARG_T(fill, bool) arg) { _fill = arg.value;  }
 
-		void layout(int x, int y) override;
+		
 	protected:
 		template<typename T>
 		void apply(T&&) {
