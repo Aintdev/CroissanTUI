@@ -8,9 +8,7 @@ namespace ctui
 	Screen::Screen() : VStack()
 	{
 		const auto [fst, snd] = get_win_size();
-		_desired_bounds = Rect(0, 0, fst, snd);
-		_actual_bounds = _desired_bounds;
+		_relative_bounds = Rect(0, 0, fst, snd);
+		_absolute_bounds = _relative_bounds;
 	}
-
-
 }

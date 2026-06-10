@@ -171,7 +171,9 @@ namespace ctui {
 		std::optional<int> width, height;
 
 		Rect(int startX, int startY, int boxWidth, int boxHeight);
+
 		Rect(std::optional<int> startX, std::optional<int> startY);
+		Rect();
 	};
 }
 
@@ -180,15 +182,16 @@ namespace ctui {
 
 	struct Widget {
 	protected:
-		Widget() : _parent(nullptr), _desired_bounds(std::nullopt, std::nullopt), _actual_bounds(std::nullopt, std::nullopt) {}
+		Widget() : _parent(nullptr), _relative_bounds(std::nullopt, std::nullopt), _absolute_bounds(std::nullopt, std::nullopt) {}
 	public:
 		Container*	_parent;
-		Rect		_desired_bounds;
-		Rect		_actual_bounds;
+		Rect		_relative_bounds;
+		Rect		_absolute_bounds;
 
 		virtual void render() = 0;
 		virtual bool input(Key key) = 0;
-		virtual void layout(int x, int y) = 0;
+		virtual void resolve_bounds(int startx, int starty) = 0;
+		virtual void measure() = 0;
 		virtual ~Widget();
 	};
 }
@@ -227,18 +230,20 @@ namespace ctui
 
 		bool input(Key key) override;
 		void render() override;
+		void resolve_bounds(int startx, int starty) override;
+		void measure() override; // TODO: Implement this and resolve_bounds fix
 	private:
 		void apply(KWARG_T(text, std::string)	arg)
 		{
 			_text = arg.value;
-			_desired_bounds.width = static_cast<int>(_text.length());
-			_desired_bounds.height = 1;
-			_desired_bounds.x = _desired_bounds.x.value_or(0);
-			_desired_bounds.y = 0; //TODO: ggf. + pady
+			_relative_bounds.width = static_cast<int>(_text.length());
+			_relative_bounds.height = 1;
+			_relative_bounds.x = _relative_bounds.x.value_or(0);
+			_relative_bounds.y = 0;
 		}
 		void apply(KWARG_T(fill, bool) arg) { _fill = arg.value;  }
 
-		void layout(int x, int y) override;
+
 	protected:
 		template<typename T>
 		void apply(T&&) {
@@ -282,18 +287,17 @@ namespace ctui
 
 		// TODO: Getters :)
 
-	private:
-		void apply(KWARG_T(box,			Rect)	arg) { _desired_bounds		=	arg.value; }
-		void apply(KWARG_T(pady,		int)	arg) { _pady				=	arg.value; }
-		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index			=	arg.value; }
-		void apply(KWARG_T(halign,		Align)	arg) { _align				=	arg.value; }
 	protected:
+		void apply(KWARG_T(pady,		int)	arg) { _pady		=	arg.value; }
+		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index	=	arg.value; }
+		void apply(KWARG_T(halign,		Align)	arg) { _align		=	arg.value; }
 		template<typename T>
 		void apply(T&&) {
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 		bool arrow_handler(Key key);
-		void layout(int x, int y) override;
+		void resolve_bounds(int startx, int starty) override;
+		void measure() override;
 	};
 }
 
@@ -313,8 +317,8 @@ namespace ctui
         {
             (apply(std::forward<Args>(args)), ...);
             auto scr_sz = get_win_size();
-            _desired_bounds = Rect(0, 0, scr_sz.first, scr_sz.second);
-            _actual_bounds = _desired_bounds;
+            _relative_bounds = Rect(0, 0, scr_sz.first, scr_sz.second);
+            _absolute_bounds = _relative_bounds;
             return *this;
         }
 
@@ -328,16 +332,13 @@ namespace ctui
         ctui::Color _background = ctui::Color::BLACK;
         ctui::Color _foreground = ctui::Color::WHITE;
 
+
         template<typename T>
         void apply(T&&) {
             static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
         }
 
         Screen();
-
-        void apply(KWARG_T(fg, ctui::Color)	    arg) { _foreground = arg.value; }
-        void apply(KWARG_T(bg, ctui::Color)	    arg) { _background = arg.value; }
-        void apply(KWARG_T(pady, int)       	arg) { _pady = arg.value; }
     };
     inline Screen& screen = Screen::instance();
 }
