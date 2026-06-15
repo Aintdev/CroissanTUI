@@ -17,6 +17,13 @@ namespace ctui {
     constexpr int fg_base = 30;
     constexpr int bg_base = 40;
 
+    enum class Align
+    {
+        Start,
+        Center,
+        End
+    };
+
 }
 #include <utility>
 
@@ -140,12 +147,7 @@ namespace ctui {
 			}
 		};
 	}
-	enum class Align
-	{
-		Start,
-		Center,
-		End
-	};
+
 
 	KWARG(text)
 	KWARG(box)
@@ -172,8 +174,10 @@ namespace ctui {
 
 		Rect(int startX, int startY, int boxWidth, int boxHeight);
 
-		Rect(std::optional<int> startX, std::optional<int> startY);
+		Rect(std::optional<int> width, std::optional<int> height);
 		Rect();
+
+		bool has_size_values() const;
 	};
 }
 
@@ -217,7 +221,7 @@ namespace ctui
 		std::string _text = "";
 		Color _bg_color = Color::BLACK;
 		Color _fg_color = Color::WHITE;
-		bool _fill = false;
+		Align _halign = Align::Center;
 
 		template<typename... Args>
 		Label(Container* parent, Args&&... args)
@@ -241,7 +245,7 @@ namespace ctui
 			_relative_bounds.x = _relative_bounds.x.value_or(0);
 			_relative_bounds.y = 0;
 		}
-		void apply(KWARG_T(fill, bool) arg) { _fill = arg.value;  }
+		void apply(KWARG_T(halign, Align) arg) { _halign = arg.value;  }
 
 
 	protected:
@@ -254,12 +258,22 @@ namespace ctui
 #include <complex>
 
 
+namespace ctui::defaults
+{
+	constexpr Align HALIGN = Align::Center;
+	constexpr Align VALIGN = Align::Start;
+
+	constexpr const char* TEXT = "";
+	constexpr int PADY = 0;
+
+}
+
 namespace ctui
 {
 	struct VStack : Container
 	{
 		int _pady = 0;
-		Align _align = Align::Start;
+		Align _halign = defaults::HALIGN;
 
 	protected:
 		VStack() = default;
@@ -287,17 +301,19 @@ namespace ctui
 
 		// TODO: Getters :)
 
+		void resolve_bounds(int startx, int starty) override;
+		void measure() override;
+
 	protected:
 		void apply(KWARG_T(pady,		int)	arg) { _pady		=	arg.value; }
 		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index	=	arg.value; }
-		void apply(KWARG_T(halign,		Align)	arg) { _align		=	arg.value; }
+		void apply(KWARG_T(halign,		Align)	arg) { _halign		=	arg.value; }
 		template<typename T>
 		void apply(T&&) {
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 		bool arrow_handler(Key key);
-		void resolve_bounds(int startx, int starty) override;
-		void measure() override;
+
 	};
 }
 
@@ -328,10 +344,11 @@ namespace ctui
         [[deprecated("Do not use screen.render(); Use root_container.render() instead.")]]
         void render() override { VStack::render(); }
 
+        void update_bounds();
+
     private:
         ctui::Color _background = ctui::Color::BLACK;
-        ctui::Color _foreground = ctui::Color::WHITE;
-
+        ctui::Color _foreground = ctui::Color::WHITE; //TODO: impliment this and other settings
 
         template<typename T>
         void apply(T&&) {

@@ -151,6 +151,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ctui_defaults.h" />
     <ClInclude Include="src\ctui_widget_label.h" />
     <ClInclude Include="src\ctui_container_screen.h" />
     <ClInclude Include="src\ctui_msg.h" />

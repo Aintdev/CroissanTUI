@@ -78,6 +78,9 @@
     <ClInclude Include="src\ctui_widget_label.h">
       <Filter>Header Files\Widgets\Sub</Filter>
     </ClInclude>
+    <ClInclude Include="src\ctui_defaults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ctui_config.cpp">

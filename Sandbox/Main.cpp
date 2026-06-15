@@ -45,16 +45,21 @@ int main() {
 	
 	enable_raw_mode();
 	screen.config();
-	auto main = VStack(&screen, pady = 3, halign=Center);
-	auto sub = VStack(&main, pady = 5, halign = Start);
+
+	auto main = VStack(&screen, pady = 0, halign=Center);
+	auto sub = VStack(&main, pady = 0, halign = Center);
 	
 	auto c = Label(&sub, text = "asd");
-	auto d = Label(&sub, text = "2test");
+	auto d = Label(&sub, text = "012345678\n90");
 
-	auto cntrlStack = VStack(&main, pady = 1, halign = Start);
 	auto control = Label(&main, text = "CONTROL");
 
+
+	main.measure();
+	main.resolve_bounds(0, 0);
+
 	main.render();
+	
 	debuglog(&main, "Main VStack");
 	debuglog(&c, "C Label");
 	disable_raw_mode();

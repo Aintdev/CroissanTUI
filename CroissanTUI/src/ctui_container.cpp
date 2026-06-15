@@ -5,7 +5,6 @@ namespace ctui
 {
 	void Container::render()
 	{
-		resolve_bounds(0, 0);
 		for (Widget* child : _children)
 		{
 			child->render();
