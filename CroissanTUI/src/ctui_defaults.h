@@ -3,16 +3,16 @@
 
 namespace ctui::defaults
 {
-	constexpr		Align	HALIGN		=	Align::Center;
-	constexpr		Align	VALIGN		=	Align::Start;
+	constexpr		Align	kHalign		=	Align::Center;
+	constexpr		Align	kValign		=	Align::Start;
 
-	constexpr	const char*	TEXT		=	"";
-	constexpr		int		PADY		=	0;
+	constexpr	const char*	kText		=	"";
+	constexpr		int		kPady		=	0;
 
-	constexpr		int		FOCUS_INDEX	=	0;
+	constexpr		int		kFocusIndex	=	0;
 
-	constexpr		Color	FG_COLOR	=	Color::WHITE;
-	constexpr		Color	BG_COLOR	=	Color::BLACK;
+	constexpr		Color	kFgColor	=	Color::WHITE;
+	constexpr		Color	kBgColor	=	Color::BLACK;
 
-	constexpr		bool	FILL		=	true;
+	constexpr		bool	kFill		=	true;
 }

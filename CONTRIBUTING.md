@@ -19,12 +19,12 @@ Consistency beats cleverness. If something already exists in the codebase, match
 | Classes / Structs / Enums | `PascalCase` | `VStack`, `Percent` |
 | Free functions & static methods | `lower_snake` | `to_pixels()`, `clear_path()` |
 | Locals & parameters | `lower_snake` | `max_width`, `def_pad` |
-| Private member variables | trailing `_` | `width_`, `focus_index_` |
+| Private member variables | leading `_` | `_pady`, `_halign`, `_code` |
 | `constexpr` constants | `kPrefixCamelCase` | `kDefaultPadding` |
 | Macros | `ALL_CAPS` | `KWARG`, `KWARG_T` |
 | User-defined literal suffixes | `lower_snake` | `_pct` |
 
-**Why trailing underscore for private members?** Leading underscores followed by a capital letter are reserved by the C++ standard in all scopes. Trailing underscores are safe, unambiguous, and grep-friendly.
+**Why leading underscore for private members?** It's immediately clear on sight that a member is private. Leading underscores followed by a capital letter are reserved by the C++ standard, but a leading underscore alone is perfectly safe when used for private members within class scope.
 
 ---
 
@@ -42,7 +42,7 @@ Consistency beats cleverness. If something already exists in the codebase, match
 - Prefer `double` for user-facing float types unless you have a specific reason not to — and document that reason.
 
 **Macros**
-- `KWARG` invocations always end with a semicolon — or never do. Pick one and apply it everywhere in your change. Do not mix.
+- `KWARG` invocations never end with a semicolon.
 
 **Control flow**
 - Internal/private functions use `assert()` for precondition checks. These compile away in release — they're for catching your own mistakes during development, not for handling bad user input.

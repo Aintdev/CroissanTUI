@@ -27,7 +27,7 @@ namespace ctui
 	
 	void Label::render()
 	{
-		try //TODO: Impliment Multiline functionality and other stuff ykwim
+		try //TODO: Implement Multiline functionality and other stuff ykwim
 		{
 			print << Mod::mv_cur(_absolute_bounds.x.value(), _absolute_bounds.y.value()) << _text;
 		} 
