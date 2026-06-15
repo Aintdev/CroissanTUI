@@ -4,15 +4,16 @@
 
 #include "ctui_container.h"
 #include "ctui_kwargs.h"
-#include "ctui_rect.h"
+#include "ctui_mod_enum.h"
 #include "ctui_msg.h"
+#include "ctui_defaults.h"
 
 namespace ctui
 {
 	struct VStack : Container
 	{
-		int _pady = 0;
-		Align _align = Align::Start;
+		int _pady = defaults::PADY;
+		Align _halign = defaults::HALIGN;
 
 	protected:
 		VStack() = default;
@@ -40,16 +41,18 @@ namespace ctui
 
 		// TODO: Getters :)
 
+		void resolve_bounds(int startx, int starty) override;
+		void measure() override;
+
 	protected:
 		void apply(KWARG_T(pady,		int)	arg) { _pady		=	arg.value; }
 		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index	=	arg.value; }
-		void apply(KWARG_T(halign,		Align)	arg) { _align		=	arg.value; }
+		void apply(KWARG_T(halign,		Align)	arg) { _halign		=	arg.value; }
 		template<typename T>
 		void apply(T&&) {
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 		bool arrow_handler(Key key);
-		void resolve_bounds(int startx, int starty) override;
-		void measure() override;
+		
 	};
 }

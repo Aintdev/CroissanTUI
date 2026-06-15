@@ -8,7 +8,9 @@ namespace ctui {
 		
 		Rect(int startX, int startY, int boxWidth, int boxHeight);
 
-		Rect(std::optional<int> startX, std::optional<int> startY);
+		Rect(std::optional<int> width, std::optional<int> height);
 		Rect();
+
+		bool has_size_values() const;
 	};
 }

@@ -14,7 +14,7 @@ namespace ctui
 		std::string _text = "";
 		Color _bg_color = Color::BLACK;
 		Color _fg_color = Color::WHITE;
-		bool _fill = false;
+		Align _halign = Align::Center;
 
 		template<typename... Args>
 		Label(Container* parent, Args&&... args)
@@ -38,7 +38,7 @@ namespace ctui
 			_relative_bounds.x = _relative_bounds.x.value_or(0);
 			_relative_bounds.y = 0;
 		}
-		void apply(KWARG_T(fill, bool) arg) { _fill = arg.value;  }
+		void apply(KWARG_T(halign, Align) arg) { _halign = arg.value;  }
 
 		
 	protected:

@@ -31,10 +31,11 @@ namespace ctui
         [[deprecated("Do not use screen.render(); Use root_container.render() instead.")]]
         void render() override { VStack::render(); }
 
+        void update_bounds();
+
     private:
         ctui::Color _background = ctui::Color::BLACK;
-        ctui::Color _foreground = ctui::Color::WHITE;
-
+        ctui::Color _foreground = ctui::Color::WHITE; //TODO: impliment this and other settings
 
         template<typename T>
         void apply(T&&) {

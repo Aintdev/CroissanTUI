@@ -24,12 +24,7 @@ namespace ctui {
 			}
 		};
 	}
-	enum class Align
-	{
-		Start,
-		Center,
-		End
-	};
+	
 
 	KWARG(text)
 	KWARG(box)

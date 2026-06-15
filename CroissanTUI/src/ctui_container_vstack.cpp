@@ -28,29 +28,43 @@ namespace ctui
 		return false;
 	}
 
+	void VStack::measure()
+	{
+		int width = 0;
+		int curY = 0;
+
+		for (Widget* child : _children)
+		{
+			child->measure();
+			assert(child->_relative_bounds.height.has_value() && "CHILD DOES NOT HAVE HEIGHT");
+			curY += child->_relative_bounds.height.value_or(0) + _pady;
+
+			width = std::max(child->_relative_bounds.width.value_or(0), width);
+		} 
+		curY -= !_children.empty() ? _pady : 0;
+		
+		_relative_bounds = Rect(width, curY);
+	}
+
 	void VStack::resolve_bounds(int startx, int starty)
 	{
-		//if (!_parent) return; // if VSTACK is Screen
-		//_absolute_bounds = Rect(
-		//	_parent->_absolute_bounds.x.value(),
-		//	_parent->_absolute_bounds.y.value(),
-		//	_parent->_absolute_bounds.width.value(),
-		//	_parent->_absolute_bounds.height.value()
-		//);
-		//for (auto* child : _children)
-		//{
-		//	int x_extra = 0;
-		//	if (_align == Align::Center)
-		//		x_extra += (_absolute_bounds.width.value() / 2) - (child->_relative_bounds.width.value() / 2);
-		//	else if (_align == Align::End)
-		//		x_extra += _absolute_bounds.width.value() - child->_relative_bounds.width.value() + 1;
-		//	child->resolve_bounds(x + x_extra, y);
-		//	y += child->_absolute_bounds.height.value();
-		//	y += _pady;
-		//}
+		assert(_relative_bounds.has_size_values() && "measure() has not been called before resolve_bounds(). Cannot proceed.");
 
-		if (!_parent) return;
+		int curY = starty;
 
+		for (Widget* child : _children)
+		{
+			int curX = startx;
+			if (_halign == Align::Center)
+			{
+				int rad = child->_relative_bounds.width.value() / 2;
+				curX += (_parent->_relative_bounds.width.value() / 2) - rad;				
+			} //TODO: Impliment Align::End support
+			child->resolve_bounds(curX, curY);
 
+			curY += child->_relative_bounds.height.value() + _pady;
+		}
+
+		_absolute_bounds = Rect(startx, starty, _relative_bounds.width.value(), _relative_bounds.height.value());
 	}
 }

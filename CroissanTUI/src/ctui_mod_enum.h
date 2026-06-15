@@ -13,4 +13,11 @@ namespace ctui {
     constexpr int fg_base = 30;
     constexpr int bg_base = 40;
 
+    enum class Align
+    {
+        Start,
+        Center,
+        End
+    };
+
 }
