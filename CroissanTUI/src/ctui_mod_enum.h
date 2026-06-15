@@ -10,8 +10,8 @@ namespace ctui {
         YELLOW, BLUE, MAGENTA,
         CYAN, WHITE, DEFAULT = 9
     };
-    constexpr int fg_base = 30;
-    constexpr int bg_base = 40;
+    constexpr int kFg_Base = 30;
+    constexpr int kBg_Base = 40;
 
     enum class Align
     {

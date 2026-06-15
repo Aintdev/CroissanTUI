@@ -3,7 +3,7 @@
 
 namespace ctui {
 	Mod::Mod(GraphicMod m) : _code("\033[" + std::to_string(static_cast<int>(m)) + "m") {};
-	Mod::Mod(const char(&s)[3], Color c) : _code("\033[" + std::to_string(static_cast<int>(c) + (std::string(s) == "bg" ? 10 : 0)) + "m") {};
+	Mod::Mod(const char(&s)[3], Color c) : _code("\033[" + std::to_string(static_cast<int>(c) + (std::string(s) == "bg" ? kBg_Base : kFg_Base)) + "m") {}; // untested with kBg_Base and kFg_Base
 	Mod::Mod(int x, int y) : _code("\033[" + std::to_string(y) + ";" + std::to_string(x) + "f") {}
 	Mod::Mod(std::string x) : _code(std::move(x)) {}
 

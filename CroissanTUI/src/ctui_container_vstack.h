@@ -12,8 +12,8 @@ namespace ctui
 {
 	struct VStack : Container
 	{
-		int _pady = defaults::PADY;
-		Align _halign = defaults::HALIGN;
+		int _pady = defaults::kPady;
+		Align _halign = defaults::kHalign;
 
 	protected:
 		VStack() = default;
