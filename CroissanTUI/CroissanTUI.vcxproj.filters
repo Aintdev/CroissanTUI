@@ -81,6 +81,9 @@
     <ClInclude Include="src\ctui_defaults.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ctui_text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ctui_config.cpp">
@@ -115,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="src\ctui_widget_label.cpp">
       <Filter>Source Files\Widgets\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ctui_text.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

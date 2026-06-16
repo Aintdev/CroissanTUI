@@ -43,7 +43,8 @@ namespace ctui
 		
 	protected:
 		template<typename T>
-		void apply(T&&) {
+		void apply(T&&)
+		{
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 	};

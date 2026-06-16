@@ -151,6 +151,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ctui_text.h" />
     <ClInclude Include="src\ctui_defaults.h" />
     <ClInclude Include="src\ctui_widget_label.h" />
     <ClInclude Include="src\ctui_container_screen.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ctui_text.cpp" />
     <ClCompile Include="src\ctui_widget_label.cpp" />
     <ClCompile Include="src\ctui_container_screen.cpp" />
     <ClCompile Include="src\ctui_container_vstack.cpp" />
