@@ -14,8 +14,8 @@ namespace ctui {
         YELLOW, BLUE, MAGENTA,
         CYAN, WHITE, DEFAULT = 9
     };
-    constexpr int fg_base = 30;
-    constexpr int bg_base = 40;
+    constexpr int kFg_Base = 30;
+    constexpr int kBg_Base = 40;
 
     enum class Align
     {
@@ -125,7 +125,7 @@ namespace ctui {
 
 #define KWARG(name) \
 	struct _tag_##name{}; \
-	inline constexpr ctui::detail::_KwargKey<_tag_##name> name{};
+	inline ctui::detail::_KwargKey<_tag_##name> name{};
 
 #define KWARG_T(name, T) ctui::detail::_Kwarg<_tag_##name, T>
 
@@ -201,9 +201,26 @@ namespace ctui {
 }
 #include <vector>
 
+
+namespace ctui::defaults
+{
+	constexpr		Align	kHalign		=	Align::Center;
+	constexpr		Align	kValign		=	Align::Start;
+
+	constexpr	const char*	kText		=	"";
+	constexpr		int		kPady		=	0;
+
+	constexpr		int		kFocusIndex	=	0;
+
+	constexpr		Color	kFgColor	=	Color::WHITE;
+	constexpr		Color	kBgColor	=	Color::BLACK;
+
+	constexpr		bool	kFill		=	true;
+}
+
 namespace ctui {
 	struct Container : Widget {
-		int _focus_index = 0;
+		int _focus_index = defaults::kFocusIndex;
 		std::vector<Widget*> _children = {};
 
 		void make_child(Widget* child);
@@ -250,7 +267,8 @@ namespace ctui
 
 	protected:
 		template<typename T>
-		void apply(T&&) {
+		void apply(T&&)
+		{
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 	};
@@ -258,22 +276,12 @@ namespace ctui
 #include <complex>
 
 
-namespace ctui::defaults
-{
-	constexpr Align HALIGN = Align::Center;
-	constexpr Align VALIGN = Align::Start;
-
-	constexpr const char* TEXT = "";
-	constexpr int PADY = 0;
-
-}
-
 namespace ctui
 {
 	struct VStack : Container
 	{
-		int _pady = 0;
-		Align _halign = defaults::HALIGN;
+		int _pady = defaults::kPady;
+		Align _halign = defaults::kHalign;
 
 	protected:
 		VStack() = default;
@@ -309,7 +317,8 @@ namespace ctui
 		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index	=	arg.value; }
 		void apply(KWARG_T(halign,		Align)	arg) { _halign		=	arg.value; }
 		template<typename T>
-		void apply(T&&) {
+		void apply(T&&)
+		{
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 		bool arrow_handler(Key key);
@@ -351,11 +360,19 @@ namespace ctui
         ctui::Color _foreground = ctui::Color::WHITE; //TODO: impliment this and other settings
 
         template<typename T>
-        void apply(T&&) {
+        void apply(T&&)
+		{
             static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
         }
 
         Screen();
     };
     inline Screen& screen = Screen::instance();
+}
+
+
+
+namespace ctui
+{
+	std::vector<std::string> str_to_lines(const std::string& raw);
 }

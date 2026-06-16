@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "ctui_rect.h"
 
-#include <assert.h>
-#include <utility>
-
 namespace ctui {
 	Rect::Rect(int startX, int startY, int boxWidth, int boxHeight)
 		: x(startX), y(startY), width(boxWidth), height(boxHeight) {}

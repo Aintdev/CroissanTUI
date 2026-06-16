@@ -2,7 +2,7 @@
 
 #define KWARG(name) \
 	struct _tag_##name{}; \
-	inline constexpr ctui::detail::_KwargKey<_tag_##name> name{};
+	inline ctui::detail::_KwargKey<_tag_##name> name{};
 
 #define KWARG_T(name, T) ctui::detail::_Kwarg<_tag_##name, T>
 

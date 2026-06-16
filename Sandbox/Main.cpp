@@ -1,11 +1,5 @@
 #include "ctui.h"
 
-//
-// COMMIT INFO: As i've noticed, i made a huge design flaw in doing the measurements and layout calculations in one so im currently refactoring them
-//				into two seperate methods. This way i dont have to fear unexpected behaviour and its more clear what everything currently does while
-//				programming.
-//
-
 #ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
@@ -43,6 +37,10 @@ static void debuglog(const Widget* wid, const char* title)
 
 int main() {
 	
+	std::string x = "Ich\nasd\ndas\n";
+
+	auto y = ctui::str_to_lines(x);
+
 	enable_raw_mode();
 	screen.config();
 

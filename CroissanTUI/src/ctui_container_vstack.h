@@ -49,7 +49,8 @@ namespace ctui
 		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index	=	arg.value; }
 		void apply(KWARG_T(halign,		Align)	arg) { _halign		=	arg.value; }
 		template<typename T>
-		void apply(T&&) {
+		void apply(T&&) 
+		{
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 		bool arrow_handler(Key key);

@@ -38,7 +38,8 @@ namespace ctui
         ctui::Color _foreground = ctui::Color::WHITE; //TODO: impliment this and other settings
 
         template<typename T>
-        void apply(T&&) {
+        void apply(T&&) 
+		{
             static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
         }
 
