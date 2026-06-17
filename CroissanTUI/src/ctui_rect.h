@@ -12,5 +12,7 @@ namespace ctui {
 		Rect();
 
 		bool has_size_values() const;
+		bool has_pos_values() const;
+		bool has_values() const;
 	};
 }

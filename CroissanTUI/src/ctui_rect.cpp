@@ -13,4 +13,14 @@ namespace ctui {
 	{
 		return width.has_value() && height.has_value();
 	}
+
+	bool Rect::has_pos_values() const
+	{
+		return x.has_value() && y.has_value();
+	}
+
+	bool Rect::has_values() const
+	{
+		return has_pos_values() && has_size_values();
+	}
 }
