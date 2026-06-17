@@ -6,12 +6,13 @@
 #include "ctui_widget.h"
 #include "ctui_container.h"
 #include "ctui_mod_enum.h"
+#include "ctui_text.h"
 
 namespace ctui
 {
 	struct Label : Widget
 	{
-		std::string _text = "";
+		std::vector<std::string> _lines = {""};
 		Color _bg_color = Color::BLACK;
 		Color _fg_color = Color::WHITE;
 		Align _halign = Align::Center;
@@ -30,15 +31,13 @@ namespace ctui
 		void resolve_bounds(int startx, int starty) override;
 		void measure() override; // TODO: Implement this and resolve_bounds fix
 	private:
-		void apply(KWARG_T(text, std::string)	arg)
+		void apply(KWARG_T(text,	std::string) arg)
 		{
-			_text = arg.value;
-			_relative_bounds.width = static_cast<int>(_text.length());
-			_relative_bounds.height = 1;
-			_relative_bounds.x = _relative_bounds.x.value_or(0);
-			_relative_bounds.y = 0;
+			_lines = str_to_lines(arg.value);
+			for (auto& line : _lines)
+				if (!line.empty() && line.back() == '\r')
+					line.pop_back();
 		}
-		void apply(KWARG_T(halign, Align) arg) { _halign = arg.value;  }
 
 		
 	protected:
