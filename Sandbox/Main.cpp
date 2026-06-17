@@ -36,22 +36,27 @@ static void debuglog(const Widget* wid, const char* title)
 }
 
 int main() {
+	SetConsoleOutputCP(CP_UTF8);
+	std::locale::global(std::locale(""));
+	std::cout.imbue(std::locale());
 
 	enable_raw_mode();
 	screen.config();
 
-	auto main = VStack(&screen, pady = 0, halign=Center);
-	auto sub = VStack(&main, pady = 0, halign = Center);
+	auto main = VStack(&screen, pady = 2, halign=Center);
+	auto sub = VStack(&main, pady = 1, halign = Center);
 	
-	auto c = Label(&sub, text = "asd");
-	auto d = Label(&sub, text = "012345678\n90");
+	auto c = Label(&sub, text = "Willkommen zu meinem\nsehr schönem Game!");
 
-	auto control = Label(&main, text = "CONTROL");
+	c._lines.emplace_back("Test");
+
+	auto d = Label(&sub, text = "Drücke hier zum loslegen.");
+
+	auto control = Label(&main, text = "START");
 
 
 	main.measure();
 	main.resolve_bounds(0, 0);
-
 	main.render();
 	
 	debuglog(&main, "Main VStack");
