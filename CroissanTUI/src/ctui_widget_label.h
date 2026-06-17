@@ -12,7 +12,7 @@ namespace ctui
 {
 	struct Label : Widget
 	{
-		std::vector<std::string> _lines = {};
+		std::vector<std::string> _lines = {""};
 		Color _bg_color = Color::BLACK;
 		Color _fg_color = Color::WHITE;
 		Align _halign = Align::Center;
