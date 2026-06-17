@@ -12,8 +12,17 @@ namespace ctui
 
 	void Label::measure()
 	{
-		_relative_bounds = Rect(static_cast<int>(_text.length()), 1); //  TODO: THIS IS A TEMP FIX AND SHOULD NOT BE USED IN FINAL
-	}																					// TODO: CAUSE MULTIPLE LINES DO NOT WORK OR ANY OTHER STUFF :O
+		int width = 0;
+		for (const std::string& line : _lines)
+		{
+			width = std::max(width, static_cast<int>(line.size())); //TODO: bug here cause it counts bytes not chars and not every char is one byte long.
+		}
+
+		_relative_bounds = Rect(
+			width,
+			static_cast<int>(_lines.size())
+		);
+	}
 
 	void Label::resolve_bounds(int startx, int starty)
 	{
@@ -22,18 +31,32 @@ namespace ctui
 			(_relative_bounds.y.value_or(0) + starty),
 			_relative_bounds.width.value(),
 			_relative_bounds.height.value()
-		); //TODO: fix cause its way oversimplified and needs more edge case 
+		);
 	}
 	
 	void Label::render()
 	{
-		try //TODO: Implement Multiline functionality and other stuff ykwim
+		if (!_absolute_bounds.x.has_value() || !_absolute_bounds.y.has_value() || !_absolute_bounds.has_size_values())
 		{
-			print << Mod::mv_cur(_absolute_bounds.x.value(), _absolute_bounds.y.value()) << _text;
-		} 
-		catch (const std::bad_optional_access&)
+			throw std::runtime_error("_absolute_bounds has not been initialized. Please call resolve_bounds() before render.");
+		}
+
+		for (size_t y_offset = 0; y_offset < _lines.size(); y_offset++)
 		{
-			throw std::runtime_error("Tried rendering before this->resolve_bounds() was called.");
+			const std::string& line = _lines[y_offset];
+			
+			int x_offset = 0;
+
+			if (_halign == Align::Center)
+			{
+				x_offset = _relative_bounds.width.value() / 2 - static_cast<int>(line.size()) / 2;
+			} 
+			else if (_halign == Align::End)
+			{
+				x_offset = _relative_bounds.width.value() - static_cast<int>(line.size());
+			}
+
+			print << Mod::mv_cur(_absolute_bounds.x.value() + x_offset, _absolute_bounds.y.value() + static_cast<int>(y_offset)) << line;
 		}
 	}
 }
