@@ -42,6 +42,9 @@ build/
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 
+# Public Include Headerfile (Release only)
+CroissanTUI/include/ctui_c.h
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
