@@ -36,10 +36,6 @@ static void debuglog(const Widget* wid, const char* title)
 }
 
 int main() {
-	
-	std::string x = "Ich\nasd\ndas\n";
-
-	auto y = ctui::str_to_lines(x);
 
 	enable_raw_mode();
 	screen.config();
