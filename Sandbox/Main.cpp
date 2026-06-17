@@ -36,7 +36,9 @@ static void debuglog(const Widget* wid, const char* title)
 }
 
 int main() {
+#ifdef _WIN32
 	SetConsoleOutputCP(CP_UTF8);
+#endif
 	std::locale::global(std::locale(""));
 	std::cout.imbue(std::locale());
 
@@ -46,11 +48,11 @@ int main() {
 	auto main = VStack(&screen, pady = 2, halign=Center);
 	auto sub = VStack(&main, pady = 1, halign = Center);
 	
-	auto c = Label(&sub, text = "Willkommen zu meinem\nsehr schönem Game!");
+	auto c = Label(&sub, text = "Willkommen zu meinem\nsehr schÃ¶nem Game!");
 
 	c._lines.emplace_back("Test");
 
-	auto d = Label(&sub, text = "Drücke hier zum loslegen.");
+	auto d = Label(&sub, text = "DrÃ¼cke hier zum loslegen.");
 
 	auto control = Label(&main, text = "START");
 
