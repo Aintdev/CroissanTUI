@@ -30,7 +30,7 @@ namespace ctui
 			assert(parent && _CTUIMSG_VSTACK_NO_PARENT);
 			if (!parent) throw std::invalid_argument(_CTUIMSG_VSTACK_NO_PARENT);
 			parent->make_child(this);
-			(apply(std::forward<Args>(args)), ...);
+			config(args...);
 		}
 
 		bool input(Key key) override;
