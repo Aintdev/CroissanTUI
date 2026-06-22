@@ -18,6 +18,13 @@ namespace ctui
 		Align _halign = Align::Center;
 
 		template<typename... Args>
+		Label& config(Args&&... args)
+		{
+			(apply(std::forward<Args>(args)), ...);
+			return *this;
+		}
+
+		template<typename... Args>
 		Label(Container* parent, Args&&... args)
 		{
 			assert(parent && _CTUIMSG_VSTACK_NO_PARENT);
