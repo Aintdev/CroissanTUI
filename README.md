@@ -1,4 +1,8 @@
-# CroissanTUI
+# CroissanTUI ⚠️ [WIP]
 
-TODO: Create readme.md
-# :)
+> [!WARNING]
+> This project is a work in progress and should not be considered production-ready.
+
+
+
+TODO: Create readme.md :)
