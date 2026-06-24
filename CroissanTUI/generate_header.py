@@ -35,7 +35,7 @@ def process_file(path):
 
             output_lines.append(stripped)
 
-process_file("include/ctui.h")
+process_file("src/ctui.h")
 
 with open("include/ctui_c.h", "w") as f:
     f.write("\n".join(output_lines))
