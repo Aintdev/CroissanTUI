@@ -1,4 +1,6 @@
 #pragma once
 
-// main function
-size_t utf8_grapheme_width(const std::string& text);
+namespace ctui
+{
+	size_t utf8_display_width(const std::string& text);
+}
