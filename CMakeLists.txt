@@ -28,20 +28,6 @@ add_custom_target(generate_ctui_header
 )
 
 # =========================
-# libgrapheme
-# =========================
-
-file(GLOB GRAPHEME_SRC
-    third_party/libgrapheme/src/*.c
-)
-
-add_library(grapheme STATIC ${GRAPHEME_SRC})
-
-target_include_directories(grapheme PUBLIC
-    third_party/libgrapheme
-)
-
-# =========================
 # CroissanTUI library
 # =========================
 
