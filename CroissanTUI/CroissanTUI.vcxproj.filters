@@ -30,7 +30,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ctui.h">
+    <ClInclude Include="src\ctui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ctui_config.h">
