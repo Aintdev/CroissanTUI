@@ -37,7 +37,14 @@ def process_file(path):
 
 process_file("src/ctui.h")
 
-with open("include/ctui_c.h", "w") as f:
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+OUT_FILE = BASE_DIR / "include" / "ctui_c.h"
+
+OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+with open(OUT_FILE, "w", encoding="utf-8") as f:
     f.write("\n".join(output_lines))
 
-print("ctui_c.h generated!", len(output_lines), "lines generated.")
+print("ctui_c.h generated!", len(output_lines), "lines generated to path", OUT_FILE)
