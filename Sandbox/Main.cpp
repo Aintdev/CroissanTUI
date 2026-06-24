@@ -1,4 +1,4 @@
-#include <ctui_c.h>
+#include "ctui_c.h"
 
 #ifdef _WIN32
 #include <windows.h>
