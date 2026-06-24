@@ -48,7 +48,8 @@ int main() {
 	
 	auto c = Label(&sub, text = "Willkommen zu meinem\nsehr schönem Game!");
 
-	c._lines.emplace_back("Test");
+	c._lines.emplace_back("x");
+	c._lines.emplace_back("😊");
 
 	auto d = Label(&sub, text = "Drücke hier zum loslegen.");
 
