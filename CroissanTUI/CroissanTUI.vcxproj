@@ -162,7 +162,7 @@
     <ClInclude Include="src\ctui_key.h" />
     <ClInclude Include="src\ctui_container.h" />
     <ClInclude Include="src\ctui_widget.h" />
-    <ClInclude Include="include\ctui.h" />
+    <ClInclude Include="src\ctui.h" />
     <ClInclude Include="src\ctui_rect.h" />
     <ClInclude Include="src\ctui_print.h" />
     <ClInclude Include="src\ctui_config.h" />

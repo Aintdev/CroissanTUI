@@ -1,4 +1,4 @@
-#include "ctui.h"
+#include <ctui_c.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -38,10 +38,8 @@ static void debuglog(const Widget* wid, const char* title)
 int main() {
 #ifdef _WIN32
 	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
 #endif
-	std::locale::global(std::locale(""));
-	std::cout.imbue(std::locale());
-
 	enable_raw_mode();
 	screen.config();
 
