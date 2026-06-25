@@ -16,7 +16,7 @@ namespace ctui {
 		virtual void render() = 0;
 		virtual bool input(Key key) = 0;
 		virtual void resolve_bounds(int startx, int starty) = 0;
-		virtual void measure() = 0;
+		virtual void measure(int available_width = INT_MAX) = 0;
 		virtual ~Widget();
 	};
 }
