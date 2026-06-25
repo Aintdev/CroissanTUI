@@ -6,6 +6,12 @@
 
 namespace
 {
+    /**
+     * @brief Returns true if the codepoint is a combining mark (zero display width).
+     *
+     * Combining marks attach visually to the preceding character and do not
+     * advance the cursor position in the terminal.
+     */
     bool is_combining(const uint32_t cp)
     {
         return (cp >= 0x0300 && cp <= 0x036F) || // Combining Diacritical Marks
@@ -15,6 +21,17 @@ namespace
             (cp >= 0xFE20 && cp <= 0xFE2F);
     }
 
+    /**
+     * @brief Decodes one UTF-8 codepoint and advances the pointer.
+     *
+     * Handles 1-4 byte sequences. Uses explicit static_cast<unsigned char>
+     * on every byte read to avoid sign-extension UB on platforms where char
+     * is signed.
+     *
+     * @param s Pointer to the current position in the string. Advanced past
+     *          the decoded codepoint on return.
+     * @return The decoded codepoint, or U+FFFD for invalid byte sequences.
+     */
     uint32_t next_codepoint(const char*& s)
     {
         const unsigned char c = static_cast<unsigned char>(*s++);
@@ -46,9 +63,15 @@ namespace
             return cp;
         }
 
-        return 0xFFFD; // Replacement Character
+        return 0xFFFD; // Replacement Character - invalid byte sequence
     }
 
+    /**
+     * @brief Returns true if the codepoint occupies 2 terminal columns.
+     *
+     * Covers CJK unified ideographs, Hangul, Yi, and most emoji blocks.
+     * All other codepoints are assumed to be 1 column wide.
+     */
     bool is_wide_character(const uint32_t cp)
     {
         return
