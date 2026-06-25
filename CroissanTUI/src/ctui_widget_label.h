@@ -36,7 +36,7 @@ namespace ctui
 		bool input(Key key) override;
 		void render() override;
 		void resolve_bounds(int startx, int starty) override;
-		void measure() override;
+		void measure(int available_width = INT_MAX) override;
 	private:
 		void apply(KWARG_T(text,	std::string) arg)
 		{

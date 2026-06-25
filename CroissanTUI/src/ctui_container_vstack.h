@@ -42,7 +42,7 @@ namespace ctui
 		// TODO: Getters :)
 
 		void resolve_bounds(int startx, int starty) override;
-		void measure() override;
+		void measure(int available_width = INT_MAX) override;
 
 	protected:
 		void apply(KWARG_T(pady,		int)	arg) { _pady		=	arg.value; }
