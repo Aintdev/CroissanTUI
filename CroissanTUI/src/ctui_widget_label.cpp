@@ -2,6 +2,7 @@
 #include "ctui_widget_label.h"
 
 #include "ctui_print.h"
+#include "ctui_utf8.h"
 
 namespace ctui
 {
@@ -15,7 +16,7 @@ namespace ctui
 		int width = 0;
 		for (const std::string& line : _lines)
 		{
-			width = std::max(width, static_cast<int>(line.size())); //TODO: bug here cause it counts bytes not chars and not every char is one byte long.
+			width = std::max(width, static_cast<int>(utf8_display_width(line))); //TODO: bug here cause it counts bytes not chars and not every char is one byte long.
 		}
 
 		_relative_bounds = Rect(
@@ -44,16 +45,18 @@ namespace ctui
 		for (size_t y_offset = 0; y_offset < _lines.size(); y_offset++)
 		{
 			const std::string& line = _lines[y_offset];
+
+			const int len = static_cast<int>(utf8_display_width(line));
 			
 			int x_offset = 0;
 
 			if (_halign == Align::Center)
 			{
-				x_offset = _relative_bounds.width.value() / 2 - static_cast<int>(line.size()) / 2;
+				x_offset = _relative_bounds.width.value() / 2 - len / 2;
 			} 
 			else if (_halign == Align::End)
 			{
-				x_offset = _relative_bounds.width.value() - static_cast<int>(line.size());
+				x_offset = _relative_bounds.width.value() - len;
 			}
 
 			print << Mod::mv_cur(_absolute_bounds.x.value() + x_offset, _absolute_bounds.y.value() + static_cast<int>(y_offset)) << line;
