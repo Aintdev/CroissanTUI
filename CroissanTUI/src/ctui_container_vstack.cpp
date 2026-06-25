@@ -28,7 +28,7 @@ namespace ctui
 		return false;
 	}
 
-	void VStack::measure()
+	void VStack::measure(const int available_width)
 	{
 		int width = 0;
 		int curY = 0;

@@ -11,7 +11,7 @@ namespace ctui
 		return false;
 	}
 
-	void Label::measure()
+	void Label::measure(const int available_width)
 	{
 		int width = 0;
 		for (const std::string& line : _lines)

@@ -11,5 +11,11 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <vector>
+#include <memory>
+#include <optional>
+#include <climits>
+#include <cstdint>
+#include <cstddef>
 
 #endif //PCH_H
