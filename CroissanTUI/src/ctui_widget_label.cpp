@@ -16,7 +16,7 @@ namespace ctui
 		int width = 0;
 		for (const std::string& line : _lines)
 		{
-			width = std::max(width, static_cast<int>(utf8_display_width(line))); //TODO: bug here cause it counts bytes not chars and not every char is one byte long.
+			width = std::max(width, static_cast<int>(utf8_display_width(line))); 
 		}
 
 		_relative_bounds = Rect(
