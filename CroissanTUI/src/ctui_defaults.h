@@ -14,5 +14,5 @@ namespace ctui::defaults
 	constexpr		Color	kFgColor	=	Color::WHITE;
 	constexpr		Color	kBgColor	=	Color::BLACK;
 
-	constexpr		bool	kFill		=	true;
+	constexpr		bool	kFill		=	false;
 }
