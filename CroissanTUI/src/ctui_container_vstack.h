@@ -14,6 +14,7 @@ namespace ctui
 	{
 		int _pady = defaults::kPady;
 		Align _halign = defaults::kHalign;
+		bool _fill = defaults::kFill;
 
 	protected:
 		VStack() = default;
@@ -35,25 +36,24 @@ namespace ctui
 			config(args...);
 		}
 
-		bool input(Key key) override;
-
-		// getters
-
 		// TODO: Getters :)
 
-		void resolve_bounds(int startx, int starty) override;
+		bool input(Key key) override;
 		void measure(int available_width = INT_MAX) override;
+		void resolve_bounds(int startx, int starty) override;
 
-	protected:
+	private:
 		void apply(KWARG_T(pady,		int)	arg) { _pady		=	arg.value; }
 		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index	=	arg.value; }
 		void apply(KWARG_T(halign,		Align)	arg) { _halign		=	arg.value; }
+		void apply(KWARG_T(fill,		bool)	arg) { _fill		=	arg.value; }
+
+	protected:
 		template<typename T>
 		void apply(T&&) 
 		{
 			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
 		}
 		bool arrow_handler(Key key);
-		
 	};
 }
