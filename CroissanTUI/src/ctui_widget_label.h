@@ -12,10 +12,11 @@ namespace ctui
 {
 	struct Label : Widget
 	{
-		std::vector<std::string> _lines = {""};
-		Color _bg_color = Color::BLACK;
-		Color _fg_color = Color::WHITE;
-		Align _halign = Align::Center;
+		std::vector<std::string> _lines = { defaults::kText };
+		Color _bg_color = defaults::kBgColor;
+		Color _fg_color = defaults::kFgColor;
+		Align _halign = defaults::kHalign;
+		bool _fill = defaults::kFill;
 
 		template<typename... Args>
 		Label& config(Args&&... args)
@@ -33,10 +34,13 @@ namespace ctui
 			config(args...);
 		}
 
+		// TODO: Getters :)
+
 		bool input(Key key) override;
-		void render() override;
-		void resolve_bounds(int startx, int starty) override;
 		void measure(int available_width = INT_MAX) override;
+		void resolve_bounds(int startx, int starty) override;
+		void render() override;
+
 	private:
 		void apply(KWARG_T(text,	std::string) arg)
 		{
@@ -45,8 +49,8 @@ namespace ctui
 				if (!line.empty() && line.back() == '\r')
 					line.pop_back();
 		}
+		void apply(KWARG_T(fill, bool) arg) { _fill = arg.value; }
 
-		
 	protected:
 		template<typename T>
 		void apply(T&&)

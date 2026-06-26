@@ -13,7 +13,7 @@ namespace ctui
 
 	void Label::measure(const int available_width)
 	{
-		int width = 0;
+		int width = (_fill && available_width != INT_MAX) ? available_width : 0;
 		for (const std::string& line : _lines)
 		{
 			width = std::max(width, static_cast<int>(utf8_display_width(line))); 
