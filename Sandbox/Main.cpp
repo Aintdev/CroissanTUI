@@ -46,7 +46,7 @@ int main() {
 	auto main = VStack(&screen, pady = 2, halign=Center);
 	auto sub = VStack(&main, pady = 1, halign = Center);
 	
-	auto c = Label(&sub, text = "Willkommen zu meinem\nsehr schönem Game!");
+	auto c = Label(&sub, text = "Willkommen zu meinemx\nsehr schönem Game!");
 
 	c._lines.emplace_back("x");
 	c._lines.emplace_back("😊");
@@ -55,8 +55,9 @@ int main() {
 
 	auto control = Label(&main, text = "START");
 
+	auto win_size = get_win_size();
 
-	main.measure();
+	main.measure(win_size.first + 1);
 	main.resolve_bounds(0, 0);
 	main.render();
 	

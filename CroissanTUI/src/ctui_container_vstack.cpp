@@ -33,9 +33,13 @@ namespace ctui
 		int width = 0;
 		int curY = 0;
 
+		int width_diff = 0; // TODO: width_diff += (bdr_width + padx) * 2; -> Implement padding and border width for inner_width calculation
+
+		int inner_width = available_width - (available_width != INT_MAX ? width_diff : 0);
+
 		for (Widget* child : _children)
 		{
-			child->measure();
+			child->measure(inner_width);
 			assert(child->_relative_bounds.height.has_value() && "CHILD DOES NOT HAVE HEIGHT");
 			curY += child->_relative_bounds.height.value_or(0) + _pady;
 
@@ -43,7 +47,8 @@ namespace ctui
 		} 
 		curY -= !_children.empty() ? _pady : 0;
 		
-		_relative_bounds = Rect(width, curY);
+		int final_width = (_fill && available_width != INT_MAX) ? available_width : width + width_diff;
+		_relative_bounds = Rect(final_width, curY);
 	}
 
 	void VStack::resolve_bounds(int startx, int starty)
@@ -58,7 +63,7 @@ namespace ctui
 			if (_halign == Align::Center)
 			{
 				int rad = child->_relative_bounds.width.value() / 2;
-				curX += (_parent->_relative_bounds.width.value() / 2) - rad;				
+				curX += (_relative_bounds.width.value() / 2) - rad;				
 			} //TODO: Impliment Align::End support
 			child->resolve_bounds(curX, curY);
 
