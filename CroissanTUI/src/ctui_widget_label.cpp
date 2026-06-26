@@ -19,6 +19,9 @@ namespace ctui
 			width = std::max(width, static_cast<int>(utf8_display_width(line))); 
 		}
 
+		if (available_width != INT_MAX)
+			width = std::min(width, available_width);
+
 		_relative_bounds = Rect(
 			width,
 			static_cast<int>(_lines.size())
