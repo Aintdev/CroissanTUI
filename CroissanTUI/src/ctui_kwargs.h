@@ -15,7 +15,7 @@ namespace ctui {
 		struct _KwargKey {
 			template<typename T>
 			auto operator=(T&& v) const {
-				if constexpr (std::is_same_v<std::decay_t<T>, std::string> || std::is_same_v<std::decay_t<T>, const char*> || std::is_same_v<std::decay_t<T>, char*>) {
+				if constexpr (std::is_same_v<std::decay_t<T>, const char*> || std::is_same_v<std::decay_t<T>, char*>) {
 					return _Kwarg<TagName, std::string> { std::string(v) };
 				}
 				else {
@@ -30,7 +30,7 @@ namespace ctui {
 	KWARG(box)
 	KWARG(pady)
 	KWARG(padx)
-	KWARG(focus_index)
+	KWARG(focus)
 	KWARG(fg)
 	KWARG(bg)
 	KWARG(halign)

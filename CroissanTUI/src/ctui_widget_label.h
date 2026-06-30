@@ -49,7 +49,10 @@ namespace ctui
 				if (!line.empty() && line.back() == '\r')
 					line.pop_back();
 		}
-		void apply(KWARG_T(fill, bool) arg) { _fill = arg.value; }
+		void apply(KWARG_T(fill,	bool) arg)		{ _fill = arg.value; }
+		void apply(KWARG_T(halign,	Align) arg)		{ _halign = arg.value; }
+		void apply(KWARG_T(fg,		Color) arg)		{ _fg_color = arg.value; }
+		void apply(KWARG_T(bg,		Color) arg)		{ _bg_color = arg.value; }
 
 	protected:
 		template<typename T>

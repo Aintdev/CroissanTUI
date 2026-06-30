@@ -44,7 +44,7 @@ namespace ctui
 
 	private:
 		void apply(KWARG_T(pady,		int)	arg) { _pady		=	arg.value; }
-		void apply(KWARG_T(focus_index,	int)	arg) { _focus_index	=	arg.value; }
+		void apply(KWARG_T(focus,		int)	arg) { _focus_index	=	arg.value; }
 		void apply(KWARG_T(halign,		Align)	arg) { _halign		=	arg.value; }
 		void apply(KWARG_T(fill,		bool)	arg) { _fill		=	arg.value; }
 
