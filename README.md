@@ -24,7 +24,7 @@
   </a>
 
   <a href="https://github.com/Aintdev/CroissanTUI">
-    <img src="https://img.shields.io/badge/Build%20from%20source-C%2B%2B20-blue" alt="Build from source: C++21" style="margin-right: 4px;">
+    <img src="https://img.shields.io/badge/Build%20from%20source-C%2B%2B20-blue" alt="Build from source: C++20" style="margin-right: 4px;">
   </a>
 
   <a href="https://github.com/Aintdev/CroissanTUI/releases/latest">
@@ -49,25 +49,25 @@
 
 ---
 
-CroissanTUI is a basic and fully self build C++ `Text User Interface Framework` (inspired by Python's [`tkinter`](https://docs.python.org/3/library/tkinter.html)) for cross-platform applications. It has easy usage and a gentle learning curve and follows industry standards.
+CroissanTUI is a easy-to-use C++ `Text User Interface Framework`, written entirely from scratch and inspired by Python's [`tkinter`](https://docs.python.org/3/library/tkinter.html) for cross-platform applications. It has easy usage and a gentle learning curve, making it perfect for smaller projects.
 
 ### Key features:
 
-- **KWARGs**: instead of `struct`s like `ButtonConfig` to configure Widgets, CroissanTUI uses `keyword arguments` that feel exactly like Python's.
-- **Text Modifiers**: different characters and words inside a `Label` can be rendered with different colors without having to create separate widgets, using `TextStream`s.
+- **KWARGs**: instead of `struct`s like `ButtonConfig` to configure Widgets, CroissanTUI uses `keyword arguments` thats inspired by Python's keyword arguments.
+- **Text Modifiers**: different characters and words inside a `Label` can be rendered with different colors without having to create separate widgets, using `TextStream`s as a way to store text data.
     ```cpp
     ctui::Label(&parent, 
         text << "Normal text | " 
             << Color::Red << "Red Text | " 
             << GraphicMod::Italic << "Italic red text |" 
-            << GraphicMod::ResetAll << "Normal text")
+            << GraphicMod::ResetAll << "Normal text") // <- Argument evaluates to a TextStream
     ```
-- **Live Updates via Lambdas**: `TextStream` tokens can also be `std::function<std::string()>`, letting a `Label` display live values by capturing a reference to an outside object — e.g. `[&score]() { return std::to_string(score); }` — so the text updates automatically whenever the referenced value changes, without manually re-setting the Label.
+- **Live Updates via Lambdas**: `TextStream` tokens can also be `std::function<std::string()>`, letting a `Label` display live values by capturing a reference to an outside object — e.g. `[&score]() { return std::to_string(score); }` so the text updates automatically whenever the referenced value changes.
     ```cpp
     ctui::Label(&parent, 
         text << "Score: " 
             << [&score]() { return std::string(score); },
-        align=End);
+        align = End);
     ```
 
 ## Requirements
@@ -81,9 +81,9 @@ CroissanTUI is a basic and fully self build C++ `Text User Interface Framework` 
 
 ## Installation
 
-> insert install tutorial here
+> <img src="https://img.shields.io/badge/WIP-crimson?style=flat" style="vertical-align: middle;">
 
 ## Quick Start
 
-> coming soon
+> <img src="https://img.shields.io/badge/WIP-crimson?style=flat" style="vertical-align: middle;">
 
