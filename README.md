@@ -24,7 +24,7 @@
   </a>
 
   <a href="https://github.com/Aintdev/CroissanTUI">
-    <img src="https://img.shields.io/badge/Build%20from%20source-C%2B%2B21-blue" alt="Build from source: C++21" style="margin-right: 4px;">
+    <img src="https://img.shields.io/badge/Build%20from%20source-C%2B%2B20-blue" alt="Build from source: C++21" style="margin-right: 4px;">
   </a>
 
   <a href="https://github.com/Aintdev/CroissanTUI/releases/latest">
@@ -34,8 +34,7 @@
 
 ---
 
-Resources
--
+## Resources
 <ul>
   <li>
     <strong>Documentation:</strong>
@@ -50,4 +49,41 @@ Resources
 
 ---
 
-TODO: Create readme.md :)
+CroissanTUI is a basic and fully self build C++ `Text User Interface Framework` (inspired by Python's [`tkinter`](https://docs.python.org/3/library/tkinter.html)) for cross-platform applications. It has easy usage and a gentle learning curve and follows industry standards.
+
+### Key features:
+
+- **KWARGs**: instead of `struct`s like `ButtonConfig` to configure Widgets, CroissanTUI uses `keyword arguments` that feel exactly like Python's.
+- **Text Modifiers**: different characters and words inside a `Label` can be rendered with different colors without having to create separate widgets, using `TextStream`s.
+    ```cpp
+    ctui::Label(&parent, 
+        text << "Normal text | " 
+            << Color::Red << "Red Text | " 
+            << GraphicMod::Italic << "Italic red text |" 
+            << GraphicMod::ResetAll << "Normal text")
+    ```
+- **Live Updates via Lambdas**: `TextStream` tokens can also be `std::function<std::string()>`, letting a `Label` display live values by capturing a reference to an outside object — e.g. `[&score]() { return std::to_string(score); }` — so the text updates automatically whenever the referenced value changes, without manually re-setting the Label.
+    ```cpp
+    ctui::Label(&parent, 
+        text << "Score: " 
+            << [&score]() { return std::string(score); },
+        align=End);
+    ```
+
+## Requirements
+
+| Task | C++ Standard |
+| ---- | ------------ |
+| Build from source | **C++20** |
+| Use the precompiled library | **C++17** |
+
+> **Note:** The library implementation uses C++20 features internally. The public API is compatible with C++17, so applications linking against the precompiled library only require a C++17 compiler.
+
+## Installation
+
+> insert install tutorial here
+
+## Quick Start
+
+> coming soon
+
