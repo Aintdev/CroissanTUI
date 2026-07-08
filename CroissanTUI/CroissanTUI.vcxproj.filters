@@ -81,10 +81,10 @@
     <ClInclude Include="src\ctui_defaults.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ctui_text.h">
+    <ClInclude Include="src\ctui_utf8.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ctui_utf8.h">
+    <ClInclude Include="src\ctui_textstream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -122,10 +122,10 @@
     <ClCompile Include="src\ctui_widget_label.cpp">
       <Filter>Source Files\Widgets\Sub</Filter>
     </ClCompile>
-    <ClCompile Include="src\ctui_text.cpp">
+    <ClCompile Include="src\ctui_utf8.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ctui_utf8.cpp">
+    <ClCompile Include="src\ctui_textstream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

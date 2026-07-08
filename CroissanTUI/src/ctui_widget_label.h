@@ -6,13 +6,12 @@
 #include "ctui_widget.h"
 #include "ctui_container.h"
 #include "ctui_mod_enum.h"
-#include "ctui_text.h"
 
 namespace ctui
 {
 	struct Label : Widget
 	{
-		std::vector<std::string> _lines = { defaults::kText };
+		TextStream _text{defaults::kText};
 		Color _bg_color = defaults::kBgColor;
 		Color _fg_color = defaults::kFgColor;
 		Align _halign = defaults::kHalign;
@@ -42,13 +41,7 @@ namespace ctui
 		void render() override;
 
 	private:
-		void apply(KWARG_T(text,	std::string) arg)
-		{
-			_lines = str_to_lines(arg.value);
-			for (auto& line : _lines)
-				if (!line.empty() && line.back() == '\r')
-					line.pop_back();
-		}
+		void apply(KWARG_STREAM_T(text)& arg)		{ _text = arg.value; }
 		void apply(KWARG_T(fill,	bool) arg)		{ _fill = arg.value; }
 		void apply(KWARG_T(halign,	Align) arg)		{ _halign = arg.value; }
 		void apply(KWARG_T(fg,		Color) arg)		{ _fg_color = arg.value; }

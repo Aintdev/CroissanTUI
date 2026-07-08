@@ -46,14 +46,14 @@ int main() {
 	auto main = VStack(&screen, pady = 2, halign=Center, fill=false);
 	auto sub = VStack(&main, pady = 1, halign = Start, fill=false);
 	
-	auto c = Label(&sub, text = "Willkommen zu meinem\nsehr schonem Game");
+	auto c = Label(&sub, text << "Willkommen zu meinem\nsehr schonem Game");
 
-	c._lines.emplace_back("x");
-	c._lines.emplace_back("😊");
+	c._text << "x";
+	c._text << "😊";
 
-	auto d = Label(&sub, text = "Drücke hier zum loslegen.");
+	auto d = Label(&sub, text << "Drücke hier zum loslegen.");
 
-	auto control = Label(&main, text = "START", fill = false);
+	auto control = Label(&main, text << "START", fill = false);
 
 	auto win_size = get_win_size();
 
