@@ -1,32 +1,62 @@
 #pragma once
 
+#include "ctui_textstream.h"
+
 #define KWARG(name) \
 	struct _tag_##name{}; \
-	inline ctui::detail::_KwargKey<_tag_##name> name{};
+	inline ctui::detail::KwargKey<_tag_##name> name{};
 
-#define KWARG_T(name, T) ctui::detail::_Kwarg<_tag_##name, T>
+#define KWARG_T(name, T) ctui::detail::Kwarg<_tag_##name, T>
+
+#define KWARG_STREAM(name) \
+	struct _tag_##name{}; \
+	inline ctui::detail::KwargStreamKey<_tag_##name> name{};
+
+#define KWARG_STREAM_T(name) ctui::detail::KwargStream<_tag_##name>
 
 namespace ctui {
 	namespace detail {
+		// Kwarg		
 		template<typename TagName, typename T>
-		struct _Kwarg { T value; };
+		struct Kwarg { T value; };
 
 		template<typename TagName>
-		struct _KwargKey {
+		struct KwargKey {
 			template<typename T>
 			auto operator=(T&& v) const {
 				if constexpr (std::is_same_v<std::decay_t<T>, const char*> || std::is_same_v<std::decay_t<T>, char*>) {
-					return _Kwarg<TagName, std::string> { std::string(v) };
+					return Kwarg<TagName, std::string> { std::string(v) };
 				}
 				else {
-					return _Kwarg<TagName, std::decay_t<T>> { std::forward<T>(v) };
+					return Kwarg<TagName, std::decay_t<T>> { std::forward<T>(v) };
 				}
+			}
+		};
+
+		// Stream
+		template<typename TagName>
+		struct KwargStream
+		{
+			TextStream value;
+			auto operator<<(TextToken&& tt)
+			{
+				value << std::move(tt);
+				return *this;
+			}
+		};
+
+		template<typename TagName>
+		struct KwargStreamKey {
+			auto operator<<(TextToken&& v) const {
+				TextStream ts{};
+				ts << std::move(v);
+				return KwargStream<TagName> { std::move(ts) };
 			}
 		};
 	}
 	
 
-	KWARG(text)
+	KWARG_STREAM(text)
 	KWARG(box)
 	KWARG(pady)
 	KWARG(padx)

@@ -14,7 +14,10 @@ namespace ctui
 	void Label::measure(const int available_width)
 	{
 		int width = (_fill && available_width != INT_MAX) ? available_width : 0;
-		for (const std::string& line : _lines)
+
+		const auto lines = _text.raw_lines();
+
+		for (const std::string& line : lines)
 		{
 			width = std::max(width, static_cast<int>(utf8_display_width(line))); 
 		}
@@ -22,9 +25,11 @@ namespace ctui
 		if (available_width != INT_MAX)
 			width = std::min(width, available_width);
 
+		const int height = static_cast<int>(std::max<size_t>(lines.size(), defaults::kEmptyLabelHeight));
+
 		_relative_bounds = Rect(
 			width,
-			static_cast<int>(_lines.size())
+			height
 		);
 	}
 
