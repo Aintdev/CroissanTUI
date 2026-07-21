@@ -1,8 +1,20 @@
 #include "pch.h"
+
 #include "ctui_widget_label.h"
 
 #include "ctui_print.h"
 #include "ctui_utf8.h"
+
+namespace 
+{
+	template<class... Ts>
+	struct overloaded : Ts... {
+		using Ts::operator()...;
+	};
+
+	template<class... Ts>
+	overloaded(Ts...) -> overloaded<Ts...>;
+}
 
 namespace ctui
 {
@@ -45,29 +57,89 @@ namespace ctui
 	
 	void Label::render()
 	{
-		if (!_absolute_bounds.x.has_value() || !_absolute_bounds.y.has_value() || !_absolute_bounds.has_size_values())
+		using ModVariant = std::variant<Color, GraphicMod>;
+
+		if (!_absolute_bounds.has_values())
 		{
 			throw std::runtime_error("_absolute_bounds has not been initialized. Please call resolve_bounds() before render.");
 		}
 
-		for (size_t y_offset = 0; y_offset < _lines.size(); y_offset++)
+		std::vector<ModVariant> modStackTrace;
+		modStackTrace.reserve(6);
+
+		size_t x_off = 0, y_off = 0;
+		size_t cur_raw_line = 0;
+
+		const auto raw_lines = _text.raw_lines();
+		for (const TextToken& tt : _text.get_buffer())
 		{
-			const std::string& line = _lines[y_offset];
+			auto render_string = [&](const std::string& str)
+				{
+					size_t start_byte = 0;
+					while (start_byte < str.size())
+					{
+						unsigned int new_lines = 0;
+						auto end_byte = str.find('\n', start_byte);
+						std::string to_render = str.substr(start_byte);
+						if (end_byte != std::string::npos)
+						{
+							to_render = str.substr(start_byte, end_byte - start_byte);
+							++new_lines;
+							start_byte = end_byte + 1;
+						}
+						else {
+							start_byte = std::string::npos;
+						}
 
-			const int len = static_cast<int>(utf8_display_width(line));
-			
-			int x_offset = 0;
+						size_t line_size = utf8_display_width(raw_lines[cur_raw_line]);
+						size_t extra_off = 0;
+						size_t box_width = _relative_bounds.width.value();
 
-			if (_halign == Align::Center)
-			{
-				x_offset = _relative_bounds.width.value() / 2 - len / 2;
-			} 
-			else if (_halign == Align::End)
-			{
-				x_offset = _relative_bounds.width.value() - len;
-			}
+						if (_halign == Align::Center)
+						{
+							extra_off = (box_width > line_size) ? (box_width - line_size) / 2 : 0;
+						}
+						else if (_halign == Align::End)
+						{
+							extra_off = (box_width > line_size) ? (box_width - line_size) : 0;
+						}
 
-			print << Mod::mv_cur(_absolute_bounds.x.value() + x_offset, _absolute_bounds.y.value() + static_cast<int>(y_offset)) << line;
+						print <<
+							mv_cursor(_absolute_bounds.x.value() + x_off + extra_off + 1,
+								_absolute_bounds.y.value() + y_off + 1) <<
+							to_render;
+
+						x_off = new_lines ? 0u : x_off + utf8_display_width(to_render);
+						y_off += new_lines;
+
+						if (new_lines)
+						{
+							++cur_raw_line;
+						}
+					}
+				};
+
+			std::visit(overloaded{
+				[&modStackTrace](const Color& c)
+				{
+					modStackTrace.emplace_back(c);
+					print << c;
+				},
+				[&modStackTrace](const GraphicMod& gm)
+				{
+					modStackTrace.emplace_back(gm);
+					print << gm;
+				},
+				[&](const std::string& str)
+				{
+					render_string(str);
+				},
+				[&](const std::function<std::string()>& fn)
+				{
+					render_string(fn());
+				}
+			}, tt);
 		}
+		print.exec();
 	}
 }
