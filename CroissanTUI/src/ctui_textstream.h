@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ctui_mod.h"
 #include "ctui_defaults.h"
 
 #include <variant>
@@ -10,7 +9,7 @@
 
 namespace ctui
 {
-    using TextToken = std::variant<std::string, Mod, std::function<std::string()>>;
+    using TextToken = std::variant<std::string, Color, GraphicMod, std::function<std::string()>>;
 
     class TextStream
     {

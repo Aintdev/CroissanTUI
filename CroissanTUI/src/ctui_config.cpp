@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "ctui_config.h"
 
-#include "ctui_mod.h"
 #include "ctui_print.h"
 
 #ifdef _WIN32
@@ -33,8 +32,9 @@ namespace ctui {
         t.c_lflag &= ~(ICANON | ECHO | IXON);
         tcsetattr(STDIN_FILENO, TCSANOW, &t);
 #endif
-        raw_mode = true;
-        print << "\033[2J\033[H";
+        std::ios::sync_with_stdio(false);
+    	raw_mode = true;
+        std::cout << "\033[2J\033[H";
     }
 
     void disable_raw_mode() {

@@ -102,4 +102,10 @@ namespace ctui
 
         return width;
     }
+
+    std::string mv_cursor(const size_t x, const size_t y)
+    {
+        return std::string("\033[") + std::to_string(y) + ";" + std::to_string(x) + "f";
+    }
 }
+

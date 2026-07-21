@@ -1,19 +1,43 @@
 #pragma once
-#include "ctui_mod.h"
+
+#include "ctui_mod_enum.h"
 #include <iostream>
+#include <string>
+#include <sstream>
 
 namespace ctui {
-    struct Stream {
+    struct PrintStream {
         template<typename T>
-        Stream& operator<<(const T& val) {
-            if constexpr (std::is_constructible_v<Mod, T>) {
-                std::cout << static_cast<std::string>(Mod(val));
+        PrintStream& operator<<(const T& val) 
+    	{
+            if constexpr (std::is_same_v<Color, T>) 
+            {
+                unsigned int x = static_cast<unsigned int>(val);
+                if (x <= 7)
+                    x += 30u;
+            	_ss << std::string("\033[") + std::to_string(x) + "m";
+            } 
+        	else if constexpr (std::is_same_v<GraphicMod, T>) 
+            {
+                unsigned int x = static_cast<unsigned int>(val);
+            	_ss << std::string("\033[") + std::to_string(x) + "m";
             }
-            else {
-                std::cout << val;
+            else 
+            {
+                _ss << val;
             }
             return *this;
         }
+
+        void exec()
+        {
+            std::cout << _ss.str();
+            _ss.str("");
+            _ss.clear();
+        }
+
+    private:
+        std::ostringstream _ss;
     };
-    static Stream print;
+    static PrintStream print;
 }
