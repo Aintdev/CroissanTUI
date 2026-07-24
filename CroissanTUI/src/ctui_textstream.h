@@ -24,6 +24,6 @@ namespace ctui
 
         [[nodiscard]] std::vector<std::string> raw_lines() const;
 
-        TextStream& operator<<(const TextToken& tt);
+        TextStream& operator<<(TextToken tt);
     };
 }

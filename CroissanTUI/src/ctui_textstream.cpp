@@ -19,14 +19,14 @@ namespace ctui
 		return _buffer;
 	}
 
-	TextStream& TextStream::operator<<(const TextToken& tt)
+	TextStream& TextStream::operator<<(TextToken tt)
 	{
 		if (!is_init())
 		{
 			_buffer.clear();
 			_init = true;
 		}
-		_buffer.emplace_back(tt);
+		_buffer.emplace_back(std::move(tt));
 		return *this;
 	}
 
@@ -64,7 +64,12 @@ namespace ctui
 			}
 		}
 
-		if (start < buff.size()) lines.emplace_back(buff.substr(start));
+		if (start <= buff.size()) lines.emplace_back(buff.substr(start));
+
+		for (auto& line : lines)
+			if (!line.empty() && line.back() == '\r')
+				line.pop_back();
+
 
 		return lines;
 	}

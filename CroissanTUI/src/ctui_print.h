@@ -2,8 +2,9 @@
 
 #include "ctui_mod_enum.h"
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
+#include <type_traits>
 
 namespace ctui {
     struct PrintStream {
