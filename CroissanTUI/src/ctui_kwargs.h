@@ -2,6 +2,10 @@
 
 #include "ctui_textstream.h"
 
+#include <string>
+#include <type_traits>
+#include <utility>
+
 #define KWARG(name) \
 	struct _tag_##name{}; \
 	inline ctui::detail::KwargKey<_tag_##name> name{};
@@ -38,23 +42,22 @@ namespace ctui {
 		struct KwargStream
 		{
 			TextStream value;
-			auto operator<<(TextToken&& tt)
+			KwargStream& operator<<(const TextToken& tt)
 			{
-				value << std::move(tt);
+				value << tt;
 				return *this;
 			}
 		};
-
 		template<typename TagName>
 		struct KwargStreamKey {
-			auto operator<<(TextToken&& v) const {
+			KwargStream<TagName> operator<<(TextToken v) const
+			{
 				TextStream ts{};
 				ts << std::move(v);
-				return KwargStream<TagName> { std::move(ts) };
+				return KwargStream<TagName>{ std::move(ts) };
 			}
 		};
 	}
-	
 
 	KWARG_STREAM(text)
 	KWARG(box)
@@ -67,4 +70,3 @@ namespace ctui {
 	KWARG(valign)
 	KWARG(fill)
 }
-

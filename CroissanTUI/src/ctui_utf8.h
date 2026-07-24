@@ -25,6 +25,6 @@ namespace ctui
     /// Moves cursor to given coordinates.
     /// </summary>
     /// <param name="x">X-Position to move to</param> 
-    /// <param name="y">X-Position to move to</param>
+    /// <param name="y">Y-Position to move to</param>
     std::string mv_cursor(const size_t x, const size_t y);
 }
