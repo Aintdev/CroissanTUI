@@ -135,6 +135,10 @@ int main() {
 
 	auto time = Label(&stats, text << currentTime);
 
+	size_t remaining_seconds = 0u;
+
+	auto countdown = Label(&stats, text << "Terminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".");
+
 	auto control = Label(&main, text << Color::CYAN << GraphicMod::BOLD << "START" << GraphicMod::RESET_ALL);
 
 	auto win_size = get_win_size();
@@ -142,6 +146,8 @@ int main() {
 	std::cout << "\033[?25l";
 	size_t fps = 0;
 	Timer fps_timer = Timer();
+
+	Timer runtime = Timer();
 
 	while (true)
 	{
@@ -168,6 +174,8 @@ int main() {
 
 		++fps;
 
+		remaining_seconds =  10u - runtime.elapsed_ms() / 1000;
+
 		if (fps_timer.elapsed_ms() >= 1000)
 		{
 			double elapsed = fps_timer.elapsed_ms();
@@ -175,6 +183,9 @@ int main() {
 			fps = 0;
 			fps_timer.reset();
 		}
+
+		if (runtime.elapsed_ms() >= 10 * 1000)
+			break;
 
 	}
 	std::cout << "\033[?25h";
