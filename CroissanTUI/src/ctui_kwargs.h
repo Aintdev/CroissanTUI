@@ -42,9 +42,9 @@ namespace ctui {
 		struct KwargStream
 		{
 			TextStream value;
-			KwargStream& operator<<(const TextToken& tt)
+			KwargStream& operator<<(TextToken tt)
 			{
-				value << tt;
+				value << std::move(tt);
 				return *this;
 			}
 		};
