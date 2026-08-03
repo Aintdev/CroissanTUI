@@ -145,29 +145,26 @@ int main() {
 
 	while (true)
 	{
-		Timer* a_time = new Timer();
+		Timer a_time = Timer();
 
 		main.measure(win_size.first);
 #ifdef _WIN32
-		OutputDebugStringA(std::string("\n\nMeasure-Time: " + std::to_string(a_time->elapsed_ms())).c_str());
+		OutputDebugStringA(std::string("\n\nMeasure-Time: " + std::to_string(a_time.elapsed_ms())).c_str());
 #endif
-		delete a_time;
-
-		Timer* b_time = new Timer();
+		
+		Timer b_time = Timer();
 
 		main.resolve_bounds(0, 0);
 #ifdef _WIN32
-		OutputDebugStringA(std::string("\nResolve-Time: " + std::to_string(b_time->elapsed_ms())).c_str());
+		OutputDebugStringA(std::string("\nResolve-Time: " + std::to_string(b_time.elapsed_ms())).c_str());
 #endif
-		delete b_time;
 
-		Timer* c_time = new Timer();
+		Timer c_time = Timer();
 
 		main.render();
 #ifdef _WIN32
-		OutputDebugStringA(std::string("\nRender-Time: " + std::to_string(c_time->elapsed_ms())).c_str());
+		OutputDebugStringA(std::string("\nRender-Time: " + std::to_string(c_time.elapsed_ms())).c_str());
 #endif
-		delete c_time;
 
 		++fps;
 
