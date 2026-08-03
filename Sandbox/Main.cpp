@@ -168,7 +168,7 @@ int main() {
 
 		++fps;
 
-		if (fps_timer.elapsed_ms() >= 200)
+		if (fps_timer.elapsed_ms() >= 1000)
 		{
 			double elapsed = fps_timer.elapsed_ms();
 			fps_out = static_cast<size_t>(fps * 1000.0 / elapsed);

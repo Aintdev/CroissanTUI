@@ -41,7 +41,7 @@ namespace ctui
 		void render() override;
 
 	private:
-		void apply(KWARG_STREAM_T(text)& arg)		{ _text = std::move(arg.value); }
+		void apply(KWARG_STREAM_T(text) arg)		{ _text = std::move(arg.value); }
 		void apply(KWARG_T(fill,	bool) arg)		{ _fill = arg.value; }
 		void apply(KWARG_T(halign,	Align) arg)		{ _halign = arg.value; }
 		void apply(KWARG_T(fg,		Color) arg)		{ _fg_color = arg.value; }

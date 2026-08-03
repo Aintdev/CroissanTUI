@@ -64,8 +64,8 @@ namespace ctui
 			throw std::runtime_error("_absolute_bounds has not been initialized. Please call resolve_bounds() before render.");
 		}
 
-		std::vector<ModVariant> modStackTrace;
-		modStackTrace.reserve(6);
+		std::vector<ModVariant> modStack;
+		modStack.reserve(6);
 
 		size_t x_off = 0, y_off = 0;
 		size_t cur_raw_line = 0;
@@ -120,14 +120,14 @@ namespace ctui
 				};
 
 			std::visit(overloaded{
-				[&modStackTrace](const Color& c)
+				[&modStack](const Color& c)
 				{
-					modStackTrace.emplace_back(c);
+					modStack.emplace_back(c);
 					print << c;
 				},
-				[&modStackTrace](const GraphicMod& gm)
+				[&modStack](const GraphicMod& gm)
 				{
-					modStackTrace.emplace_back(gm);
+					modStack.emplace_back(gm);
 					print << gm;
 				},
 				[&](const std::string& str)
