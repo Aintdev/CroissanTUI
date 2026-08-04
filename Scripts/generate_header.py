@@ -35,12 +35,14 @@ def process_file(path):
 
             output_lines.append(stripped)
 
-process_file("src/ctui.h")
 
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
-OUT_FILE = BASE_DIR / "include" / "ctui_c.h"
+OUT_FILE = BASE_DIR / ".." / "Include" / "ctui_c.h"
+
+process_file(BASE_DIR / ".." / "Source" / "ctui.h")
+
 
 OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 

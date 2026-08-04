@@ -1,64 +1,25 @@
-cmake_minimum_required(VERSION 3.15)
-project(CroissanTUI LANGUAGES C CXX)
+file(GLOB_RECURSE CROISSANTUI_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h")
+file(GLOB_RECURSE CROISSANTUI_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp")
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_library(CroissanTUI STATIC ${CROISSANTUI_HEADERS} ${CROISSANTUI_SOURCES})
 
-# =========================
-# Python (Header Generator)
-# =========================
-
-find_package(Python3 REQUIRED COMPONENTS Interpreter)
-
-set(GENERATED_HEADER
-    ${CMAKE_SOURCE_DIR}/CroissanTUI/includes/ctui_c.h
+set_target_properties(CroissanTUI PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Binaries/${CMAKE_SYSTEM_NAME}-x64/$<CONFIG>/CroissanTUI"
 )
 
-add_custom_command(
-    OUTPUT ${GENERATED_HEADER}
-    COMMAND Python3::Interpreter
-            ${CMAKE_SOURCE_DIR}/CroissanTUI/generate_header.py
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/CroissanTUI
-    DEPENDS ${CMAKE_SOURCE_DIR}/CroissanTUI/generate_header.py
-    COMMENT "Generating ctui_c.h"
+target_include_directories(CroissanTUI PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Source")
+
+target_compile_definitions(CroissanTUI PRIVATE
+    $<$<CONFIG:Debug>:DEBUG>
+    $<$<CONFIG:Release>:RELEASE>
+    $<$<CONFIG:Dist>:DIST>
 )
 
-add_custom_target(generate_ctui_header
-    DEPENDS ${GENERATED_HEADER}
-)
-
-# =========================
-# CroissanTUI library
-# =========================
-
-file(GLOB_RECURSE CROISSANTUI_SRC
-    "CroissanTUI/src/*.cpp"
-)
-
-add_library(croissantui ${CROISSANTUI_SRC})
-
-# Header dependency (IMPORTANT)
-add_dependencies(croissantui generate_ctui_header)
-
-target_include_directories(croissantui
-    PUBLIC
-        CroissanTUI/includes   # PUBLIC API (ctui_c.h)
-    PRIVATE
-        CroissanTUI/src        # internals
-)
-
-target_link_libraries(croissantui
-    PRIVATE grapheme
-)
-
-# =========================
-# Sandbox
-# =========================
-
-add_executable(sandbox
-    Sandbox/Main.cpp
-)
-
-target_link_libraries(sandbox
-    PRIVATE croissantui
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+add_custom_command(TARGET CroissanTUI PRE_BUILD
+    COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/Scripts/generate_header.py"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    COMMENT "Generating single header"
 )

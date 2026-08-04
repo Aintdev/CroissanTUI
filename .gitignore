@@ -3,6 +3,22 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Directories
+.vs/
+Binaries/
+Include/
+
+# Files
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+*.sln
+*.log
+Makefile
+
+# Exclude
+!Vendor/Binaries
+
 # Custom
 
 .editorconfig
