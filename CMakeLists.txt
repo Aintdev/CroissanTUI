@@ -12,20 +12,7 @@ set_target_properties(CroissanTUI PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Binaries/${CMAKE_SYSTEM_NAME}-x64/$<CONFIG>/CroissanTUI"
 )
 
-# Collect every directory that actually contains a header so nested folders
-# (e.g. Source/Widgets/Container) resolve unprefixed includes like "ctui_widget.h".
-# Also export Include/ so consumers can pick up the generated single header.
-set(CROISSANTUI_INCLUDE_DIRS "")
-foreach(header ${CROISSANTUI_HEADERS})
-    get_filename_component(header_dir "${header}" DIRECTORY)
-    list(APPEND CROISSANTUI_INCLUDE_DIRS "${header_dir}")
-endforeach()
-list(REMOVE_DUPLICATES CROISSANTUI_INCLUDE_DIRS)
-
-target_include_directories(CroissanTUI PUBLIC
-    ${CROISSANTUI_INCLUDE_DIRS}
-    "${CMAKE_CURRENT_SOURCE_DIR}/Include"
-)
+target_include_directories(CroissanTUI PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Source")
 
 target_compile_definitions(CroissanTUI PRIVATE
     $<$<CONFIG:Debug>:DEBUG>
