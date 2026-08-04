@@ -16,6 +16,9 @@ target_include_directories(App PRIVATE
 
 target_link_libraries(App PRIVATE CroissanTUI)
 
+# Make sure the generated single header exists before App is compiled
+add_dependencies(App CroissanTUI_GenerateHeader)
+
 target_compile_definitions(App PRIVATE
     $<$<CONFIG:Debug>:DEBUG>
     $<$<CONFIG:Release>:RELEASE>
