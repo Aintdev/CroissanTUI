@@ -1,5 +1,4 @@
 #include "ctui_c.h"
-#include "../CroissanTUI/src/ctui_utf8.h"
 
 #ifdef _WIN32
 #include <windows.h>
