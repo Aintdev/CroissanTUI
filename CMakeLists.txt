@@ -17,6 +17,9 @@ target_compile_definitions(CroissanTUI PRIVATE
     $<$<CONFIG:Dist>:DIST>
 )
 
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/Source" PREFIX "Header Files" FILES ${CROISSANTUI_HEADERS})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/Source" PREFIX "Source Files" FILES ${CROISSANTUI_SOURCES})
+
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 add_custom_command(TARGET CroissanTUI PRE_BUILD
     COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/Scripts/generate_header.py"
