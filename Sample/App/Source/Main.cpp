@@ -148,8 +148,20 @@ int main() {
 
 	Timer runtime = Timer();
 
+	bool resized = false;
+	const int timer = 60;
+
 	while (true)
 	{
+		auto new_winsize = get_win_size();
+		if (new_winsize != win_size)
+		{
+			win_size = new_winsize;
+			screen.update_bounds();
+			std::cout << "\033[2J\033[H" << "\033[?2026h";
+			resized = true;
+		};
+
 		Timer a_time = Timer();
 
 		main.measure(win_size.first);
@@ -167,13 +179,18 @@ int main() {
 		Timer c_time = Timer();
 
 		main.render();
+		if (resized)
+		{
+			resized = false;
+			std::cout << "\033[?2026l";
+		}
 #ifdef _WIN32
 		OutputDebugStringA(std::string("\nRender-Time: " + std::to_string(c_time.elapsed_ms())).c_str());
 #endif
 
 		++fps;
 
-		remaining_seconds =  10u - runtime.elapsed_ms() / 1000;
+		remaining_seconds = timer - static_cast<size_t>(runtime.elapsed_ms() / 1000);
 
 		if (fps_timer.elapsed_ms() >= 1000)
 		{
@@ -183,7 +200,7 @@ int main() {
 			fps_timer.reset();
 		}
 
-		if (runtime.elapsed_ms() >= 10 * 1000)
+		if (runtime.elapsed_ms() >= timer * 1000)
 			break;
 
 	}

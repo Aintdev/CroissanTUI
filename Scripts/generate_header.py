@@ -5,7 +5,7 @@ output_lines = ["#pragma once", "// CroissanTUI - Single Header Library", "// Au
 seen_files = set()
 seen_system = set()
 
-def process_file(path):
+def process_file(path, source_dir):
     path = Path(path)
     real = str(path.resolve())
     if real in seen_files:
@@ -22,8 +22,10 @@ def process_file(path):
             # lokale includes rekursiv auflösen
             m_local = re.match(r'#include\s+"([^"]+)"', stripped)
             if m_local:
-                included = (path.parent / m_local.group(1)).resolve()
-                process_file(included)
+                candidate = (path.parent / m_local.group(1)).resolve()
+                if not candidate.exists():
+                    candidate = (source_dir / m_local.group(1)).resolve()
+                process_file(candidate, source_dir)
                 continue
 
             # system includes deduplizieren
@@ -36,12 +38,11 @@ def process_file(path):
             output_lines.append(stripped)
 
 
-from pathlib import Path
-
 BASE_DIR = Path(__file__).resolve().parent
+SOURCE_DIR = (BASE_DIR / ".." / "Source").resolve()
 OUT_FILE = BASE_DIR / ".." / "Include" / "ctui_c.h"
 
-process_file(BASE_DIR / ".." / "Source" / "ctui.h")
+process_file(SOURCE_DIR / "ctui.h", SOURCE_DIR)
 
 
 OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
