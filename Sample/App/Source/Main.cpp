@@ -1,6 +1,5 @@
 #include "ctui_c.h"
 
-void TestVendorLibs();
 
 #ifdef _WIN32
 #include <windows.h>
@@ -13,6 +12,8 @@ void TestVendorLibs();
 #include <sstream>
 #include <string>
 #include <thread>
+
+#include "Grapheme/ctui_graphemeview.h"
 
 class Timer
 {
@@ -68,6 +69,30 @@ static void debuglog(const Widget* wid, const char* title)
 	OutputDebugStringA("\nHEIGHT: ");
 	OutputDebugStringA(std::to_string(wid->_absolute_bounds.height.value_or(-1)).c_str());
 #endif
+}
+
+void TestVendorLibs()
+{
+	std::string_view test =
+		"ASCII abc XYZ 123 | "
+		"Emoji 😀 😃 🚀 💩 | "
+		"SkinTone 👍🏻 👎🏽 👋🏿 | "
+		"Flags 🇩🇪 🇺🇸 🇯🇵 | "
+		"Family 👨‍👩‍👧‍👦 | "
+		"Couple 👩‍❤️‍💋‍👨 | "
+		"Combining é ä ô | "
+		"CJK 中文 日本語 한국어 | "
+		"ZeroWidth \u200B test | "
+		"Line\nBreak\tTab";
+
+	for (Grapheme g : GraphemeView(test))
+	{
+		printf("Char: %.*s  |  Byte-Count: %d  |  Terminal-Width: %d\n",
+			static_cast<int>(g.text.size()), g.text.data(),
+			static_cast<int>(g.byte_count()),
+			static_cast<int>(g.terminal_width())
+		);
+	}
 }
 
 int main() {
