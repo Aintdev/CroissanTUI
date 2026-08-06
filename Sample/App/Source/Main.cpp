@@ -163,14 +163,17 @@ int main() {
 
 			return oss.str();
 		};
-
-	auto time = Label(&stats, text << currentTime);
-
 	size_t remaining_seconds = 0u;
 
-	auto countdown = Label(&stats, text << "Terminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".");
+	auto time = Label(&stats, text << currentTime << "\nTerminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".", halign=End);
 
-	auto control = Label(&main, text << Color::CYAN << GraphicMod::BOLD << "START" << GraphicMod::RESET_ALL);
+
+	//auto countdown = Label(&stats, text << "Terminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".");
+
+
+	std::string ctrltext = "THIS TEXT SHOULD NOT BE HERE";
+	auto control = Label(&main, text << Color::CYAN << GraphicMod::BOLD << [&ctrltext]() { return ctrltext; } << GraphicMod::RESET_ALL);
+	auto centertest = Label(&main, text << ".....😊😊😊😊😊");
 
 	auto win_size = get_win_size();
 	size_t i = 0;
@@ -182,6 +185,7 @@ int main() {
 
 	bool resized = false;
 	const int timer = 60;
+	bool first_frame = true;
 
 	while (true)
 	{
@@ -234,7 +238,11 @@ int main() {
 
 		if (runtime.elapsed_ms() >= timer * 1000)
 			break;
-
+		if (first_frame)
+		{
+			first_frame = false;
+			ctrltext = "";
+		}
 	}
 	std::cout << "\033[?25h";
 	
