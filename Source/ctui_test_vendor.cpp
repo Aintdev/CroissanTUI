@@ -3,6 +3,7 @@ extern "C" {
 }
 #include <utf8proc.h>
 #include <cstdio>
+#include <cstring>
 
 void TestVendorLibs()
 {
