@@ -1,5 +1,7 @@
 #include "ctui_c.h"
 
+void TestVendorLibs();
+
 #ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
@@ -74,6 +76,11 @@ int main() {
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
 #endif
+
+	TestVendorLibs();
+
+	std::this_thread::sleep_for(std::chrono::seconds(3));
+
 	enable_raw_mode();
 	screen.config();
 
@@ -142,7 +149,7 @@ int main() {
 
 	auto win_size = get_win_size();
 	size_t i = 0;
-	std::cout << "\033[?25l";
+	std::cout << "\033[?1049h" << "\033[?25l";
 	size_t fps = 0;
 	Timer fps_timer = Timer();
 
