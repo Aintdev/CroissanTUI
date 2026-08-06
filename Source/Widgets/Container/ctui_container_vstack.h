@@ -1,6 +1,7 @@
 #pragma once
 #include <complex>
 #include <cassert>
+#include <climits>
 
 #include "ctui_container.h"
 #include "ctui_kwargs.h"

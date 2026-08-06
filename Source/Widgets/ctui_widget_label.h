@@ -1,5 +1,6 @@
 #pragma once
 #include <cassert>
+#include <climits>
 
 #include "ctui_kwargs.h"
 #include "ctui_msg.h"
