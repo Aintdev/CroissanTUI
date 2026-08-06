@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(Sample LANGUAGES CXX)
+project(Sample LANGUAGES C CXX)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release;Dist" CACHE STRING "" FORCE)
 

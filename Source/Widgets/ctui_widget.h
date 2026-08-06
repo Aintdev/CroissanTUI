@@ -1,4 +1,6 @@
 #pragma once
+#include <climits>
+
 #include "ctui_rect.h"
 #include "ctui_key.h"
 
