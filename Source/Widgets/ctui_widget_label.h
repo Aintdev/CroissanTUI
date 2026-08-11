@@ -7,16 +7,19 @@
 #include "ctui_widget.h"
 #include "Container/ctui_container.h"
 #include "ctui_mod_enum.h"
+#include "ctui_defaults.h"
 
 namespace ctui
 {
-	struct Label : Widget
+	struct Label : Widget, protected defaults::LabelDefaults
 	{
-		TextStream _text{defaults::kText};
-		Color _bg_color = defaults::kBgColor;
-		Color _fg_color = defaults::kFgColor;
-		Align _halign = defaults::kHalign;
-		bool _fill = defaults::kFill;
+		TextStream _text{kText};
+		Color _bg_color = kBgColor;
+		Color _fg_color = kFgColor;
+		Align _halign = kHalign;
+		bool _fill = kFill;
+		size_t _wraplength = kLabelWraplength;
+		bool _autowrap = kLabelAutoWrap;
 
 		template<typename... Args>
 		Label& config(Args&&... args)

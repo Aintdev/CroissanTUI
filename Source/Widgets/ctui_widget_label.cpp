@@ -25,6 +25,38 @@ namespace ctui
 
 	void Label::measure(const int available_width)
 	{
+		// If _fill is active and a bounded width was given,
+		// width starts at that available width (Label should fill the space).
+		// Otherwise width starts at 0 and only grows from the text below.
+		int width = (_fill && available_width != INT_MAX) ? available_width : 0, height = 0;
+
+		const auto lines = _text.raw_lines(*this);
+
+		// Find the widest line of the text (accounting for
+		// UTF-8 display width, e.g. multi-byte chars counted correctly).
+		for (const std::string& line : lines)
+		{
+			width = std::max(width, static_cast<int>(utf8_display_width(line)));
+		}
+
+		// If a maximum available width is given, clamp width to it -
+		// even if _fill raised it or the text is wider than allowed.
+		if (available_width != INT_MAX)
+			width = std::min(width, available_width);
+
+		// Height = number of text lines, but at least kEmptyLabelHeight
+		// (prevents a 0px tall label when the text is empty).
+		height = static_cast<int>(std::max<size_t>(lines.size(), kEmptyLabelHeight));
+
+		// Store computed bounds for the measure pass.
+		_relative_bounds = Rect(
+			width,
+			height
+		);
+
+
+		// Deprecated
+		/*
 		int width = (_fill && available_width != INT_MAX) ? available_width : 0;
 
 		const auto lines = _text.raw_lines();
@@ -37,12 +69,12 @@ namespace ctui
 		if (available_width != INT_MAX)
 			width = std::min(width, available_width);
 
-		const int height = static_cast<int>(std::max<size_t>(lines.size(), defaults::kEmptyLabelHeight));
+		const int height = static_cast<int>(std::max<size_t>(lines.size(), kEmptyLabelHeight));
 
 		_relative_bounds = Rect(
 			width,
 			height
-		);
+		);*/
 	}
 
 	void Label::resolve_bounds(int startx, int starty)

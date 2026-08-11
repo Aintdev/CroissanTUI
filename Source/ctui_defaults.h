@@ -3,17 +3,22 @@
 
 namespace ctui::defaults
 {
-	inline	constexpr		Align	kHalign				=	Align::Center;
-	inline	constexpr		Align	kValign				=	Align::Start;
+	struct WidgetDefaults
+	{
+		static constexpr Color	kFgColor = Color::WHITE;
+		static constexpr Color	kBgColor = Color::BLACK;
+		static constexpr bool	kFill = false;
+		static constexpr size_t kPady = 0;
+		static constexpr size_t kFocusIndex = 0;
+		static constexpr Align	kHalign = Align::Center;
+		static constexpr Align	kValign = Align::Start;
+	};
 
-	inline	constexpr	const char*	kText				=	"";
-	inline	constexpr		int		kEmptyLabelHeight	=	0;
-	inline	constexpr		int		kPady				=	0;
-
-	inline	constexpr		int		kFocusIndex			=	0;
-
-	inline	constexpr		Color	kFgColor			=	Color::WHITE;
-	inline	constexpr		Color	kBgColor			=	Color::BLACK;
-
-	inline	constexpr		bool	kFill				=	false;
+	struct LabelDefaults : WidgetDefaults
+	{
+		static constexpr const	char* kText = "";
+		static constexpr size_t kLabelWraplength = 0;
+		static constexpr bool   kLabelAutoWrap = true;
+		static constexpr size_t kEmptyLabelHeight = 0;
+	};
 }
