@@ -69,4 +69,8 @@ namespace ctui {
 	KWARG(halign)
 	KWARG(valign)
 	KWARG(fill)
+
+	// Wrap
+	KWARG(wrap)
+	KWARG(wraplength)
 }

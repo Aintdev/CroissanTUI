@@ -18,7 +18,7 @@ namespace ctui
         template<typename... Args>
         Screen& config(Args&&... args)
         {
-            (apply(std::forward<Args>(args)), ...);
+            VStack::config(std::forward<Args>(args)...);
             auto scr_sz = get_win_size();
             _relative_bounds = Rect(0, 0, scr_sz.first, scr_sz.second);
             _absolute_bounds = _relative_bounds;
@@ -34,9 +34,6 @@ namespace ctui
         void update_bounds();
 
     private:
-        ctui::Color _background = ctui::Color::BLACK;
-        ctui::Color _foreground = ctui::Color::WHITE; //TODO: impliment this and other settings
-
         template<typename T>
         void apply(T&&) 
 		{
