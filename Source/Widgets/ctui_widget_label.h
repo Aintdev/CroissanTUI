@@ -19,7 +19,6 @@ namespace ctui
 		Align _halign = kHalign;
 		bool _fill = kFill;
 		size_t _wraplength = kLabelWraplength;
-		bool _autowrap = kLabelAutoWrap;
 
 		template<typename... Args>
 		Label& config(Args&&... args)

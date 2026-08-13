@@ -19,9 +19,7 @@ namespace ctui
         Screen& config(Args&&... args)
         {
             VStack::config(std::forward<Args>(args)...);
-            auto scr_sz = get_win_size();
-            _relative_bounds = Rect(0, 0, scr_sz.first, scr_sz.second);
-            _absolute_bounds = _relative_bounds;
+            update_bounds();
             return *this;
         }
 
@@ -32,6 +30,7 @@ namespace ctui
         void render() override { VStack::render(); }
 
         void update_bounds();
+        std::pair<int, int> get_bounds() const;
 
     private:
         template<typename T>

@@ -22,9 +22,11 @@ namespace ctui
         mutable bool _dirty = true;
         mutable std::vector<std::string> _cached_lines;
         mutable std::vector<std::string> _cached_fn_results;
+        mutable size_t _cached_available_width = 0;
+
 
         void check_if_fn_are_dirty() const;
-		[[nodiscard]] std::vector<std::string> make_raw_lines_cache(const Label&) const;
+		[[nodiscard]] std::vector<std::string> make_raw_lines_cache(size_t available_width) const;
     public:
         TextStream(const TextToken& default_string = defaults::LabelDefaults::kText);
 
@@ -32,7 +34,9 @@ namespace ctui
 
         [[nodiscard]] const std::vector<TextToken>& get_buffer() const;
 
-        [[nodiscard]] const std::vector<std::string>& raw_lines(const Label&) const;
+        [[nodiscard]] const std::vector<std::string>& raw_lines(size_t available_width) const;
+        [[nodiscard]] const std::vector<std::string>& cached_raw_lines() const;
+
 
         TextStream& operator<<(TextToken tt);
     };
