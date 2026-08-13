@@ -37,6 +37,10 @@ namespace ctui
         [[nodiscard]] const std::vector<std::string>& raw_lines(size_t available_width) const;
         [[nodiscard]] const std::vector<std::string>& cached_raw_lines() const;
 
+        [[nodiscard]] const std::vector<std::string>& get_fn_result_cache() const;
+
+        
+
 
         TextStream& operator<<(TextToken tt);
     };

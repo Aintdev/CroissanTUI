@@ -44,17 +44,18 @@ namespace ctui
 		void render() override;
 
 	private:
-		void apply(KWARG_STREAM_T(text) arg)		{ _text = std::move(arg.value); }
-		void apply(KWARG_T(fill,	bool) arg)		{ _fill = arg.value; }
-		void apply(KWARG_T(halign,	Align) arg)		{ _halign = arg.value; }
-		void apply(KWARG_T(fg,		Color) arg)		{ _fg_color = arg.value; }
-		void apply(KWARG_T(bg,		Color) arg)		{ _bg_color = arg.value; }
+		void apply(KWARG_STREAM_T(text)		arg)	{ _text = std::move(arg.value); }
+		void apply(KWARG_T(fill,	bool)	arg)	{ _fill = arg.value; }
+		void apply(KWARG_T(halign,	Align)	arg)	{ _halign = arg.value; }
+		void apply(KWARG_T(fg,		Color)	arg)	{ _fg_color = arg.value; }
+		void apply(KWARG_T(bg,		Color)	arg)	{ _bg_color = arg.value; }
+		void apply(KWARG_T(wraplength,int)	arg)	{ _wraplength = static_cast<size_t>(arg.value); }
 
 	protected:
 		template<typename T>
 		void apply(T&&)
 		{
-			static_assert(sizeof(T) == 0, _CTUIMSG_VSTACK_WRONG_KWARG);
+			static_assert(sizeof(T) == 0, _CTUIMSG_LABEL_WRONG_KWARG);
 		}
 	};
 }
