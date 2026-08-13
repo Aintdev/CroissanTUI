@@ -104,18 +104,18 @@ int main() {
 
 	TestVendorLibs();
 
-	std::this_thread::sleep_for(std::chrono::seconds(3));
+	//std::this_thread::sleep_for(std::chrono::seconds(3));
 
 	enable_raw_mode();
 	screen.config();
+	
+	auto main = VStack(&screen, pady = 3, halign = Center, fill = true);
 
-	auto main = VStack(&screen, pady = 2, halign = Center, fill = true);
+	auto header = VStack(&main, pady = 3, halign = Center);
+	//auto title = Label(&header, text << Color::CYAN << GraphicMod::BOLD << "=== CTUI Demo ===" << GraphicMod::RESET_ALL);
+	//auto subtitle = Label(&header, text << Color::WHITE << "v0.1.0 — Testbuild");
 
-	auto header = VStack(&main, pady = 1, halign = Center);
-	auto title = Label(&header, text << Color::CYAN << GraphicMod::BOLD << "=== CTUI Demo ===" << GraphicMod::RESET_ALL);
-	auto subtitle = Label(&header, text << Color::WHITE << "v0.1.0 — Testbuild");
-
-	auto sub = VStack(&main, pady = 1, halign = Center);
+	/*auto sub = VStack(&main, pady = 1, halign = Center);
 	auto c = Label(&sub, text << "test hier");
 	auto d = Label(&sub, text << "Drücke hier zum loslegen.");
 
@@ -128,14 +128,18 @@ int main() {
 		<< Color::MAGENTA << "Zeile 3: und diese hier ist nochmal deutlich länger als die vorherigen beiden\n"
 		<< Color::WHITE << GraphicMod::UNDERLINE << "Zeile 4: unterstrichen\n" 
 		<< Color::BG_WHITE << Color::BLACK << mytext<< GraphicMod::RESET_ALL
-	);
+	);*/
+	Label test(&main, text << "asd", halign = Start);
+	auto long_label = Label(&header, halign=End, text<< Color::RED << "asdasdas\nddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\nasdasasdasdd");
+	auto long_label2 = Label(&header, halign=End, text<< Color::RED << "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 	
+	long_label._wraplength = 80;
 	auto stats = VStack(&main, pady = 0, halign = End); //VStack needs end impl.
 	size_t fps_out = 0;
-	auto fps_label = Label(&stats, text << Color::RED << "FPS: " << [&fps_out]() -> std::string {
-		return std::to_string(fps_out);
-		}, halign = End);
-	auto mem = Label(&stats, text << Color::BLUE << "MEM: 12.4 MB", halign=End);
+	//auto fps_label = Label(&stats, text << Color::RED << "FPS: " << [&fps_out]() -> std::string {
+	//	return std::to_string(fps_out);
+	//	}, halign = End);
+	//auto mem = Label(&stats, text << Color::BLUE << "MEM: 12.4 MB", halign=End);
 
 	auto currentTime = []() -> std::string
 		{
@@ -165,15 +169,15 @@ int main() {
 		};
 	size_t remaining_seconds = 0u;
 
-	auto time = Label(&stats, text << currentTime << "\nTerminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".", halign=End);
+	//auto time = Label(&stats, text << currentTime << "\nTerminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".", halign=End);
 
 
 	//auto countdown = Label(&stats, text << "Terminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".");
 
 
 	std::string ctrltext = "THIS TEXT SHOULD NOT BE HERE";
-	auto control = Label(&main, text << Color::CYAN << GraphicMod::BOLD << [&ctrltext]() { return ctrltext; } << GraphicMod::RESET_ALL);
-	auto centertest = Label(&main, text << ".....😊😊😊😊😊");
+	//auto control = Label(&main, text << Color::CYAN << GraphicMod::BOLD << [&ctrltext]() { return ctrltext; } << GraphicMod::RESET_ALL);
+	//auto centertest = Label(&main, text << ".....😊😊😊😊😊");
 
 	auto win_size = get_win_size();
 	size_t i = 0;
@@ -202,14 +206,14 @@ int main() {
 
 		main.measure(win_size.first);
 #ifdef _WIN32
-		OutputDebugStringA(std::string("\n\nMeasure-Time: " + std::to_string(a_time.elapsed_ms())).c_str());
+		//OutputDebugStringA(std::string("\n\nMeasure-Time: " + std::to_string(a_time.elapsed_ms())).c_str());
 #endif
 		
 		Timer b_time = Timer();
 
 		main.resolve_bounds(0, 0);
 #ifdef _WIN32
-		OutputDebugStringA(std::string("\nResolve-Time: " + std::to_string(b_time.elapsed_ms())).c_str());
+		//OutputDebugStringA(std::string("\nResolve-Time: " + std::to_string(b_time.elapsed_ms())).c_str());
 #endif
 
 		Timer c_time = Timer();
@@ -221,7 +225,7 @@ int main() {
 			std::cout << "\033[?2026l";
 		}
 #ifdef _WIN32
-		OutputDebugStringA(std::string("\nRender-Time: " + std::to_string(c_time.elapsed_ms())).c_str());
+		//OutputDebugStringA(std::string("\nRender-Time: " + std::to_string(c_time.elapsed_ms())).c_str());
 #endif
 
 		++fps;
@@ -246,7 +250,5 @@ int main() {
 	}
 	std::cout << "\033[?25h";
 	
-	debuglog(&main, "Main VStack");
-	debuglog(&c, "C Label");
 	disable_raw_mode();
 }
