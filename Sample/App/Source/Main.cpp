@@ -1,6 +1,5 @@
 #include "ctui_c.h"
 
-
 #ifdef _WIN32
 #include <windows.h>
 #include <conio.h>
@@ -96,7 +95,6 @@ void TestVendorLibs()
 }
 
 int main() {
-
 #ifdef _WIN32
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
@@ -108,14 +106,14 @@ int main() {
 
 	enable_raw_mode();
 	screen.config();
-	
-	auto main = VStack(&screen, pady = 3, halign = Center, fill = true);
 
-	auto header = VStack(&main, pady = 3, halign = Center);
-	//auto title = Label(&header, text << Color::CYAN << GraphicMod::BOLD << "=== CTUI Demo ===" << GraphicMod::RESET_ALL);
-	//auto subtitle = Label(&header, text << Color::WHITE << "v0.1.0 — Testbuild");
+	auto main = VStack(&screen, pady = 2, halign = Center, fill = true);
 
-	/*auto sub = VStack(&main, pady = 1, halign = Center);
+	auto header = VStack(&main, pady = 1, halign = Center);
+	auto title = Label(&header, text << Color::CYAN << GraphicMod::BOLD << "=== CTUI Demo ===" << GraphicMod::RESET_ALL);
+	auto subtitle = Label(&header, text << Color::WHITE << "v0.1.0 — Testbuild");
+
+	auto sub = VStack(&main, pady = 1, halign = Center);
 	auto c = Label(&sub, text << "test hier");
 	auto d = Label(&sub, text << "Drücke hier zum loslegen.");
 
@@ -126,20 +124,16 @@ int main() {
 		<< Color::YELLOW << "Zeile 1: kurz\n"
 		<< Color::GREEN << "Zeile 2: etwas länger als die erste\n"
 		<< Color::MAGENTA << "Zeile 3: und diese hier ist nochmal deutlich länger als die vorherigen beiden\n"
-		<< Color::WHITE << GraphicMod::UNDERLINE << "Zeile 4: unterstrichen\n" 
-		<< Color::BG_WHITE << Color::BLACK << mytext<< GraphicMod::RESET_ALL
-	);*/
-	Label test(&main, text << "asd", halign = Start);
-	auto long_label = Label(&header, halign=End, text<< Color::RED << "asdasdas\nddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\nasdasasdasdd");
-	auto long_label2 = Label(&header, halign=End, text<< Color::RED << "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-	
-	long_label._wraplength = 80;
+		<< Color::WHITE << GraphicMod::UNDERLINE << "Zeile 4: unterstrichen\n"
+		<< Color::BG_WHITE << Color::BLACK << mytext << GraphicMod::RESET_ALL
+	);
+
 	auto stats = VStack(&main, pady = 0, halign = End); //VStack needs end impl.
 	size_t fps_out = 0;
-	//auto fps_label = Label(&stats, text << Color::RED << "FPS: " << [&fps_out]() -> std::string {
-	//	return std::to_string(fps_out);
-	//	}, halign = End);
-	//auto mem = Label(&stats, text << Color::BLUE << "MEM: 12.4 MB", halign=End);
+	auto fps_label = Label(&stats, text << Color::RED << "FPS: " << [&fps_out]() -> std::string {
+		return std::to_string(fps_out);
+		}, halign = End);
+	auto mem = Label(&stats, text << Color::BLUE << "MEM: 12.4 MB", halign = End);
 
 	auto currentTime = []() -> std::string
 		{
@@ -169,15 +163,18 @@ int main() {
 		};
 	size_t remaining_seconds = 0u;
 
-	//auto time = Label(&stats, text << currentTime << "\nTerminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".", halign=End);
+	auto time = Label(&stats, text << currentTime << "\nTerminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".", halign = End);
 
 
-	//auto countdown = Label(&stats, text << "Terminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".");
+	auto countdown = Label(&stats, text << "Terminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".");
+
+	Label long_text(&stats, text << "Hallo ich bin ein ziemlich langer text und brauche viel platz und bin sehr cool und lennox ist ein cooler dude.\nDazu finde ich dieses Programm ist cool geschrieben. Und ich brauch noch extra text.");
+	long_text._wraplength = 70;
 
 
 	std::string ctrltext = "THIS TEXT SHOULD NOT BE HERE";
-	//auto control = Label(&main, text << Color::CYAN << GraphicMod::BOLD << [&ctrltext]() { return ctrltext; } << GraphicMod::RESET_ALL);
-	//auto centertest = Label(&main, text << ".....😊😊😊😊😊");
+	auto control = Label(&main, text << Color::CYAN << GraphicMod::BOLD << [&ctrltext]() { return ctrltext; } << GraphicMod::RESET_ALL);
+	auto centertest = Label(&main, text << ".....😊😊😊😊😊");
 
 	auto win_size = get_win_size();
 	size_t i = 0;
@@ -203,21 +200,18 @@ int main() {
 		};
 
 		Timer a_time = Timer();
-
 		main.measure(win_size.first);
 #ifdef _WIN32
 		//OutputDebugStringA(std::string("\n\nMeasure-Time: " + std::to_string(a_time.elapsed_ms())).c_str());
 #endif
-		
-		Timer b_time = Timer();
 
+		Timer b_time = Timer();
 		main.resolve_bounds(0, 0);
 #ifdef _WIN32
 		//OutputDebugStringA(std::string("\nResolve-Time: " + std::to_string(b_time.elapsed_ms())).c_str());
 #endif
 
 		Timer c_time = Timer();
-
 		main.render();
 		if (resized)
 		{
@@ -249,6 +243,8 @@ int main() {
 		}
 	}
 	std::cout << "\033[?25h";
-	
+
+	debuglog(&main, "Main VStack");
+	debuglog(&c, "C Label");
 	disable_raw_mode();
 }

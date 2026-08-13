@@ -133,53 +133,8 @@ namespace ctui
 								grapheme.text;
 							new_line = false;
 						}
-
-						x_off += grapheme.terminal_width(); // jetzt immer NACH Positionierung/Druck
+						x_off += grapheme.terminal_width();
 					}
-
-					// OLD:
-					/* size_t start_byte = 0;
-					while (start_byte < str.size())
-					{
-						unsigned int new_lines = 0;
-						auto end_byte = str.find('\n', start_byte);
-						std::string to_render = str.substr(start_byte);
-						if (end_byte != std::string::npos)
-						{
-							to_render = str.substr(start_byte, end_byte - start_byte);
-							++new_lines;
-							start_byte = end_byte + 1;
-						}
-						else {
-							start_byte = std::string::npos;
-						}
-
-						size_t line_size = utf8_display_width(raw_lines[cur_raw_line]);
-						size_t extra_off = 0;
-						size_t box_width = _relative_bounds.width.value();
-
-						if (_halign == Align::Center)
-						{
-							extra_off = (box_width > line_size) ? (box_width - line_size) / 2 : 0;
-						}
-						else if (_halign == Align::End)
-						{
-							extra_off = (box_width > line_size) ? (box_width - line_size) : 0;
-						}
-
-						print <<
-							mv_cursor(_absolute_bounds.x.value() + x_off + extra_off + 1,
-								_absolute_bounds.y.value() + y_off + 1) <<
-							to_render;
-
-						x_off = new_lines ? 0u : x_off + utf8_display_width(to_render);
-						y_off += new_lines;
-
-						if (new_lines)
-						{
-							++cur_raw_line;
-						}
-					}*/
 				};
 
 			std::visit(overloaded{
