@@ -43,33 +43,6 @@ private:
 using namespace ctui;
 using enum Align;
 
-static void debuglog(const Widget* wid, const char* title)
-{
-#ifdef _WIN32
-	OutputDebugStringA("\n\n\nDEBUG of ");
-	OutputDebugStringA(title);
-	OutputDebugStringA(":");
-	OutputDebugStringA("\nDESIRED: ");
-	OutputDebugStringA("\nX: ");
-	OutputDebugStringA(std::to_string(wid->_relative_bounds.x.value_or(-1)).c_str());
-	OutputDebugStringA("\nY: ");
-	OutputDebugStringA(std::to_string(wid->_relative_bounds.y.value_or(-1)).c_str());
-	OutputDebugStringA("\nWIDTH: ");
-	OutputDebugStringA(std::to_string(wid->_relative_bounds.width.value_or(-1)).c_str());
-	OutputDebugStringA("\nHEIGHT: ");
-	OutputDebugStringA(std::to_string(wid->_relative_bounds.height.value_or(-1)).c_str());
-	OutputDebugStringA("\nACTUAL: ");
-	OutputDebugStringA("\nX: ");
-	OutputDebugStringA(std::to_string(wid->_absolute_bounds.x.value_or(-1)).c_str());
-	OutputDebugStringA("\nY: ");
-	OutputDebugStringA(std::to_string(wid->_absolute_bounds.y.value_or(-1)).c_str());
-	OutputDebugStringA("\nWIDTH: ");
-	OutputDebugStringA(std::to_string(wid->_absolute_bounds.width.value_or(-1)).c_str());
-	OutputDebugStringA("\nHEIGHT: ");
-	OutputDebugStringA(std::to_string(wid->_absolute_bounds.height.value_or(-1)).c_str());
-#endif
-}
-
 void TestVendorLibs()
 {
 	std::string_view test =
@@ -114,7 +87,6 @@ int main() {
 	auto subtitle = Label(&header, text << Color::WHITE << "v0.1.0 — Testbuild");
 
 	auto sub = VStack(&main, pady = 1, halign = Center);
-	auto c = Label(&sub, text << "test hier");
 	auto d = Label(&sub, text << "Drücke hier zum loslegen.");
 
 	std::string mytext = "Zeile 5: Hier eine Variable als Text!";
@@ -165,12 +137,10 @@ int main() {
 
 	auto time = Label(&stats, text << currentTime << "\nTerminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".", halign = End);
 
+	Label long_text(&stats, text << "Hello, I am quite a long piece of text and need lots of space and I am very cool and Lennox is a pretty cool dude.\nAlso, I think this program is really well written. And I still need some extra text.");
+	//Label long_text(&stats, text << "你好，我是一个相当长的文本，需要很多空间，而且我非常酷，Lennox也是一个很酷的家伙。\n另外，我觉得这个程序写得很酷。而且我还需要一些额外的文本。");
 
-	auto countdown = Label(&stats, text << "Terminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".");
-
-	Label long_text(&stats, text << "Hallo ich bin ein ziemlich langer text und brauche viel platz und bin sehr cool und lennox ist ein cooler dude.\nDazu finde ich dieses Programm ist cool geschrieben. Und ich brauch noch extra text.");
-	long_text._wraplength = 70;
-
+	long_text.config(wraplength = 50);
 
 	std::string ctrltext = "THIS TEXT SHOULD NOT BE HERE";
 	auto control = Label(&main, text << Color::CYAN << GraphicMod::BOLD << [&ctrltext]() { return ctrltext; } << GraphicMod::RESET_ALL);
@@ -243,8 +213,5 @@ int main() {
 		}
 	}
 	std::cout << "\033[?25h";
-
-	debuglog(&main, "Main VStack");
-	debuglog(&c, "C Label");
 	disable_raw_mode();
 }

@@ -160,4 +160,8 @@ namespace ctui
 	{
 		return _cached_lines;
 	}
+	const std::vector<std::string>& TextStream::get_fn_result_cache() const
+	{
+		return _cached_fn_results;
+	}
 }

@@ -18,7 +18,6 @@ namespace ctui::defaults
 	{
 		static constexpr const	char* kText = "";
 		static constexpr size_t kLabelWraplength = 0;
-		static constexpr bool   kLabelAutoWrap = true;
 		static constexpr size_t kEmptyLabelHeight = 0;
 	};
 }

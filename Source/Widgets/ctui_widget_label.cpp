@@ -86,6 +86,10 @@ namespace ctui
 		size_t line = 0, x_off = 0;
 		int new_line = true;
 		const auto raw_lines = _text.cached_raw_lines();
+
+		size_t fn_idx = 0;
+		auto fn_cache = _text.get_fn_result_cache();
+
 		for (const TextToken& tt : _text.get_buffer())
 		{
 			auto render_string = [&](const std::string& str)
@@ -154,7 +158,8 @@ namespace ctui
 				},
 				[&](const std::function<std::string()>& fn)
 				{
-					render_string(fn());
+					render_string(fn_cache[fn_idx]);
+					fn_idx++;
 				}
 			}, tt);
 		}

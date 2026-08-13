@@ -6,7 +6,7 @@
 
 namespace ctui {
 	struct Container : Widget, protected defaults::WidgetDefaults {
-		size_t _focus_index = kFocusIndex;
+		int _focus_index = kFocusIndex;
 		std::vector<Widget*> _children = {};
 		
 		void make_child(Widget* child);
