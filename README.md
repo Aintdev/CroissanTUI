@@ -39,6 +39,7 @@
   <li>
     <strong>Documentation:</strong>
     <img src="https://img.shields.io/badge/WIP-crimson?style=flat" style="vertical-align: middle;">
+  </li>
   <li>
     <strong>Source:</strong>
     <a href="https://github.com/Aintdev/CroissanTUI">https://github.com/Aintdev/CroissanTUI</a>
@@ -47,11 +48,11 @@
 
 ---
 
-CroissanTUI is a easy-to-use C++ `Text User Interface Framework`, written entirely from scratch and inspired by Python's [`tkinter`](https://docs.python.org/3/library/tkinter.html) for cross-platform applications. It has easy usage and a gentle learning curve, making it perfect for smaller projects.
+CroissanTUI is an easy-to-use C++ `Text User Interface (TUI) framework` for cross-platform applications, inspired by Python's [`tkinter`](https://docs.python.org/3/library/tkinter.html). It's perfect for smaller projects.
 
 ### Key features:
 
-- **KWARGs**: instead of `struct`s like `ButtonConfig` to configure Widgets, CroissanTUI uses `keyword arguments` thats inspired by Python's keyword arguments.
+- **Keyword Arguments**: instead of `data objects` like `struct ButtonConfig` to configure widgets, CroissanTUI uses `keyword arguments` inspired by Python's `**kwargs`.
 - **Text Modifiers**: different characters and words inside a `Label` can be rendered with different colors without having to create separate widgets, using `TextStream`s as a way to store text data.
     ```cpp
     ctui::Label(&parent, 
@@ -60,38 +61,38 @@ CroissanTUI is a easy-to-use C++ `Text User Interface Framework`, written entire
             << GraphicMod::Italic << "Italic red text |" 
             << GraphicMod::ResetAll << "Normal text") // <- Argument evaluates to a TextStream
     ```
-- **Live Updates via Lambdas**: `TextStream` tokens can also be `std::function<std::string()>`, letting a `Label` display live values by capturing a reference to an outside object — e.g. `[&score]() { return std::to_string(score); }` so the text updates automatically whenever the referenced value changes.
+- **Live Updates via Lambdas**: `TextStream` tokens can also be `std::function<std::string()>`, letting a `Label` display live values by capturing a reference to an outside object — e.g. `[&score]() { return std::to_string(score); }` so the displayed value can change without recreating the widget.
     ```cpp
     ctui::Label(&parent, 
         text << "Score: " 
-            << [&score]() { return std::string(score); },
+            << [&score]() { return std::to_string(score); },
         align = End);
     ```
 
 ## Built with
 
-| Object | Source build | Precompiled Build |
-| ---- | ------------ | ---- |
-| C++ Language | **C++20** | **C++17** |
-| Python | **3.4.x** | N/A |
-| libgrapheme | Vendored | N/A |
-| [utf8proc](utf8proc-url) | Submodule | N/A |
+| Object | Source build | Precompiled Build | Usage |
+| ---- | ------------ | ---- | ---- |
+| C++ Language | **C++20** or newer  | **C++17** | Compilation |
+| Python | **3.4.x** or newer | N/A | Header Generation |
+| libgrapheme | Vendored | N/A | Codepoint Iteration |
+| [utf8proc](utf8proc-url) | Submodule | N/A | Char-Width Calculation |
 
 > **Note:** The library implementation uses C++20 features internally. The public API is compatible with C++17, so applications linking against the precompiled library only require a C++17 compiler.
 
 ## Getting started
 
-1. Clone repository into your `third-party`/`vendor` directory recursively.
+1. Clone the repository into your `third-party`/`vendor` directory recursively.
 ```bash
 git clone --recursive https://github.com/Aintdev/CroissanTUI.git
 ```
 
-Choose your preferred installation method
+2. Choose your preferred installation method
 
 <details>
 <summary> Install into your project </summary>
 
-2. After cloning the repository, add the project to your `CMakeLists.txt`. Note: replace `${CMAKE_CURRENT_SOURCE_DIR}/third-party/CroissanTUI` with the path to the `CroissanTUI` repository.
+After cloning the repository, add the project to your `CMakeLists.txt`. Note: replace `${CMAKE_CURRENT_SOURCE_DIR}/third-party/CroissanTUI` with the path to the `CroissanTUI` repository.
 
 ```cmake
 # Add CroissanTUI
@@ -104,31 +105,31 @@ add_subdirectory(
 target_link_libraries(MyApp PRIVATE CroissanTUI)
 ```
 
-3. Run your Projects `CMakeLists.txt`
+Then, run your project's `CMake configuration/build`.
 </details>
 <details>
 <summary>Install via Sample Project</summary>
 
-2. After cloning the repository, navigate to `CroissanTUI/Scripts/` and run the appropriate setup script for your platform:
+After cloning the repository, navigate to `CroissanTUI/Scripts/` and run the appropriate setup script for your platform:
 
    - **Linux:** `Sample-Setup-Linux.sh`
    - **Windows:** `Sample-Setup-Windows.bat`
 
-3. Once CMake has finished configuring the project, navigate to `CroissanTUI/Sample/build/`. You will find the generated project files for your CMake-compatible IDE there.
+Once CMake has finished configuring the project, navigate to `CroissanTUI/Sample/build/`. You will find the generated project files for your CMake-compatible IDE there.
 
 </details>
 
 ### Usage
-1. Include the Generated Header File into a Translation Unit.
+1. Include the generated header file in a translation unit.
 ```cpp
 #include <ctui_h>
 ```
-> **Note:** Your IDE may not find the headerfile at first. This is not a problem since it will be created at build time of the libary.
+> **Note:** Your IDE may not find the header file at first. This is not a problem since it will be created at build time of the library.
 
 2. Begin coding
 
 <details>
-<summary> Expand/Collaps code </summary>
+<summary> Expand/Collapse code </summary>
 
 ```cpp
 // Example code for README.md
@@ -143,43 +144,43 @@ int main() {
 	SetConsoleCP(CP_UTF8);
 #endif
     
-    enable_raw_mode();
-	screen.config();
+  enable_raw_mode();
+  screen.config();
 
-    auto root = VStack(&screen, pady = 2, halign = Center, fill = true);
+  auto root = VStack(&screen, pady = 2, halign = Center, fill = true);
 
-    ctui::Label(&root, 
-        text << "Normal text | " 
-            << Color::Red << "Red Text | " 
-            << GraphicMod::Italic << "Italic red text |" 
-            << GraphicMod::ResetAll << "Normal text",
-        halign = End);
+  ctui::Label(&root, 
+    text << "Normal text | " 
+      << Color::Red << "Red Text | " 
+      << GraphicMod::Italic << "Italic red text |" 
+      << GraphicMod::ResetAll << "Normal text",
+    halign = End);
 
-    bool resized = false;
+  auto win_size = get_win_size();
+  bool resized = false;
 
-    while (true)
-	{
-        auto new_winsize = get_win_size();
-		if (new_winsize != win_size)
-		{
-			win_size = new_winsize;
-			screen.update_bounds(); // update screen width and height
-			std::cout << "\033[?2026h" << "\033[2J\033[H"; // DEC Private Mode Set & Clear Screen
-			resized = true;
-		};
+  while (true)
+  {
+    auto new_winsize = get_win_size();
+    if (new_winsize != win_size)
+    {
+      win_size = new_winsize;
+      screen.update_bounds(); // update screen width and height
+      std::cout << "\033[?2026h" << "\033[2J\033[H"; // DEC Private Mode Set & Clear Screen
+      resized = true;
+    };
         
-        root.measure(); // measure all widgets
+    root.measure(); // measure all widgets
 
-        root.resolve_bounds();  // add the postions together to let the widgets know their absolute positions
+    root.resolve_bounds();  // add the positions together to let the widgets know their absolute positions
 
-        root.render(); // print to screen
-        if (resized)
-		{
-			resized = false;
-			std::cout << "\033[?2026l";
-		}
-        // future feature: screen.mainloop();
+    root.render(); // print to screen
+    if (resized)
+    {
+      resized = false;
+      std::cout << "\033[?2026l";
     }
+  }
 }
 ```
 
