@@ -39,8 +39,6 @@
   <li>
     <strong>Documentation:</strong>
     <img src="https://img.shields.io/badge/WIP-crimson?style=flat" style="vertical-align: middle;">
-  </li>
-
   <li>
     <strong>Source:</strong>
     <a href="https://github.com/Aintdev/CroissanTUI">https://github.com/Aintdev/CroissanTUI</a>
@@ -70,20 +68,122 @@ CroissanTUI is a easy-to-use C++ `Text User Interface Framework`, written entire
         align = End);
     ```
 
-## Requirements
+## Built with
 
-| Task | C++ Standard |
-| ---- | ------------ |
-| Build from source | **C++20** |
-| Use the precompiled library | **C++17** |
+| Object | Source build | Precompiled Build |
+| ---- | ------------ | ---- |
+| C++ Language | **C++20** | **C++17** |
+| Python | **3.4.x** | N/A |
+| libgrapheme | Vendored | N/A |
+| [utf8proc](utf8proc-url) | Submodule | N/A |
 
 > **Note:** The library implementation uses C++20 features internally. The public API is compatible with C++17, so applications linking against the precompiled library only require a C++17 compiler.
 
-## Installation
+## Getting started
 
-> <img src="https://img.shields.io/badge/WIP-crimson?style=flat" style="vertical-align: middle;">
+1. Clone repository into your `third-party`/`vendor` directory recursively.
+```bash
+git clone --recursive https://github.com/Aintdev/CroissanTUI.git
+```
 
-## Quick Start
+Choose your preferred installation method
 
-> <img src="https://img.shields.io/badge/WIP-crimson?style=flat" style="vertical-align: middle;">
+<details>
+<summary> Install into your project </summary>
 
+2. After cloning the repository, add the project to your `CMakeLists.txt`. Note: replace `${CMAKE_CURRENT_SOURCE_DIR}/third-party/CroissanTUI` with the path to the `CroissanTUI` repository.
+
+```cmake
+# Add CroissanTUI
+add_subdirectory(
+    "${CMAKE_CURRENT_SOURCE_DIR}/third-party/CroissanTUI"
+    "${CMAKE_CURRENT_BINARY_DIR}/CroissanTUI"
+)
+
+# Link CroissanTUI
+target_link_libraries(MyApp PRIVATE CroissanTUI)
+```
+
+3. Run your Projects `CMakeLists.txt`
+</details>
+<details>
+<summary>Install via Sample Project</summary>
+
+2. After cloning the repository, navigate to `CroissanTUI/Scripts/` and run the appropriate setup script for your platform:
+
+   - **Linux:** `Sample-Setup-Linux.sh`
+   - **Windows:** `Sample-Setup-Windows.bat`
+
+3. Once CMake has finished configuring the project, navigate to `CroissanTUI/Sample/build/`. You will find the generated project files for your CMake-compatible IDE there.
+
+</details>
+
+### Usage
+1. Include the Generated Header File into a Translation Unit.
+```cpp
+#include <ctui_h>
+```
+> **Note:** Your IDE may not find the headerfile at first. This is not a problem since it will be created at build time of the libary.
+
+2. Begin coding
+
+<details>
+<summary> Expand/Collaps code </summary>
+
+```cpp
+// Example code for README.md
+#include <ctui_h>
+
+using namespace ctui;
+using enum Align;
+
+int main() {
+#ifdef _WIN32
+	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
+#endif
+    
+    enable_raw_mode();
+	screen.config();
+
+    auto root = VStack(&screen, pady = 2, halign = Center, fill = true);
+
+    ctui::Label(&root, 
+        text << "Normal text | " 
+            << Color::Red << "Red Text | " 
+            << GraphicMod::Italic << "Italic red text |" 
+            << GraphicMod::ResetAll << "Normal text",
+        halign = End);
+
+    bool resized = false;
+
+    while (true)
+	{
+        auto new_winsize = get_win_size();
+		if (new_winsize != win_size)
+		{
+			win_size = new_winsize;
+			screen.update_bounds(); // update screen width and height
+			std::cout << "\033[?2026h" << "\033[2J\033[H"; // DEC Private Mode Set & Clear Screen
+			resized = true;
+		};
+        
+        root.measure(); // measure all widgets
+
+        root.resolve_bounds();  // add the postions together to let the widgets know their absolute positions
+
+        root.render(); // print to screen
+        if (resized)
+		{
+			resized = false;
+			std::cout << "\033[?2026l";
+		}
+        // future feature: screen.mainloop();
+    }
+}
+```
+
+</details>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[utf8proc-url]: https://github.com/JuliaStrings/utf8proc.git
