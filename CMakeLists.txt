@@ -22,6 +22,7 @@ target_link_libraries(CroissanTUI PRIVATE
 
 target_include_directories(CroissanTUI PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/Source"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Include"
 )
 
 target_compile_definitions(CroissanTUI PRIVATE
