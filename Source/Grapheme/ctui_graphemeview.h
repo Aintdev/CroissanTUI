@@ -4,7 +4,11 @@
 #include "ctui_grapheme.h"
 namespace ctui
 {
-    class GraphemeView {
+	/**
+	 * The GraphemeView class represents a view over a string, allowing 
+	 * iteration over its graphemes through an inner Iterator class.
+	 */
+	class GraphemeView {
     public:
         explicit GraphemeView(std::string_view text)
             : _text(text) {
