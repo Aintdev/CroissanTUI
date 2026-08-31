@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Aintdev/CroissanTUI/blob/main/LICENSE">
+  <a href="https://github.com/Aintdev/CroissanTUI/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License" style="margin-right: 4px;">
   </a>
 
