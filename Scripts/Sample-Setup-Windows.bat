@@ -18,8 +18,9 @@ if not errorlevel 1 (
 :: Doxygen not in PATH - search installation directory
 for /f "delims=" %%D in ('where.exe /R "%ProgramFiles%" doxygen.exe 2^>nul') do (
     set "DOXYGEN_PATH=%%D"
-    goto :doxygen
 )
+
+if defined DOXYGEN_PATH goto :doxygen
 
 echo %RED%ERROR: Doxygen not found!%RESET%
 echo.
@@ -27,7 +28,6 @@ echo.
 where winget >nul 2>&1
 
 if errorlevel 1 goto :doxygen_no_winget
-
 
 :: ============================
 :: Doxygen missing + winget
@@ -43,7 +43,6 @@ if errorlevel 3 goto :install_doxygen
 if errorlevel 2 goto :cancel
 goto :cmake
 
-
 :: ============================
 :: Doxygen missing + no winget
 :: ============================
@@ -58,7 +57,6 @@ choice /C YN /N /M "[Y/N]: "
 
 if errorlevel 2 goto :cancel
 goto :cmake
-
 
 :: ============================
 :: Run Doxygen
@@ -80,7 +78,6 @@ if errorlevel 1 (
 
 popd
 
-
 :: ============================
 :: Check CMake
 :: ============================
@@ -93,7 +90,6 @@ if errorlevel 1 (
     echo %RED%ERROR: CMake not found!%RESET%
     goto :error
 )
-
 
 :: ============================
 :: Run CMake
@@ -119,7 +115,6 @@ echo %GREEN%CMake configuration successful!%RESET%
 pause
 goto :eof
 
-
 :: ============================
 :: Install Doxygen
 :: ============================
@@ -142,15 +137,14 @@ echo.
 :: Find freshly installed Doxygen
 for /f "delims=" %%D in ('where.exe /R "%ProgramFiles%" doxygen.exe 2^>nul') do (
     set "DOXYGEN_PATH=%%D"
-    goto :doxygen
 )
 
-echo %RED%ERROR: Doxygen installed but executable could not be found!%RESET%
+if defined DOXYGEN_PATH goto :doxygen
 
+echo %RED%ERROR: Doxygen installed but executable could not be found!%RESET%
 echo Possible Solution:
 echo Restart the shell and run this setup script again.
 goto :error
-
 
 :: ============================
 :: Error
@@ -161,7 +155,6 @@ goto :error
 echo.
 timeout /t 5 /nobreak >nul
 goto :eof
-
 
 :: ============================
 :: Cancel
