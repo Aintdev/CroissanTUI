@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(CroissanTUI LANGUAGES CXX)
+project(CroissanTUI LANGUAGES C CXX)
 
 add_subdirectory(Vendor/libgrapheme)
 add_subdirectory(Vendor/utf8proc)
