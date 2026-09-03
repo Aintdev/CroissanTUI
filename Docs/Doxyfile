@@ -1,0 +1,106 @@
+# ============================================================
+# CroissanTUI - Doxygen Configuration
+# ============================================================
+
+# ------------------------------------------------------------
+# Project information
+# ------------------------------------------------------------
+
+PROJECT_NAME            = "CroissanTUI"
+PROJECT_BRIEF           = "A C++ terminal user interface library"
+
+# ------------------------------------------------------------
+# Input
+# ------------------------------------------------------------
+
+# Doxyfile is located in:
+#   CroissanTUI/docs/Doxyfile
+#
+# Main source code:
+#   CroissanTUI/Source
+
+INPUT                   = ../Source
+RECURSIVE               = YES
+
+FILE_PATTERNS           = *.h \
+                          *.hpp \
+                          *.cpp \
+                          *.cc \
+                          *.cxx
+
+# Do not add Vendor/ to INPUT.
+# Vendor headers are only provided as include paths below.
+
+# ------------------------------------------------------------
+# Documentation extraction
+# ------------------------------------------------------------
+
+EXTRACT_ALL             = YES
+EXTRACT_PRIVATE         = NO
+EXTRACT_STATIC          = NO
+EXTRACT_LOCAL_CLASSES   = NO
+
+# Automatically inherit documentation from base classes.
+INHERIT_DOCS            = YES
+
+# ------------------------------------------------------------
+# Warnings
+# ------------------------------------------------------------
+
+WARNINGS                = YES
+WARN_IF_UNDOCUMENTED    = YES
+WARN_IF_DOC_ERROR       = YES
+
+# ------------------------------------------------------------
+# C++ parsing
+# ------------------------------------------------------------
+
+CLANG_ASSISTED_PARSING  = YES
+
+CLANG_OPTIONS           = -std=c++20 \
+                          -I../Vendor/utf8proc \
+                          -I../Vendor/libgrapheme
+
+# ------------------------------------------------------------
+# Output
+# ------------------------------------------------------------
+
+OUTPUT_DIRECTORY        = generated
+
+GENERATE_HTML            = YES
+HTML_OUTPUT              = html
+
+GENERATE_LATEX           = NO
+GENERATE_XML             = NO
+GENERATE_MAN             = NO
+GENERATE_RTF             = NO
+GENERATE_DOCBOOK         = NO
+
+# ------------------------------------------------------------
+# HTML appearance
+# ------------------------------------------------------------
+
+GENERATE_TREEVIEW        = YES
+DISABLE_INDEX            = NO
+FULL_SIDEBAR             = NO
+
+# ------------------------------------------------------------
+# Source code browser
+# ------------------------------------------------------------
+
+SOURCE_BROWSER           = YES
+INLINE_SOURCES           = NO
+
+# ------------------------------------------------------------
+# Diagrams
+# ------------------------------------------------------------
+
+HAVE_DOT                = NO
+UML_LOOK                = NO
+
+# ------------------------------------------------------------
+# Miscellaneous
+# ------------------------------------------------------------
+
+QUIET                    = NO
+SKIP_FUNCTION_MACROS     = YES
