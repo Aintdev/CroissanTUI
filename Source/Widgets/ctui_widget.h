@@ -17,6 +17,15 @@ namespace ctui {
      */
     struct Widget {
     protected:
+        /// Parent container of this Widget
+        Container* _parent;
+
+        /// Relative bounds to the anchor point of the Widget 
+        Rect _relative_bounds;
+
+        /// Absolute bounds on the terminal
+        Rect _absolute_bounds;
+
         Widget()
             : _parent(nullptr),
             _relative_bounds(std::nullopt, std::nullopt),
@@ -24,10 +33,6 @@ namespace ctui {
         }
 
     public:
-        Container* _parent;
-        Rect _relative_bounds;
-        Rect _absolute_bounds;
-
         /**
          * Handles user input.
          *
