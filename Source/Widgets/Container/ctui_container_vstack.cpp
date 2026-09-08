@@ -40,10 +40,13 @@ namespace ctui
 		for (Widget* child : _children)
 		{
 			child->measure(inner_width);
-			assert(child->_relative_bounds.height.has_value() && "CHILD DOES NOT HAVE HEIGHT");
-			curY += child->_relative_bounds.height.value_or(0) + _pady;
 
-			width = std::max(child->_relative_bounds.width.value_or(0), width);
+			auto childRelBounds = child->get_relative_bounds();
+
+			assert(childRelBounds.height.has_value() && "CHILD DOES NOT HAVE HEIGHT");
+			curY += childRelBounds.height.value_or(0) + _pady;
+
+			width = std::max(childRelBounds.width.value_or(0), width);
 		} 
 		curY -= !_children.empty() ? _pady : 0;
 		
@@ -60,14 +63,15 @@ namespace ctui
 		for (Widget* child : _children)
 		{
 			int curX = startx;
+			auto childRelBounds = child->get_relative_bounds();
 			if (_halign == Align::Center)
 			{
-				int rad = child->_relative_bounds.width.value() / 2;
+				int rad = childRelBounds.width.value() / 2;
 				curX += (_relative_bounds.width.value() / 2) - rad;				
 			} //TODO: Impliment Align::End support
 			child->resolve_bounds(curX, curY);
 
-			curY += child->_relative_bounds.height.value() + _pady;
+			curY += childRelBounds.height.value() + _pady;
 		}
 
 		_absolute_bounds = Rect(startx, starty, _relative_bounds.width.value(), _relative_bounds.height.value());
