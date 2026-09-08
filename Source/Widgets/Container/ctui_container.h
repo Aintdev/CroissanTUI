@@ -25,7 +25,7 @@ namespace ctui {
 		// Getters
 		[[nodiscard]] int get_focus_index() const;
 		
-		[[nodiscard]] std::vector<Widget*>& get_children() const;
+		[[nodiscard]] const std::vector<Widget*>& get_children() const;
 
 		/**
 		 * Makes widget a child of this.

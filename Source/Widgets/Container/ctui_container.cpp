@@ -20,16 +20,26 @@ namespace ctui
 		}
 	}
 
+	int Container::get_focus_index() const
+	{
+		return _focus_index;
+	}
+
+	const std::vector<Widget*>& Container::get_children() const
+	{
+		return _children;
+	}
+
 	void Container::make_child(Widget* child)
 	{
-		child->_parent = this;
+		child->set_parent(this);
 		_children.emplace_back(child);
 	}
 
 	Container::~Container()
 	{
 		while (!_children.empty())
-			delete _children.back();
+			_children.back()->set_parent(nullptr);
 
 		if (_parent)
 			_parent->remove(this);
