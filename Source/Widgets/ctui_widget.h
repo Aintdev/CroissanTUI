@@ -33,6 +33,14 @@ namespace ctui {
         }
 
     public:
+        // Getters
+        [[nodiscard]] const Rect& get_relative_bounds() const;
+        [[nodiscard]] const Rect& get_absolute_bounds() const;
+
+        [[nodiscard]] const Widget& get_parent() const;
+
+        void set_parent(Container* parent_ptr);
+
         /**
          * Handles user input.
          *
