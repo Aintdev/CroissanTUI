@@ -36,7 +36,38 @@ namespace ctui {
 		template<typename T, typename... Args>
 		T& make_child(Args&&... args)
 		{
-			
+			static_assert(std::is_base_of_v<Widget, T>, "T must derive from Widget");
+			auto child = std::make_unique<std::decay_t<T>>(std::forward<Args>(args)...);
+			T& ref = *child;
+			_children.emplace_back(std::move(child));
+			return ref;
+		}
+
+		/**
+		 * Makes Container owner of given Widget
+		 * @tparam T Type of Widget.
+		 * @param child Unique pointer to child that Container can add.
+		 * @return Reference to constructed widget.
+		 */
+		template<typename T>
+		T& add(std::unique_ptr<T> child)
+		{
+			static_assert(std::is_base_of_v<Widget, T>, "T must derive from Widget");
+			T& ref = *child;
+			_children.emplace_back(std::move(child));
+			return ref;
+		}
+
+		/**
+		 * 
+		 * @param child 
+		 */
+		void remove(Widget& child) {
+			auto it = std::find_if(_children.begin(), _children.end(),
+				[&](const auto& ptr) { return ptr.get() == &child; });
+			if (it != _children.end()) {
+				_children.erase(it);
+			}
 		}
 		
 		/**
