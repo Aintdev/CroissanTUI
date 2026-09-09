@@ -18,7 +18,7 @@ namespace ctui {
 		int _focus_index = kFocusIndex;
 
 		/// Children that the Container is the parent of
-		std::vector<Widget*> _children = {};
+		std::vector<std::unique_ptr<Widget>> _children = {};
 		
 		Container() = default;
 	public:
@@ -28,11 +28,17 @@ namespace ctui {
 		[[nodiscard]] const std::vector<Widget*>& get_children() const;
 
 		/**
-		 * Makes widget a child of this.
-		 * @param child Widget that should be made child.
+		 * Creates a Widget from type T and gives this ownership.
+		 * @tparam T Type of Widget.
+		 * @param args Argument passed to T constructor.
+		 * @return Reference to constructed widget.
 		 */
-		void make_child(Widget* child);
-
+		template<typename T, typename... Args>
+		T& make_child(Args&&... args)
+		{
+			
+		}
+		
 		/**
 		 * Removes child Widget from Container.
 		 * @param child Widget that should be removed of Container.
