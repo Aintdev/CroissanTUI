@@ -1,26 +1,27 @@
 #pragma once
 #include <memory>
 #include <stdexcept>
-
-#include "Widgets/ctui_widget.h"
+#include <type_traits>
 
 namespace ctui
 {
+	class Widget;
+
 	template<typename T>
 	class WidgetHandler
 	{
 		T* _widget;
 		std::shared_ptr<bool> _alive;
 
-		WidgetHandler(T* widget, std::shared_ptr<bool> alive)
-			: _widget(widget),
-			_alive(std::move(alive))
+	public:
+		WidgetHandler(T* widget)
+			: _widget(widget)
 		{
-			static_assert(std::is_base_of_v<Widget, std::decay<T>>,
+			static_assert(std::is_base_of_v<Widget, std::decay_t<T>>,
 				"Object needs to be a Widget.");
+			_alive = _widget->get_alive_ptr();
 		}
 
-	public:
 		T& get()
 		{
 			if (!*_alive)
@@ -34,6 +35,11 @@ namespace ctui
 		operator Widget& ()
 		{
 			return get();
+		}
+
+		T* operator->()
+		{
+			return &get();
 		}
 	};
 }

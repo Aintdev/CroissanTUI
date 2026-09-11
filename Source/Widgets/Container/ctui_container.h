@@ -39,9 +39,7 @@ namespace ctui {
 		{
 			static_assert(std::is_base_of_v<Widget, T>, "T must derive from Widget");
 			auto child = std::make_unique<std::decay_t<T>>(this, std::forward<Args>(args)...);
-			_children.emplace_back(std::move(child));
-			
-			return WidgetHandler<T>(*child, child.get_alive_ptr());
+			return WidgetHandler<T>(static_cast<T*>(_children.emplace_back(std::move(child)).get()));
 		}
 
 		/**

@@ -86,9 +86,9 @@ int main()
 
 	auto l1 = main.get().make_child<Label>(text << "test");
 
-	main.get().remove(l1);
+	//main->remove(l1);
 
-	l1.config(text << "test2");
+	l1->config(text << "test2");
 
 	auto win_size = get_win_size();
 	std::cout << "\033[?1049h" << "\033[?25l";
@@ -108,9 +108,9 @@ int main()
 			resized = true;
 		}
 
-		main.measure(win_size.first);
-		main.resolve_bounds(0, 0);
-		main.render();
+		main->measure(win_size.first);
+		main->resolve_bounds(0, 0);
+		main->render();
 
 		if (resized)
 		{
