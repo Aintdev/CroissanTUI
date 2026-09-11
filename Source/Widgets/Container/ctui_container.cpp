@@ -19,7 +19,13 @@ namespace ctui
 			});
 
 		if (it != _children.end())
+		{
 			_children.erase(it);
+			if (_children.empty())
+				_focus_index = kFocusIndex;
+			else if (_focus_index >= static_cast<int>(_children.size()))
+				_focus_index = static_cast<int>(_children.size()) - 1;
+		}
 	}
 
 	int Container::get_focus_index() const
