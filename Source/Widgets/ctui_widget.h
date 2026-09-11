@@ -4,6 +4,7 @@
 
 #include "ctui_rect.h"
 #include "ctui_key.h"
+#include "ctui_widget_handler.h"
 
 namespace ctui {
 
@@ -17,6 +18,8 @@ namespace ctui {
      */
     struct Widget {
     protected:
+        std::shared_ptr<bool> _alive = std::make_shared<bool>(true);
+
         /// Parent container of this Widget
         Container* _parent;
 
@@ -41,13 +44,18 @@ namespace ctui {
 
         void set_parent(Container* parent_ptr);
 
-        /**
+        std::shared_ptr<bool> get_alive_ptr()
+        {
+            return _alive;
+        }
+
+	        /**
          * Handles user input.
          *
          * @param key The key representing the user input.
          * @return `true` if the input was handled, otherwise `false`.
          */
-        virtual bool input(Key key) = 0;
+	        virtual bool input(Key key) = 0;
 
         /**
          * Calculates the desired dimensions of the widget based on the
@@ -70,6 +78,12 @@ namespace ctui {
          * Renders the widget and its child widgets.
          */
         virtual void render() = 0;
+
+        Widget(const Widget&) = delete;
+        Widget& operator=(const Widget&) = delete;
+
+        Widget(Widget&&) = delete;
+        Widget& operator=(Widget&&) = delete;
 
         virtual ~Widget();
     };
