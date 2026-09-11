@@ -80,13 +80,11 @@ int main()
 #endif
 
 	enable_raw_mode();
-	screen.config();
+	screen->config();
 
-	auto main = screen.make_child<VStack>(fill=true);
+	auto main = screen->make_child<VStack>(fill=true);
 
-	auto l1 = main.get().make_child<Label>(text << "test");
-
-	//main->remove(l1);
+	auto l1 = main->make_child<Label>(text << "test");
 
 	l1->config(text << "test2");
 
@@ -102,7 +100,7 @@ int main()
 		if (new_winsize != win_size)
 		{
 			win_size = new_winsize;
-			screen.update_bounds();
+			screen->update_bounds();
 
 			std::cout << "\033[2J\033[H\033[?2026h";
 			resized = true;

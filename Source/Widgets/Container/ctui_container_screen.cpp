@@ -5,6 +5,13 @@
 
 namespace ctui
 {
+	namespace detail
+	{
+		Screen& screen_base = Screen::instance();
+	}
+
+	WidgetHandler<Screen> screen = WidgetHandler(&detail::screen_base);
+
 	Screen::Screen() : VStack()
 	{
 		update_bounds();

@@ -144,7 +144,7 @@ namespace ctui
 		check_if_fn_are_dirty();
 
 		if (available_width == INT_MAX)
-			available_width = screen.get_bounds().first;
+			available_width = screen->get_bounds().first;
 
 		if (_dirty || _cached_available_width != available_width)
 		{

@@ -41,5 +41,10 @@ namespace ctui
 
         Screen();
     };
-    inline Screen& screen = Screen::instance();
+    namespace detail
+    {
+        extern Screen& screen_base;
+    }
+    
+    extern WidgetHandler<Screen> screen;
 }
