@@ -7,6 +7,10 @@ namespace ctui
 {
 	class Widget;
 
+	/**
+	 * Handler to control a Widget safely that safely handles unsafe access.
+	 * @tparam T Type of the Widget it handles.
+	 */
 	template<typename T>
 	class WidgetHandler
 	{
@@ -22,6 +26,11 @@ namespace ctui
 			_alive = _widget->get_alive_ptr();
 		}
 
+		/**
+		 * Gets Widget if it's still alive.
+		 * @return Reference to Widget.
+		 * @throws std::runtime_error if Widget is no longer alive.
+		 */
 		T& get()
 		{
 			if (!*_alive)
@@ -32,11 +41,21 @@ namespace ctui
 			return *_widget;
 		}
 
+		/**
+		 * Gets Widget if it's still alive.
+		 * @return Reference to Widget.
+		 * @throws std::runtime_error if Widget is no longer alive.
+		 */
 		operator Widget& ()
 		{
 			return get();
 		}
 
+		/**
+		 * Gets Widget if it's still alive.
+		 * @return Reference to Widget.
+		 * @throws std::runtime_error if Widget is no longer alive.
+		 */
 		T* operator->()
 		{
 			return &get();
