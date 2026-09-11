@@ -1,0 +1,487 @@
+diff --git a/Sample/App/Source/Main.cpp b/Sample/App/Source/Main.cpp
+index 45452ca..207f9b8 100644
+--- a/Sample/App/Source/Main.cpp
++++ b/Sample/App/Source/Main.cpp
+@@ -67,151 +67,58 @@ void TestVendorLibs()
+ 	}
+ }
+ 
+-int main() {
++void addTest(Container& parent)
++{
++	
++}
++
++int main()
++{
+ #ifdef _WIN32
+ 	SetConsoleOutputCP(CP_UTF8);
+ 	SetConsoleCP(CP_UTF8);
+ #endif
+ 
+-	TestVendorLibs();
+-
+-	//std::this_thread::sleep_for(std::chrono::seconds(3));
+-
+ 	enable_raw_mode();
+ 	screen.config();
+ 
+-	auto main = VStack(&screen, pady = 2, halign = Center, fill = true);
+-
+-	auto header = VStack(&main, pady = 1, halign = Center);
+-	auto title = Label(&header, text << Color::CYAN << GraphicMod::BOLD << "=== CTUI Demo ===" << GraphicMod::RESET_ALL);
+-	auto subtitle = Label(&header, text << Color::WHITE << "v0.1.0 — Testbuild");
+-
+-	auto sub = VStack(&main, pady = 1, halign = Center);
+-	auto d = Label(&sub, text << "Drücke hier zum loslegen.");
+-
+-	std::string mytext = "Zeile 5: Hier eine Variable als Text!";
+-
+-	auto info = VStack(&main, pady = 1, halign = Start);
+-	auto multi = Label(&info, text
+-		<< Color::YELLOW << "Zeile 1: kurz\n"
+-		<< Color::GREEN << "Zeile 2: etwas länger als die erste\n"
+-		<< Color::MAGENTA << "Zeile 3: und diese hier ist nochmal deutlich länger als die vorherigen beiden\n"
+-		<< Color::WHITE << GraphicMod::UNDERLINE << "Zeile 4: unterstrichen\n"
+-		<< Color::BG_WHITE << Color::BLACK << mytext << GraphicMod::RESET_ALL
+-	);
+-
+-	auto stats = VStack(&main, pady = 0, halign = End); //VStack needs end impl.
+-	size_t fps_out = 0;
+-	auto fps_label = Label(&stats, text << Color::RED << "FPS: " << [&fps_out]() -> std::string {
+-		return std::to_string(fps_out);
+-		}, halign = End);
+-	auto mem = Label(&stats, text << Color::BLUE << "MEM: 12.4 MB", halign = End);
+-
+-	auto currentTime = []() -> std::string
+-		{
+-			using namespace std::chrono;
+-
+-			auto now = system_clock::now();
+-			auto t = system_clock::to_time_t(now);
+-
+-			std::tm tm{};
+-#ifdef _WIN32
+-			localtime_s(&tm, &t);
+-#else
+-			localtime_r(&t, &tm);
+-#endif
+-
+-			auto ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
+-			auto ns = duration_cast<nanoseconds>(now.time_since_epoch()) % 1000000; // Rest nach den ms
+-
+-			std::ostringstream oss;
+-			oss << std::put_time(&tm, "%H:%M:%S")
+-				<< ':'
+-				<< std::setw(3) << std::setfill('0') << ms.count()
+-				<< ':'
+-				<< std::setw(6) << std::setfill('0') << ns.count();
+-
+-			return oss.str();
+-		};
+-	size_t remaining_seconds = 0u;
+-
+-	auto time = Label(&stats, text << currentTime << "\nTerminal will close in " << Color::BLUE << [&remaining_seconds]() { return std::to_string(remaining_seconds); } << "s" << Color::WHITE << ".", halign = End);
++	auto main = screen.make_child<VStack>(fill=true);
+ 
+-	Label long_text(&stats, text << "Hello, I am quite a long piece of text and need lots of space and I am very cool and Lennox is a pretty cool dude.\nAlso, I think this program is really well written. And I still need some extra text.");
+-	//Label long_text(&stats, text << "你好，我是一个相当长的文本，需要很多空间，而且我非常酷，Lennox也是一个很酷的家伙。\n另外，我觉得这个程序写得很酷。而且我还需要一些额外的文本。");
++	auto l1 = main.get().make_child<Label>(text << "test");
+ 
+-	long_text.config(wraplength = 50);
++	//main->remove(l1);
+ 
+-	std::string ctrltext = "THIS TEXT SHOULD NOT BE HERE";
+-	auto control = Label(&main, text << Color::CYAN << GraphicMod::BOLD << [&ctrltext]() { return ctrltext; } << GraphicMod::RESET_ALL);
+-	auto centertest = Label(&main, text << ".....😊😊😊😊😊");
++	l1->config(text << "test2");
+ 
+ 	auto win_size = get_win_size();
+-	size_t i = 0;
+ 	std::cout << "\033[?1049h" << "\033[?25l";
+-	size_t fps = 0;
+-	Timer fps_timer = Timer();
+-
+-	Timer runtime = Timer();
+ 
+ 	bool resized = false;
+-	const int timer = 60;
+-	bool first_frame = true;
+ 
+ 	while (true)
+ 	{
+ 		auto new_winsize = get_win_size();
++
+ 		if (new_winsize != win_size)
+ 		{
+ 			win_size = new_winsize;
+ 			screen.update_bounds();
+-			std::cout << "\033[2J\033[H" << "\033[?2026h";
+-			resized = true;
+-		};
+ 
+-		Timer a_time = Timer();
+-		main.measure(win_size.first);
+-#ifdef _WIN32
+-		//OutputDebugStringA(std::string("\n\nMeasure-Time: " + std::to_string(a_time.elapsed_ms())).c_str());
+-#endif
++			std::cout << "\033[2J\033[H\033[?2026h";
++			resized = true;
++		}
+ 
+-		Timer b_time = Timer();
+-		main.resolve_bounds(0, 0);
+-#ifdef _WIN32
+-		//OutputDebugStringA(std::string("\nResolve-Time: " + std::to_string(b_time.elapsed_ms())).c_str());
+-#endif
++		main->measure(win_size.first);
++		main->resolve_bounds(0, 0);
++		main->render();
+ 
+-		Timer c_time = Timer();
+-		main.render();
+ 		if (resized)
+ 		{
+ 			resized = false;
+ 			std::cout << "\033[?2026l";
+ 		}
+-#ifdef _WIN32
+-		//OutputDebugStringA(std::string("\nRender-Time: " + std::to_string(c_time.elapsed_ms())).c_str());
+-#endif
+-
+-		++fps;
+-
+-		remaining_seconds = timer - static_cast<size_t>(runtime.elapsed_ms() / 1000);
+-
+-		if (fps_timer.elapsed_ms() >= 1000)
+-		{
+-			double elapsed = fps_timer.elapsed_ms();
+-			fps_out = static_cast<size_t>(fps * 1000.0 / elapsed);
+-			fps = 0;
+-			fps_timer.reset();
+-		}
+-
+-		if (runtime.elapsed_ms() >= timer * 1000)
+-			break;
+-		if (first_frame)
+-		{
+-			first_frame = false;
+-			ctrltext = "";
+-		}
+ 	}
++
+ 	std::cout << "\033[?25h";
+ 	disable_raw_mode();
+ }
+\ No newline at end of file
+diff --git a/Source/Widgets/Container/ctui_container.cpp b/Source/Widgets/Container/ctui_container.cpp
+index 5421be1..6ed0746 100644
+--- a/Source/Widgets/Container/ctui_container.cpp
++++ b/Source/Widgets/Container/ctui_container.cpp
+@@ -5,19 +5,21 @@ namespace ctui
+ {
+ 	void Container::render()
+ 	{
+-		for (Widget* child : _children)
++		for (std::unique_ptr<Widget>& child : _children)
+ 		{
+ 			child->render();
+ 		}
+ 	}
+ 
+-	void Container::remove(Widget* child)
++	void Container::remove(Widget& child)
+ 	{
+-		if (const auto it = std::ranges::find(_children, child);
+-			it != _children.end())
+-		{
++		auto it = std::ranges::find_if(_children,
++			[&](const auto& ptr) {
++				return ptr.get() == &child;
++			});
++
++		if (it != _children.end())
+ 			_children.erase(it);
+-		}
+ 	}
+ 
+ 	int Container::get_focus_index() const
+@@ -25,23 +27,14 @@ namespace ctui
+ 		return _focus_index;
+ 	}
+ 
+-	const std::vector<Widget*>& Container::get_children() const
++	const std::vector<std::unique_ptr<Widget>>& Container::get_children() const
+ 	{
+ 		return _children;
+ 	}
+ 
+-	void Container::make_child(Widget* child)
+-	{
+-		child->set_parent(this);
+-		_children.emplace_back(child);
+-	}
+-
+ 	Container::~Container()
+ 	{
+ 		while (!_children.empty())
+-			_children.back()->set_parent(nullptr);
+-
+-		if (_parent)
+-			_parent->remove(this);
++			remove(*_children.back());
+ 	}
+ }
+diff --git a/Source/Widgets/Container/ctui_container.h b/Source/Widgets/Container/ctui_container.h
+index 601c106..64f9606 100644
+--- a/Source/Widgets/Container/ctui_container.h
++++ b/Source/Widgets/Container/ctui_container.h
+@@ -4,12 +4,13 @@
+ 
+ #include "ctui_defaults.h"
+ #include "Widgets/ctui_widget.h"
++#include "ctui_widget_handler.h"
+ 
+ 
+ namespace ctui {
+ 	/**
+ 	 * Abstract base class for all Container components.
+-	 * 
++	 *
+ 	 * Container provides basic functionality to add and remove Widgets.
+ 	 */
+ 	struct Container : Widget, protected defaults::WidgetDefaults {
+@@ -18,37 +19,40 @@ namespace ctui {
+ 		int _focus_index = kFocusIndex;
+ 
+ 		/// Children that the Container is the parent of
+-		std::vector<Widget*> _children = {};
+-		
++		std::vector<std::unique_ptr<Widget>> _children = {};
++
+ 		Container() = default;
+ 	public:
+ 		// Getters
+ 		[[nodiscard]] int get_focus_index() const;
+-		
+-		[[nodiscard]] const std::vector<Widget*>& get_children() const;
++
++		[[nodiscard]] const std::vector<std::unique_ptr<Widget>>& get_children() const;
+ 
+ 		/**
+-		 * Makes widget a child of this.
+-		 * @param child Widget that should be made child.
++		 * Creates a Widget from type T and gives this ownership.
++		 * @tparam T Type of Widget.
++		 * @param args Argument passed to T constructor.
++		 * @return Reference to constructed widget.
+ 		 */
+-		void make_child(Widget* child);
++		template<typename T, typename... Args>
++		WidgetHandler<T> make_child(Args&&... args)
++		{
++			static_assert(std::is_base_of_v<Widget, T>, "T must derive from Widget");
++			auto child = std::make_unique<std::decay_t<T>>(this, std::forward<Args>(args)...);
++			return WidgetHandler<T>(static_cast<T*>(_children.emplace_back(std::move(child)).get()));
++		}
+ 
+ 		/**
+-		 * Removes child Widget from Container.
+-		 * @param child Widget that should be removed of Container.
++		 * Removes widget from a child from Container. Does nothing if child is not from this Container.
++		 * @param child Widget to remove
+ 		 */
+-		void remove(Widget* child);
++		void remove(Widget& child);
+ 
+ 		/**
+ 		 * Renders alls children
+ 		 */
+ 		void render() override;
+ 
+-		Container(const Container&) = delete;
+-		Container& operator=(const Container&) = delete;
+-		Container(Container&&) = delete;
+-		Container& operator=(Container&&) = delete;
+-
+ 		~Container() override;
+ 	};
+ }
+diff --git a/Source/Widgets/Container/ctui_container_vstack.cpp b/Source/Widgets/Container/ctui_container_vstack.cpp
+index 7489d6d..205b5f3 100644
+--- a/Source/Widgets/Container/ctui_container_vstack.cpp
++++ b/Source/Widgets/Container/ctui_container_vstack.cpp
+@@ -17,7 +17,7 @@ namespace ctui
+ 	bool VStack::input(const Key key)
+ 	{
+ 		if (_children.empty()) return false;
+-		if (auto* container = dynamic_cast<Container*>(_children[_focus_index]))
++		if (auto* container = dynamic_cast<Container*>(_children[_focus_index].get()))
+ 		{
+ 			if (container->input(key)) return true;
+ 		}
+@@ -37,7 +37,7 @@ namespace ctui
+ 
+ 		int inner_width = available_width - (available_width != INT_MAX ? width_diff : 0);
+ 
+-		for (Widget* child : _children)
++		for (std::unique_ptr<Widget>& child : _children)
+ 		{
+ 			child->measure(inner_width);
+ 
+@@ -60,7 +60,7 @@ namespace ctui
+ 
+ 		int curY = starty;
+ 
+-		for (Widget* child : _children)
++		for (std::unique_ptr<Widget>& child : _children)
+ 		{
+ 			int curX = startx;
+ 			auto childRelBounds = child->get_relative_bounds();
+diff --git a/Source/Widgets/Container/ctui_container_vstack.h b/Source/Widgets/Container/ctui_container_vstack.h
+index 6e64935..d4d145f 100644
+--- a/Source/Widgets/Container/ctui_container_vstack.h
++++ b/Source/Widgets/Container/ctui_container_vstack.h
+@@ -33,8 +33,8 @@ namespace ctui
+ 		{
+ 			assert(parent && _CTUIMSG_VSTACK_NO_PARENT);
+ 			if (!parent) throw std::invalid_argument(_CTUIMSG_VSTACK_NO_PARENT);
+-			parent->make_child(this);
+-			config(args...);
++			set_parent(parent);
++			config(std::forward<Args>(args)...);
+ 		}
+ 
+ 		// TODO: Getters :)
+diff --git a/Source/Widgets/ctui_widget.cpp b/Source/Widgets/ctui_widget.cpp
+index ad51cce..f1ebe3a 100644
+--- a/Source/Widgets/ctui_widget.cpp
++++ b/Source/Widgets/ctui_widget.cpp
+@@ -26,7 +26,6 @@ namespace ctui
+ 
+ 	Widget::~Widget()
+ 	{
+-		if (!_parent)	return;
+-		_parent->remove(this);
++		*_alive = false;
+ 	}
+ }
+diff --git a/Source/Widgets/ctui_widget.h b/Source/Widgets/ctui_widget.h
+index a2dbe4e..69170f9 100644
+--- a/Source/Widgets/ctui_widget.h
++++ b/Source/Widgets/ctui_widget.h
+@@ -4,6 +4,7 @@
+ 
+ #include "ctui_rect.h"
+ #include "ctui_key.h"
++#include "ctui_widget_handler.h"
+ 
+ namespace ctui {
+ 
+@@ -17,6 +18,8 @@ namespace ctui {
+      */
+     struct Widget {
+     protected:
++        std::shared_ptr<bool> _alive = std::make_shared<bool>(true);
++
+         /// Parent container of this Widget
+         Container* _parent;
+ 
+@@ -41,13 +44,18 @@ namespace ctui {
+ 
+         void set_parent(Container* parent_ptr);
+ 
+-        /**
++        std::shared_ptr<bool> get_alive_ptr()
++        {
++            return _alive;
++        }
++
++	        /**
+          * Handles user input.
+          *
+          * @param key The key representing the user input.
+          * @return `true` if the input was handled, otherwise `false`.
+          */
+-        virtual bool input(Key key) = 0;
++	        virtual bool input(Key key) = 0;
+ 
+         /**
+          * Calculates the desired dimensions of the widget based on the
+@@ -71,6 +79,12 @@ namespace ctui {
+          */
+         virtual void render() = 0;
+ 
++        Widget(const Widget&) = delete;
++        Widget& operator=(const Widget&) = delete;
++
++        Widget(Widget&&) = delete;
++        Widget& operator=(Widget&&) = delete;
++
+         virtual ~Widget();
+     };
+ 
+diff --git a/Source/Widgets/ctui_widget_label.h b/Source/Widgets/ctui_widget_label.h
+index 731eec2..aa7e384 100644
+--- a/Source/Widgets/ctui_widget_label.h
++++ b/Source/Widgets/ctui_widget_label.h
+@@ -32,7 +32,7 @@ namespace ctui
+ 		{
+ 			assert(parent && _CTUIMSG_VSTACK_NO_PARENT);
+ 			if (!parent) throw std::invalid_argument(_CTUIMSG_VSTACK_NO_PARENT);
+-			parent->make_child(this);
++			set_parent(parent);
+ 			config(std::forward<Args>(args)...);
+ 		}
+ 
+diff --git a/Source/ctui_widget_handler.h b/Source/ctui_widget_handler.h
+new file mode 100644
+index 0000000..1e7244c
+--- /dev/null
++++ b/Source/ctui_widget_handler.h
+@@ -0,0 +1,45 @@
++#pragma once
++#include <memory>
++#include <stdexcept>
++#include <type_traits>
++
++namespace ctui
++{
++	class Widget;
++
++	template<typename T>
++	class WidgetHandler
++	{
++		T* _widget;
++		std::shared_ptr<bool> _alive;
++
++	public:
++		WidgetHandler(T* widget)
++			: _widget(widget)
++		{
++			static_assert(std::is_base_of_v<Widget, std::decay_t<T>>,
++				"Object needs to be a Widget.");
++			_alive = _widget->get_alive_ptr();
++		}
++
++		T& get()
++		{
++			if (!*_alive)
++			{
++				throw std::runtime_error("Widget is no longer alive");
++			}
++
++			return *_widget;
++		}
++
++		operator Widget& ()
++		{
++			return get();
++		}
++
++		T* operator->()
++		{
++			return &get();
++		}
++	};
++}
