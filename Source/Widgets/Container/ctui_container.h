@@ -4,6 +4,7 @@
 
 #include "ctui_defaults.h"
 #include "Widgets/ctui_widget.h"
+#include "ctui_widget_handler.h"
 
 
 namespace ctui {
@@ -34,29 +35,13 @@ namespace ctui {
 		 * @return Reference to constructed widget.
 		 */
 		template<typename T, typename... Args>
-		T& make_child(Args&&... args)
+		WidgetHandler<T> make_child(Args&&... args)
 		{
 			static_assert(std::is_base_of_v<Widget, T>, "T must derive from Widget");
 			auto child = std::make_unique<std::decay_t<T>>(this, std::forward<Args>(args)...);
-			T& ref = *child;
 			_children.emplace_back(std::move(child));
-			return ref;
-		}
-
-		/**
-		 * Makes Container owner of given Widget
-		 * @tparam T Type of Widget.
-		 * @param child Unique pointer to child that Container can add.
-		 * @return Reference to constructed widget.
-		 */
-		template<typename T>
-		T& add(std::unique_ptr<T> child)
-		{
-			static_assert(std::is_base_of_v<Widget, T>, "T must derive from Widget");
-			child.setParent(this);
-			T& ref = *child;
-			_children.emplace_back(std::move(child));
-			return ref;
+			
+			return WidgetHandler<T>(*child, child.get_alive_ptr());
 		}
 
 		/**
@@ -69,11 +54,6 @@ namespace ctui {
 		 * Renders alls children
 		 */
 		void render() override;
-
-		Container(const Container&) = delete;
-		Container& operator=(const Container&) = delete;
-		Container(Container&&) = delete;
-		Container& operator=(Container&&) = delete;
 
 		~Container() override;
 	};

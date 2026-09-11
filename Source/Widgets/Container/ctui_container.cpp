@@ -35,9 +35,6 @@ namespace ctui
 	Container::~Container()
 	{
 		while (!_children.empty())
-			_children.back()->set_parent(nullptr);
-
-		if (_parent)
-			_parent->remove(*this);
+			remove(*_children.back());
 	}
 }

@@ -69,7 +69,7 @@ void TestVendorLibs()
 
 void addTest(Container& parent)
 {
-	auto l1 = parent.make_child<Label>(text << "test");
+	
 }
 
 int main()
@@ -82,11 +82,13 @@ int main()
 	enable_raw_mode();
 	screen.config();
 
-	auto& main = screen.make_child<VStack>(fill=true);
+	auto main = screen.make_child<VStack>(fill=true);
 
-	addTest(main);
-	addTest(main);
-	addTest(main);
+	auto l1 = main.get().make_child<Label>(text << "test");
+
+	main.get().remove(l1);
+
+	l1.config(text << "test2");
 
 	auto win_size = get_win_size();
 	std::cout << "\033[?1049h" << "\033[?25l";
