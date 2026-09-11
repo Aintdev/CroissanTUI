@@ -152,7 +152,7 @@ int main() {
 
     auto root = screen->make_child<VStack>(pady = 2, halign = Center, fill = true);
 
-    auto x = root.make_child<Label>(
+    auto x = root->make_child<Label>(
         text << "Normal text | "
         << Color::RED << "Red Text | "
         << GraphicMod::ITALIC << "Italic red text | "
