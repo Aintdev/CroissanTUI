@@ -9,7 +9,7 @@
 namespace ctui {
 	/**
 	 * Abstract base class for all Container components.
-	 * 
+	 *
 	 * Container provides basic functionality to add and remove Widgets.
 	 */
 	struct Container : Widget, protected defaults::WidgetDefaults {
@@ -19,13 +19,13 @@ namespace ctui {
 
 		/// Children that the Container is the parent of
 		std::vector<std::unique_ptr<Widget>> _children = {};
-		
+
 		Container() = default;
 	public:
 		// Getters
 		[[nodiscard]] int get_focus_index() const;
-		
-		[[nodiscard]] const std::vector<Widget*>& get_children() const;
+
+		[[nodiscard]] const std::vector<std::unique_ptr<Widget>>& get_children() const;
 
 		/**
 		 * Creates a Widget from type T and gives this ownership.
@@ -37,7 +37,7 @@ namespace ctui {
 		T& make_child(Args&&... args)
 		{
 			static_assert(std::is_base_of_v<Widget, T>, "T must derive from Widget");
-			auto child = std::make_unique<std::decay_t<T>>(std::forward<Args>(args)...);
+			auto child = std::make_unique<std::decay_t<T>>(this, std::forward<Args>(args)...);
 			T& ref = *child;
 			_children.emplace_back(std::move(child));
 			return ref;
@@ -53,28 +53,17 @@ namespace ctui {
 		T& add(std::unique_ptr<T> child)
 		{
 			static_assert(std::is_base_of_v<Widget, T>, "T must derive from Widget");
+			child.setParent(this);
 			T& ref = *child;
 			_children.emplace_back(std::move(child));
 			return ref;
 		}
 
 		/**
-		 * 
-		 * @param child 
+		 * Removes widget from a child from Container. Does nothing if child is not from this Container.
+		 * @param child Widget to remove
 		 */
-		void remove(Widget& child) {
-			auto it = std::find_if(_children.begin(), _children.end(),
-				[&](const auto& ptr) { return ptr.get() == &child; });
-			if (it != _children.end()) {
-				_children.erase(it);
-			}
-		}
-		
-		/**
-		 * Removes child Widget from Container.
-		 * @param child Widget that should be removed of Container.
-		 */
-		void remove(Widget* child);
+		void remove(Widget& child);
 
 		/**
 		 * Renders alls children

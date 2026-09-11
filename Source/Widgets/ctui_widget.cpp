@@ -27,6 +27,6 @@ namespace ctui
 	Widget::~Widget()
 	{
 		if (!_parent)	return;
-		_parent->remove(this);
+		_parent->remove(*this);
 	}
 }

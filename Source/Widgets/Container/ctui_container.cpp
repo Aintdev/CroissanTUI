@@ -5,19 +5,21 @@ namespace ctui
 {
 	void Container::render()
 	{
-		for (Widget* child : _children)
+		for (std::unique_ptr<Widget>& child : _children)
 		{
 			child->render();
 		}
 	}
 
-	void Container::remove(Widget* child)
+	void Container::remove(Widget& child)
 	{
-		if (const auto it = std::ranges::find(_children, child);
-			it != _children.end())
-		{
+		auto it = std::ranges::find_if(_children,
+			[&](const auto& ptr) {
+				return ptr.get() == &child;
+			});
+
+		if (it != _children.end())
 			_children.erase(it);
-		}
 	}
 
 	int Container::get_focus_index() const
@@ -25,15 +27,9 @@ namespace ctui
 		return _focus_index;
 	}
 
-	const std::vector<Widget*>& Container::get_children() const
+	const std::vector<std::unique_ptr<Widget>>& Container::get_children() const
 	{
 		return _children;
-	}
-
-	void Container::make_child(Widget* child)
-	{
-		child->set_parent(this);
-		_children.emplace_back(child);
 	}
 
 	Container::~Container()
@@ -42,6 +38,6 @@ namespace ctui
 			_children.back()->set_parent(nullptr);
 
 		if (_parent)
-			_parent->remove(this);
+			_parent->remove(*this);
 	}
 }
