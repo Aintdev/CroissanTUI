@@ -55,7 +55,7 @@ CroissanTUI is an easy-to-use C++ `Text User Interface (TUI) framework` for cros
 - **Keyword Arguments**: instead of `data objects` like `struct ButtonConfig` to configure widgets, CroissanTUI uses `keyword arguments` inspired by Python's `**kwargs`.
 - **Text Modifiers**: different characters and words inside a `Label` can be rendered with different colors without having to create separate widgets, using `TextStream`s as a way to store text data.
     ```cpp
-    Label(&parent, 
+    root.make_child<Label>(
         text << "Normal text | " 
             << Color::RED << "Red Text | " 
             << GraphicMod::ITALIC << "Italic red text |" 
@@ -63,7 +63,7 @@ CroissanTUI is an easy-to-use C++ `Text User Interface (TUI) framework` for cros
     ```
 - **Live Updates via Lambdas**: `TextStream` tokens can also be `std::function<std::string()>`, letting a `Label` display live values by capturing a reference to an outside object — e.g. `[&score]() { return std::to_string(score); }` so the displayed value can change without recreating the widget.
     ```cpp
-    Label(&parent, 
+    root.make_child<Label>( 
         text << "Score: " 
             << [&score]() { return std::to_string(score); },
         align = End);
@@ -148,11 +148,11 @@ int main() {
 #endif
 
     enable_raw_mode();
-    screen.config();
+    screen->config();
 
-    auto root = VStack(&screen, pady = 2, halign = Center, fill = true);
+    auto root = screen->make_child<VStack>(pady = 2, halign = Center, fill = true);
 
-    auto x = Label(&root,
+    auto x = root.make_child<Label>(
         text << "Normal text | "
         << Color::RED << "Red Text | "
         << GraphicMod::ITALIC << "Italic red text | "
@@ -169,16 +169,16 @@ int main() {
         if (new_winsize != win_size)
         {
             win_size = new_winsize;
-            screen.update_bounds(); // update screen width and height
+            screen->update_bounds(); // update screen width and height
             std::cout << "\033[?2026h" << "\033[2J\033[H"; // DEC Private Mode Set & Clear Screen
             resized = true;
         }
 
-        root.measure(win_size.first); // measure all widgets
+        root->measure(win_size.first); // measure all widgets
 
-        root.resolve_bounds(0, 0);  // add the positions together to let the widgets know their absolute positions
+        root->resolve_bounds(0, 0);  // add the positions together to let the widgets know their absolute positions
 
-        root.render(); // print to screen
+        root->render(); // print to screen
         if (resized)
         {
             resized = false;
