@@ -17,7 +17,7 @@ namespace ctui
 	bool VStack::input(const Key key)
 	{
 		if (_children.empty()) return false;
-		if (auto* container = dynamic_cast<Container*>(_children[_focus_index]))
+		if (auto* container = dynamic_cast<Container*>(_children[_focus_index].get()))
 		{
 			if (container->input(key)) return true;
 		}
@@ -37,7 +37,7 @@ namespace ctui
 
 		int inner_width = available_width - (available_width != INT_MAX ? width_diff : 0);
 
-		for (Widget* child : _children)
+		for (std::unique_ptr<Widget>& child : _children)
 		{
 			child->measure(inner_width);
 
@@ -60,7 +60,7 @@ namespace ctui
 
 		int curY = starty;
 
-		for (Widget* child : _children)
+		for (std::unique_ptr<Widget>& child : _children)
 		{
 			int curX = startx;
 			auto childRelBounds = child->get_relative_bounds();

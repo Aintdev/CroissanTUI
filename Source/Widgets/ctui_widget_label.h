@@ -32,7 +32,7 @@ namespace ctui
 		{
 			assert(parent && _CTUIMSG_VSTACK_NO_PARENT);
 			if (!parent) throw std::invalid_argument(_CTUIMSG_VSTACK_NO_PARENT);
-			parent->make_child(this);
+			set_parent(parent);
 			config(std::forward<Args>(args)...);
 		}
 
