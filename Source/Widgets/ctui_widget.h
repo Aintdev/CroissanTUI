@@ -35,6 +35,17 @@ namespace ctui {
             _absolute_bounds(std::nullopt, std::nullopt) {
         }
 
+        template<typename T>
+        friend class WidgetHandler;
+
+        /**
+         * Gets a shared pointer for the handle
+         * @return 
+         */
+        std::shared_ptr<bool> get_alive_ptr()
+        {
+            return _alive;
+        }
     public:
         // Getters
         [[nodiscard]] const Rect& get_relative_bounds() const;
@@ -44,18 +55,13 @@ namespace ctui {
 
         void set_parent(Container* parent_ptr);
 
-        std::shared_ptr<bool> get_alive_ptr()
-        {
-            return _alive;
-        }
-
-	        /**
+    	/**
          * Handles user input.
          *
          * @param key The key representing the user input.
          * @return `true` if the input was handled, otherwise `false`.
          */
-	        virtual bool input(Key key) = 0;
+    	virtual bool input(Key key) = 0;
 
         /**
          * Calculates the desired dimensions of the widget based on the
