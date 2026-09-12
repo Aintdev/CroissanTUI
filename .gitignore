@@ -7,7 +7,7 @@
 .vs/
 Binaries/
 Include/
-generated/
+doxygen/
 
 # Files
 *.vcxproj
