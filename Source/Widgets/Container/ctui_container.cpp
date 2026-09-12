@@ -23,7 +23,7 @@ namespace ctui
 			const auto removed_index = static_cast<int>(it - _children.begin());
 			_children.erase(it);
 			if (_children.empty())
-				_focus_index = kFocusIndex;
+				_focus_index = -1;
 			else
 			{
 				if (_focus_index > removed_index)

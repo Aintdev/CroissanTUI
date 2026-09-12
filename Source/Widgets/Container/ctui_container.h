@@ -16,7 +16,7 @@ namespace ctui {
 	struct Container : Widget, protected defaults::WidgetDefaults {
 	protected:
 		/// Index of Container::_children where focus is set to.
-		int _focus_index = kFocusIndex;
+		int _focus_index = -1;
 
 		/// Children that the Container is the parent of
 		std::vector<std::unique_ptr<Widget>> _children = {};
@@ -40,6 +40,8 @@ namespace ctui {
 		{
 			static_assert(std::is_base_of_v<Widget, T>, "T must derive from Widget");
 			auto child = std::make_unique<std::decay_t<T>>(this, std::forward<Args>(args)...);
+			if (_focus_index == -1)
+				_focus_index = 0;
 			return WidgetHandler<T>(static_cast<T*>(_children.emplace_back(std::move(child)).get()));
 		}
 
