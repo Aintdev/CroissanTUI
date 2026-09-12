@@ -14,6 +14,11 @@ namespace ctui
             return s_instance;
         }
 
+        static WidgetHandler<Screen> get_handle(Screen& instance)
+        {
+            return { &instance };
+        }
+
         template<typename... Args>
         Screen& config(Args&&... args)
         {

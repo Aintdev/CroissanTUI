@@ -10,7 +10,7 @@ namespace ctui
 		Screen& screen_base = Screen::instance();
 	}
 
-	WidgetHandler<Screen> screen = WidgetHandler(&detail::screen_base);
+	WidgetHandler<Screen> screen = Screen::get_handle(detail::screen_base);
 
 	Screen::Screen() : VStack()
 	{
