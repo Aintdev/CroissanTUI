@@ -20,11 +20,17 @@ namespace ctui
 
 		if (it != _children.end())
 		{
+			const auto removed_index = static_cast<int>(it - _children.begin());
 			_children.erase(it);
 			if (_children.empty())
 				_focus_index = kFocusIndex;
-			else if (_focus_index >= static_cast<int>(_children.size()))
-				_focus_index = static_cast<int>(_children.size()) - 1;
+			else
+			{
+				if (_focus_index > removed_index)
+					--_focus_index;
+				if (_focus_index >= static_cast<int>(_children.size()))
+					_focus_index = static_cast<int>(_children.size()) - 1;
+			}
 		}
 	}
 
