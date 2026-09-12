@@ -38,11 +38,11 @@
 <ul>
   <li>
     <strong>Documentation:</strong>
-    <img src="https://img.shields.io/badge/WIP-crimson?style=flat" style="vertical-align: middle;">
+    <a href="https://aintdev.github.io/CroissanTUI/">Click here!</a>
   </li>
   <li>
     <strong>Source:</strong>
-    <a href="https://github.com/Aintdev/CroissanTUI">https://github.com/Aintdev/CroissanTUI</a>
+    <a href="https://github.com/Aintdev/CroissanTUI">Click here!</a>
   </li>
 </ul>
 
