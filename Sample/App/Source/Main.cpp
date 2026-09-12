@@ -67,11 +67,6 @@ void TestVendorLibs()
 	}
 }
 
-void addTest(Container& parent)
-{
-	
-}
-
 int main()
 {
 #ifdef _WIN32
