@@ -150,19 +150,24 @@ int main() {
     enable_raw_mode();
     screen->config();
 
-    auto root = screen->make_child<VStack>(pady = 2, halign = Center, fill = true);
+    auto root = screen->make_child<VStack>(
+        pady = 2,
+        halign = Center,
+        fill = true
+    );
 
-    auto x = root->make_child<Label>(
+    auto my_label = root->make_child<Label>(
         text << "Normal text | "
         << Color::RED << "Red Text | "
         << GraphicMod::ITALIC << "Italic red text | "
         << GraphicMod::RESET_ALL << "Normal text"
         << "\n☺️☺️☺️☺️☺️☺️☺️☺️\n|",
-        halign = End);
+        halign = End
+    );
 
     auto win_size = get_win_size();
     bool resized = false;
-    
+
     while (true)
     {
         auto new_winsize = get_win_size();
@@ -184,7 +189,7 @@ int main() {
             resized = false;
             std::cout << "\033[?2026l";
         }
-    
+    }
 }
 ```
 
