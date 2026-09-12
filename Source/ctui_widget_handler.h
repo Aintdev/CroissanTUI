@@ -5,7 +5,9 @@
 
 namespace ctui
 {
-	class Widget;
+	struct Widget;
+	struct Container;
+	struct Screen;
 
 	/**
 	 * Handler to control a Widget safely that safely handles unsafe access.
@@ -17,15 +19,20 @@ namespace ctui
 		T* _widget;
 		std::shared_ptr<bool> _alive;
 
-	public:
+		friend struct Container;
+		friend struct Screen;
+
 		WidgetHandler(T* widget)
 			: _widget(widget)
 		{
 			static_assert(std::is_base_of_v<Widget, std::decay_t<T>>,
 				"Object needs to be a Widget.");
+			if (!_widget)
+				throw std::invalid_argument("WidgetHandler cannot wrap a null Widget");
 			_alive = _widget->get_alive_ptr();
 		}
 
+	public:
 		/**
 		 * Gets Widget if it's still alive.
 		 * @return Reference to Widget.
