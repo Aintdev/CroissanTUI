@@ -31,8 +31,9 @@ namespace ctui {
 		/**
 		 * Creates a Widget from type T and gives this ownership.
 		 * @tparam T Type of Widget.
-		 * @param args Argument passed to T constructor.
-		 * @return Reference to constructed widget.
+		 * @param args Arguments forwarded to T's constructor, after this
+		 * Container is passed as the parent.
+		 * @return Handler for the constructed widget.
 		 */
 		template<typename T, typename... Args>
 		WidgetHandler<T> make_child(Args&&... args)
