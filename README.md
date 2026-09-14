@@ -122,7 +122,7 @@ Once CMake has finished configuring the project, navigate to `CroissanTUI/Sample
 ### Usage
 1. Include the generated header file in a translation unit.
 ```cpp
-#include <ctui_h>
+#include <ctui_c.h>
 ```
 > **Note:** Your IDE may not find the header file at first. This is not a problem since it will be created at build time of the library.
 
