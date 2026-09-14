@@ -59,7 +59,7 @@ CroissanTUI is an easy-to-use C++ `Text User Interface (TUI) framework` for cros
         text << "Normal text | " 
             << Color::RED << "Red Text | " 
             << GraphicMod::ITALIC << "Italic red text |" 
-            << GraphicMod::RESETALL << "Normal text") // <- Argument evaluates to a TextStream
+            << GraphicMod::RESET_ALL << "Normal text") // <- Argument evaluates to a TextStream
     ```
 - **Live Updates via Lambdas**: `TextStream` tokens can also be `std::function<std::string()>`, letting a `Label` display live values by capturing a reference to an outside object — e.g. `[&score]() { return std::to_string(score); }` so the displayed value can change without recreating the widget.
     ```cpp
