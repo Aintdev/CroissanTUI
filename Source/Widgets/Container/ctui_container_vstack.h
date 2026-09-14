@@ -11,7 +11,7 @@
 
 namespace ctui
 {
-	struct VStack : Container
+	struct VStack : public Container
 	{
 		int _pady = kPady;
 		Align _halign = kHalign;

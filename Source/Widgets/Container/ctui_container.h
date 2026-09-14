@@ -13,7 +13,7 @@ namespace ctui {
 	 *
 	 * Container provides basic functionality to add and remove Widgets.
 	 */
-	struct Container : Widget, protected defaults::WidgetDefaults {
+	struct Container : public Widget, protected defaults::WidgetDefaults {
 	protected:
 		/// Index of Container::_children where focus is set to.
 		int _focus_index = -1;
