@@ -2,6 +2,12 @@
 
 CroissanTUI is a TUI component library built around a focused set of conventions. This document covers everything you need to know before touching the codebase — read it once, then forget about it because it'll feel natural.
 
+> [!NOTE]
+> This project is currently not accepting pull requests or external contributions.
+> I'm still learning and would like to keep the development process and project history under my own control while working toward the first release.
+>
+> Contributions may be opened once the first release is published.
+
 ---
 
 ## Philosophy
