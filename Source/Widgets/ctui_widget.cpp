@@ -14,9 +14,9 @@ namespace ctui
 		return _absolute_bounds;
 	}
 
-	const Widget& Widget::get_parent() const
+	const Widget* Widget::get_parent() const
 	{
-		return *_parent;
+		return _parent;
 	}
 
 	void Widget::set_parent(Container* parent_ptr)
