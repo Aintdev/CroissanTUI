@@ -1,5 +1,7 @@
 #include <ctui_c.h>
 
+#include "ctui_raw_mode.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -13,7 +15,8 @@ int main() {
     SetConsoleCP(CP_UTF8);
 #endif
 
-    enable_raw_mode();
+    RawModeGuard rmg;
+
     screen->config();
 
     auto root = screen->make_child<VStack>(
