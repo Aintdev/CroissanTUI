@@ -7,6 +7,8 @@ namespace ctui
     RawModeGuard::RawModeGuard()
     {
 #ifdef _WIN32
+        SetConsoleOutputCP(CP_UTF8);
+        SetConsoleCP(CP_UTF8);
         _stdin = GetStdHandle(STD_INPUT_HANDLE);
         _stdout = GetStdHandle(STD_OUTPUT_HANDLE);
 

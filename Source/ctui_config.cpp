@@ -13,6 +13,9 @@
 
 namespace ctui
 {
+    volatile std::sig_atomic_t running = 0;
+    volatile bool ready = false;
+
     std::pair<int, int> get_win_size() {
 #ifdef _WIN32
         CONSOLE_SCREEN_BUFFER_INFO csbi;

@@ -7,7 +7,7 @@ namespace ctui
 {
 	struct Widget;
 	struct Container;
-	struct Screen;
+	class Screen;
 
 	/**
 	 * Handler to control a Widget safely that safely handles unsafe access.
@@ -20,7 +20,7 @@ namespace ctui
 		std::shared_ptr<bool> _alive;
 
 		friend struct Container;
-		friend struct Screen;
+		friend class Screen;
 
 		WidgetHandler(T* widget)
 			: _widget(widget)
