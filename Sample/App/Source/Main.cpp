@@ -3,7 +3,8 @@
 using namespace ctui;
 using enum Align;
 
-int main() {
+int main()
+{
     auto screen = Screen::make();
 
     auto root = screen->make_child<VStack>(

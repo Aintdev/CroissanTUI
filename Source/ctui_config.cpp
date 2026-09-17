@@ -14,7 +14,13 @@
 namespace ctui
 {
     volatile std::sig_atomic_t running = 0;
-    volatile bool ready = false;
+    volatile std::sig_atomic_t signal_status = 0;
+
+    void signal_handler(int sig)
+    {
+        running = 0;
+        signal_status = sig;
+    }
 
     std::pair<int, int> get_win_size() {
 #ifdef _WIN32
