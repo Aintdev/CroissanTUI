@@ -1,5 +1,4 @@
 #pragma once
-#include <csignal>
 #include <utility>
 
 namespace ctui {
