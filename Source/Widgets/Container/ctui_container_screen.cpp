@@ -8,8 +8,7 @@ namespace ctui
 {
 	void Screen::update_bounds(const std::pair<int, int>& winsize)
 	{
-		const auto [fst, snd] = get_win_size();
-		_relative_bounds = Rect(0, 0, fst, snd);
+		_relative_bounds = Rect(0, 0, winsize.first, winsize.second);
 		_absolute_bounds = _relative_bounds;
 	}
 
