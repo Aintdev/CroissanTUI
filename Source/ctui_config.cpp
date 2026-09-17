@@ -11,10 +11,33 @@
 #include <sys/ioctl.h>
 #endif
 
-namespace ctui
+namespace 
 {
     volatile std::sig_atomic_t running = 0;
     volatile std::sig_atomic_t signal_status = 0;
+}
+
+namespace ctui
+{
+    bool get_running()
+    {
+        return running;
+    }
+
+    void set_running(bool x)
+    {
+        running = x;
+    }
+
+    void reset_signal()
+    {
+        signal_status = 0;
+    }
+
+    int get_signal_status()
+    {
+        return signal_status;
+    }
 
     void signal_handler(int sig)
     {

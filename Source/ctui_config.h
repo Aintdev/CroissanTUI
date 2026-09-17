@@ -3,8 +3,10 @@
 #include <utility>
 
 namespace ctui {
-    extern volatile std::sig_atomic_t running;
-    extern volatile std::sig_atomic_t signal_status;
+    bool get_running();
+    void set_running(bool x);
+    int get_signal_status();
+    void reset_signal();
 
     void signal_handler(int sig);
 
