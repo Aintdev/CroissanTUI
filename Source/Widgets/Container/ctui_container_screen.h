@@ -45,6 +45,7 @@ namespace ctui
 			}
 
 			std::signal(SIGINT, signal_handler);
+
 			RawModeGuard rwg;
 
 			std::ios::sync_with_stdio(false);
