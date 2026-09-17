@@ -39,6 +39,11 @@ namespace ctui
 		template<typename... Callback>
 		void run(Callback&&... stage_callback)
 		{
+			if (running)
+			{
+				throw std::logic_error("There cannot be multiple screens running at the same time.");
+			}
+
 			std::signal(SIGINT, signal_handler);
 			RawModeGuard rwg;
 
