@@ -51,9 +51,6 @@ namespace ctui
 			auto win_size = get_win_size();
 			bool resized = false;
 
-			set_running(true);
-			reset_signal();
-
 			while (get_running() && !get_signal_status())
 			{
 				if (auto new_winsize = get_win_size(); new_winsize != win_size)
@@ -90,13 +87,8 @@ namespace ctui
 					(stage_callback(RunStage::PostResize), ...);
 				}
 			}
-			(stage_callback(RunStage::PreShutdown), ...);
-			handle_shutdown();
 		}
     private:
-		static void handle_shutdown()
-		{ }
-
         void render() override { VStack::render(); }
         template<typename T>
         void apply(T&&) 
