@@ -39,10 +39,6 @@ namespace ctui
 
         tcsetattr(STDIN_FILENO, TCSANOW, &raw);
 #endif
-
-        // TODO: Move code to main loop as soon as it exists.
-        std::ios::sync_with_stdio(false);
-        std::cout << "\033[?1049h\033[2J\033[H";
     }
 
     RawModeGuard::~RawModeGuard()

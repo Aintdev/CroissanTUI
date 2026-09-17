@@ -39,7 +39,7 @@ namespace ctui
 		template<typename... Callback>
 		void run(Callback&&... stage_callback)
 		{
-			if (running)
+			if (get_running())
 			{
 				throw std::logic_error("There cannot be multiple screens running at the same time.");
 			}
@@ -47,13 +47,16 @@ namespace ctui
 			std::signal(SIGINT, signal_handler);
 			RawModeGuard rwg;
 
+			std::ios::sync_with_stdio(false);
+			std::cout << "\033[?1049h\033[2J\033[H";
+
 			auto win_size = get_win_size();
 			bool resized = false;
 
-			running = true;
-			signal_status = 0;
+			set_running(true);
+			reset_signal();
 
-			while (running && !signal_status)
+			while (get_running() && !get_signal_status())
 			{
 				if (auto new_winsize = get_win_size(); new_winsize != win_size)
 				{
