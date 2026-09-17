@@ -1,5 +1,7 @@
 #pragma once
+#include <chrono>
 #include <complex>
+#include <csignal>
 
 #include "ctui_container_vstack.h"
 #include "ctui_config.h"
@@ -34,21 +36,23 @@ namespace ctui
 			run([](RunStage) {});
 		}
 
-		template<typename Callback>
-		void run(Callback&& stage_callback)
+		template<typename... Callback>
+		void run(Callback&&... stage_callback)
 		{
+			std::signal(SIGINT, signal_handler);
 			RawModeGuard rwg;
 
 			auto win_size = get_win_size();
 			bool resized = false;
 
 			running = true;
+			signal_status = 0;
 
-			while (running)
+			while (running && !signal_status)
 			{
 				if (auto new_winsize = get_win_size(); new_winsize != win_size)
 				{
-					stage_callback(RunStage::BeforeResize);
+					(stage_callback(RunStage::PreResize),  ...);
 
 					win_size = new_winsize;
 					this->update_bounds(new_winsize); // update screen width and height
@@ -56,33 +60,39 @@ namespace ctui
 					std::cout << "\033[?2026h" << "\033[2J\033[H"; // DEC Private Mode Set & Clear Screen
 
 					resized = true;
-					stage_callback(RunStage::DuringResizeFrame);
+					(stage_callback(RunStage::DuringResizeFrame), ...);
 				}
 
-				stage_callback(RunStage::BeforeMeasure);
+				(stage_callback(RunStage::PreMeasure), ...);
 				measure(win_size.first); // measure all widgets
-				stage_callback(RunStage::AfterMeasure);
+				(stage_callback(RunStage::PostMeasure), ...);
 
 
-				stage_callback(RunStage::BeforeResolve);
+				(stage_callback(RunStage::PreResolve), ...);
 				resolve_bounds(0, 0);  // add the positions together to let the widgets know their absolute positions
-				stage_callback(RunStage::AfterResolve);
+				(stage_callback(RunStage::PostResolve), ...);
 
 
-				stage_callback(RunStage::BeforeRender);
+				(stage_callback(RunStage::PreRender), ...);
 				render(); // print to screen
-				stage_callback(RunStage::AfterRender);
+				(stage_callback(RunStage::PostRender), ...);
 
 				if (resized)
 				{
 					resized = false;
 					std::cout << "\033[?2026l";
-					stage_callback(RunStage::AfterResize);
+					(stage_callback(RunStage::PostResize), ...);
 				}
 			}
+			(stage_callback(RunStage::PreShutdown), ...);
+			handle_shutdown();
+		}
+    private:
+		static void handle_shutdown()
+		{
+			std::signal(SIGINT, SIG_DFL);
 		}
 
-    private:
         void render() override { VStack::render(); }
         template<typename T>
         void apply(T&&) 

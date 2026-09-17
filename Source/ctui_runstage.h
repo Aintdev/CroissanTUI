@@ -3,17 +3,19 @@ namespace ctui
 {
 	enum class RunStage
 	{
-		BeforeResize,
+		PreResize,
 		DuringResizeFrame,
-		AfterResize,
+		PostResize,
 
-		BeforeMeasure,
-		AfterMeasure,
+		PreMeasure,
+		PostMeasure,
 
-		BeforeResolve,
-		AfterResolve,
+		PreResolve,
+		PostResolve,
 
-		BeforeRender,
-		AfterRender
+		PreRender,
+		PostRender,
+
+		PreShutdown
 	};
 }
