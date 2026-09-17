@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "ctui_config.h"
 
+#include <csignal>
+
 #include "ctui_print.h"
 
 #ifdef _WIN32

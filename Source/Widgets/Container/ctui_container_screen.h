@@ -7,6 +7,7 @@
 #include "ctui_config.h"
 #include "ctui_raw_mode.h"
 #include "ctui_runstage.h"
+#include "ctui_signal_guard.h"
 
 namespace ctui
 {
@@ -44,12 +45,8 @@ namespace ctui
 				throw std::logic_error("There cannot be multiple screens running at the same time.");
 			}
 
-			std::signal(SIGINT, signal_handler);
-
 			RawModeGuard rwg;
-
-			std::ios::sync_with_stdio(false);
-			std::cout << "\033[?1049h\033[2J\033[H";
+			SignalGuard sg;
 
 			auto win_size = get_win_size();
 			bool resized = false;
@@ -98,9 +95,7 @@ namespace ctui
 		}
     private:
 		static void handle_shutdown()
-		{
-			std::signal(SIGINT, SIG_DFL);
-		}
+		{ }
 
         void render() override { VStack::render(); }
         template<typename T>
