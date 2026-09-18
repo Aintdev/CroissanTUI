@@ -45,8 +45,8 @@ namespace ctui
 				throw std::logic_error("There cannot be multiple screens running at the same time.");
 			}
 
-			RawModeGuard rwg;
 			SignalGuard sg;
+			RawModeGuard rwg;
 
 			auto win_size = get_win_size();
 			bool resized = false;
