@@ -30,7 +30,7 @@ namespace ctui
         }
 
         void update_bounds(const std::pair<int, int>& winsize);
-		void measure(int available_width);
+		void measure(int available_width = INT_MAX) override;
 
         // Run Loop
 		void run()
