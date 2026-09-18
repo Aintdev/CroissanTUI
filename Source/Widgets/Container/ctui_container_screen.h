@@ -30,7 +30,7 @@ namespace ctui
         }
 
         void update_bounds(const std::pair<int, int>& winsize);
-		void Screen::measure(int available_width);
+		void measure(int available_width);
 
         // Run Loop
 		void run()
