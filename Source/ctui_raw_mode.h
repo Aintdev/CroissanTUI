@@ -21,9 +21,11 @@ namespace ctui
 #else
 		termios _original;
 #endif
+		void reset_to_original();
 	public:
 		RawModeGuard();
 		~RawModeGuard();
+
 
 		RawModeGuard(const RawModeGuard&) = delete;
 		RawModeGuard& operator=(const RawModeGuard&) = delete;
