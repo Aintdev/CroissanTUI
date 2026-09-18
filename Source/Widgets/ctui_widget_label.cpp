@@ -89,6 +89,7 @@ namespace ctui
 
 		size_t fn_idx = 0;
 		auto fn_cache = _text.get_fn_result_cache();
+		size_t wraplength = _wraplength == 0 ? _absolute_bounds.width.value() : std::min(static_cast<size_t>(_absolute_bounds.width.value()), _wraplength);
 
 		for (const TextToken& tt : _text.get_buffer())
 		{
@@ -103,8 +104,6 @@ namespace ctui
 							new_line = true;
 							continue;
 						}
-
-						size_t wraplength = _wraplength == 0 ? _absolute_bounds.width.value() : std::min(static_cast<size_t>(_absolute_bounds.width.value()), _wraplength);
 
 						if (x_off + grapheme.terminal_width() > wraplength)
 						{
