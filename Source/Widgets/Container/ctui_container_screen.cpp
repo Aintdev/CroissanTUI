@@ -12,16 +12,11 @@ namespace ctui
 		_absolute_bounds = _relative_bounds;
 	}
 
-	std::pair<int, int> Screen::get_bounds() const
+	void Screen::measure(int available_width)
 	{
-		try
-		{
-			return { _absolute_bounds.width.value(), _absolute_bounds.height.value() };
-		} 
-		catch (const std::bad_optional_access&)
-		{
-			throw std::runtime_error("Bounds not set before rendering. Call 'update_bounds' or 'config()' before rendering");
-		}
+		auto saved_bounds = _relative_bounds;
+		VStack::measure(available_width);
+		_relative_bounds = saved_bounds;
 	}
 
 

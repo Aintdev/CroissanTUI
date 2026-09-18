@@ -30,6 +30,7 @@ namespace ctui
         }
 
         void update_bounds(const std::pair<int, int>& winsize);
+		void Screen::measure(int available_width);
 
         // Run Loop
 		void run()
@@ -89,7 +90,6 @@ namespace ctui
 			}
 		}
     private:
-        void render() override { VStack::render(); }
         template<typename T>
         void apply(T&&) 
 		{
