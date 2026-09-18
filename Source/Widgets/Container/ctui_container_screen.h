@@ -30,7 +30,6 @@ namespace ctui
         }
 
         void update_bounds(const std::pair<int, int>& winsize);
-        std::pair<int, int> get_bounds() const;
 
         // Run Loop
 		void run()
