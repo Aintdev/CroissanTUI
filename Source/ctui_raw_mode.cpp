@@ -40,7 +40,7 @@ namespace ctui
         tcsetattr(STDIN_FILENO, TCSANOW, &raw);
 #endif
         std::ios::sync_with_stdio(false);
-        std::cout << "\033[?1049h\033[2J\033[H";
+        std::cout << "\033[?1049h\033[2J\033[H\033[?25l";
     }
 
     RawModeGuard::~RawModeGuard()
@@ -49,7 +49,7 @@ namespace ctui
         // mode didn't have ENABLE_VIRTUAL_TERMINAL_PROCESSING (the common case), the
         // escape sequence would no longer be interpreted once we restore it, and the
         // terminal would be stuck in the alternate screen buffer.
-        std::cout << "\033[?1049l" << std::flush;
+        std::cout << "\033[?1049l\033[?25h" << std::flush;
 
 #ifdef _WIN32
         SetConsoleMode(_stdin, _original_stdin_mode);
