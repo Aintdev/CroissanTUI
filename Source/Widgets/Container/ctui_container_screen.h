@@ -2,6 +2,7 @@
 #include <chrono>
 #include <complex>
 #include <csignal>
+#include <iostream>
 
 #include "ctui_container_vstack.h"
 #include "ctui_config.h"
