@@ -1,10 +1,11 @@
 #pragma once
-#include "ctui_config.h"
+#include <csignal>
 
 namespace ctui
 {
     class SignalGuard
     {
+        decltype(std::signal(0, nullptr)) _prev;
     public:
         SignalGuard();
 
