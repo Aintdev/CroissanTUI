@@ -47,10 +47,8 @@ namespace ctui {
             return _alive;
         }
     public:
-        // Getters
         [[nodiscard]] const Rect& get_relative_bounds() const;
         [[nodiscard]] const Rect& get_absolute_bounds() const;
-
         [[nodiscard]] const Widget* get_parent() const;
 
         void set_parent(Container* parent_ptr);
@@ -68,7 +66,8 @@ namespace ctui {
          * available width and the dimensions of its child widgets.
          *
          * @param available_width The maximum width available to the widget.
-         * Defaults to `INT_MAX` if no limit is specified.
+         * Defaults to `INT_MAX` if no limit is specified which will let the Widget
+         * size itself up.
          */
         virtual void measure(int available_width = INT_MAX) = 0;
 
