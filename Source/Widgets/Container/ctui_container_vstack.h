@@ -11,13 +11,13 @@
 
 namespace ctui
 {
-	struct VStack : public Container
+	class VStack : public Container
 	{
+	protected:
 		int _pady = kPady;
 		Align _halign = kHalign;
 		bool _fill = kFill;
 
-	protected:
 		VStack() = default;
 	public:
 
