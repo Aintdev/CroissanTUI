@@ -39,8 +39,11 @@ namespace ctui {
         friend class WidgetHandler;
 
         /**
-         * Gets a shared pointer for the handle
-         * @return 
+         * @brief Gets a shared pointer for the handle.
+         * 
+         * This is only to be used by Handler for handling unsafe memory access.
+         * 
+         * @return shared pointer to alive state.
          */
         std::shared_ptr<bool> get_alive_ptr()
         {
