@@ -53,7 +53,7 @@ namespace ctui
 		 * @return Reference to Widget.
 		 * @throws std::runtime_error if Widget is no longer alive.
 		 */
-		operator Widget& ()
+		operator T&()
 		{
 			return get();
 		}
