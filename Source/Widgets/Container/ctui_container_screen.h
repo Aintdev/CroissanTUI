@@ -30,14 +30,54 @@ namespace ctui
         }
 
         void update_bounds(const std::pair<int, int>& winsize);
-		void measure(int available_width = INT_MAX) override;
 
-        // Run Loop
+        /**
+         * @brief Runs measure on all child widgets without changing bounds of this.
+         * @param available_width The maximum width available to the widget.
+         * Defaults to `INT_MAX` if no limit is specified which will let the Widget
+         * size itself up.
+         */
+        void measure(int available_width = INT_MAX) override;
+
+		/**
+		 * @brief Runs the screen's main event loop using default (no-op) stage callbacks.
+		 *
+		 * Equivalent to calling run() with a callback that ignores every RunStage.
+		 */
 		void run()
 		{
 			run([](RunStage) {});
 		}
 
+		/**
+		 * @brief Runs the screen's main event loop, invoking the given callback(s) at each stage.
+		 *
+		 * Enters a loop that measures, resolves, and renders all widgets on every iteration,
+		 * and re-clears/redraws the screen whenever the terminal window is resized. Stage
+		 * callbacks are invoked before/after each phase, allowing external code to hook into
+		 * the render pipeline (e.g. for animations, input handling, or diagnostics).
+		 *
+		 * @tparam Callback One or more callable types accepting a single RunStage argument.
+		 * @param stage_callback One or more callbacks invoked at each RunStage. If multiple
+		 *        are given, they are all invoked, in order, at every stage.
+		 *
+		 * @throws std::logic_error if a screen is already running (only one screen may run
+		 *         at a time).
+		 *
+		 * ### Loop stages (per iteration, in order):
+		 * - **PreResize** / **DuringResizeFrame** - only fired if the terminal size changed
+		 *   since the last iteration; bounds are updated and the screen is cleared before
+		 *   DuringResizeFrame fires.
+		 * - **PreMeasure** / **PostMeasure** - around measure(), which sizes all widgets.
+		 * - **PreResolve** / **PostResolve** - around resolve_bounds(), which computes each
+		 *   widget's absolute position.
+		 * - **PreRender** / **PostRender** - around render(), which draws to the terminal.
+		 * - **PostResize** - fired once, only on iterations where a resize was handled,
+		 *   after synchronized-output mode is turned back off.
+		 *
+		 * The loop continues while get_running() is true and no termination signal has
+		 * been received (get_signal_status()).
+		 */
 		template<typename... Callback>
 		void run(Callback&&... stage_callback)
 		{
