@@ -104,3 +104,6 @@ UML_LOOK                = NO
 
 QUIET                    = NO
 SKIP_FUNCTION_MACROS     = YES
+
+DOT_NUM_THREADS          = 0
+NUM_PROC_THREADS         = 0
