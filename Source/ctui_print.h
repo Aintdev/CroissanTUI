@@ -7,7 +7,28 @@
 #include <type_traits>
 
 namespace ctui {
+    /**
+     * @struct PrintStream
+     * @brief Buffered output stream with ANSI support for `Color` and `GraphicMod`.
+     *
+     * Values are collected via `operator<<` and only written to `std::cout`
+     * when `exec()` is called.
+     *
+     * @code
+     * print << Color::Red << "Hello" << GraphicMod::Reset << "\n";
+     * print.exec();
+     * @endcode
+     */
     struct PrintStream {
+        /**
+         * @brief Appends a value to the buffer.
+         *
+         * `Color` and `GraphicMod` are converted to ANSI escape sequences,
+         * everything else is streamed unchanged.
+         *
+         * @param val The value to append.
+         * @return Reference to *this, to allow chaining.
+         */
         template<typename T>
         PrintStream& operator<<(const T& val) 
     	{
@@ -30,6 +51,7 @@ namespace ctui {
             return *this;
         }
 
+        /// @brief Writes the buffer to `std::cout` and clears it.
         void exec()
         {
             std::cout << _ss.str();
@@ -38,7 +60,9 @@ namespace ctui {
         }
 
     private:
-        std::ostringstream _ss;
+        std::ostringstream _ss; ///< Buffer until exec() is called.
     };
+
+    /// Global PrintStream instance.
     static PrintStream print;
 }
