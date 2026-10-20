@@ -17,8 +17,8 @@ namespace ctui
     {
         set_running(false);
         if (_prev == SIG_ERR)
-            std::signal(SIGINT, SIG_DFL);
+            static_cast<void>(std::signal(SIGINT, SIG_DFL));
         else
-            std::signal(SIGINT, _prev);
+            static_cast<void>(std::signal(SIGINT, _prev));
     }
 }
