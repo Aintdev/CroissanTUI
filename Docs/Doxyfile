@@ -19,14 +19,17 @@ PROJECT_BRIEF           = "A C++ terminal user interface library"
 # Main source code:
 #   CroissanTUI/Source
 
-INPUT                   = ../Source
+INPUT                   = ../Source \
+                          pages
+			
 RECURSIVE               = YES
 
 FILE_PATTERNS           = *.h \
                           *.hpp \
                           *.cpp \
                           *.cc \
-                          *.cxx
+                          *.cxx \
+                          *.md
 
 # Do not add Vendor/ to INPUT.
 # Vendor headers are only provided as include paths below.
